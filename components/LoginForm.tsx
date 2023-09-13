@@ -10,33 +10,26 @@ import { BsGoogle, BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
 
 /*
-A login form component that consists of the login options availabkle
+A login form component that consists of the login options available
 for the user.
 Adapted from https://github.com/realstoman/nextjs-firebase-auth/tree/main
 */
 
 const LoginForm = () => {
-    //State variables to hold current values in the login field
+    //State variables
 	const [data, setData] = useState<LoginType>({
 		email: '',
 		password: '',
 	});
-
-    //State variable to show error messages if any
-    const [errorMessage, setErrorMessage] = useState('');
-
-    //State variable to keep track of password visibility
+    const [errorMessage, setErrorMessage] = useState(''); //Error message when logging in
     const [isPasswordVisible, setPasswordVisibility] = useState(false);
-
     const [emailErrorMessage, setEmailErrorMessage] = useState('');
     const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
 
 
-    const passwordPattern = ".{8,}";
+    //Regex patterns for email and password
     const emailPattern = "[a-z0-9._+-]+@[a-z0-9.-]+\.[a-z]{2,}$";
-
-
-
+    const passwordPattern = ".{8,}";
 
 	//Get login functionalities from the current context
 	const { user, loginViaEmail: loginViaEmail, googleSignIn: googleSignIn } = useAuth();
@@ -92,11 +85,11 @@ const LoginForm = () => {
         setPasswordVisibility(! isPasswordVisible);
     }
 
+
 	// Destructure data from the data object
 	const { ...allData } = data;
 	// Disable submit button until all fields are filled in
 	const canSubmit = [...Object.values(allData)].every(Boolean);
-
 
 	return (
 		<PageWrapper>
@@ -125,7 +118,7 @@ const LoginForm = () => {
                                 setData({
                                     ...data,
                                     email: e.target.value,
-                                })
+                                });
                                 if (e.target.value.match(emailPattern) || e.target.value == '') {
                                     setEmailErrorMessage('');
                                 } else {
@@ -160,14 +153,13 @@ const LoginForm = () => {
                                     };
                                 }}
                             />
-                            <div className='absolute inset-y-0 right-0 flex items-center pr-3 mr-3'>
+                            <span className='absolute inset-y-0 right-0 flex items-center pr-3 mr-3'>
                                 {! isPasswordVisible ? (
                                     <BsFillEyeSlashFill className='text-lg cursor-pointer text-gray-300' onClick={ togglePasswordVisibility }/>
                                 ) : (
                                     <BsFillEyeFill className='text-lg cursor-pointer text-blue-500' onClick={ togglePasswordVisibility }/>
                                 )}  
-                            </div>
-                            <br/>
+                            </span>
 
                         </div>
                         <span className="mt-1 text-sm text-red-400">

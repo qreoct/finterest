@@ -3,17 +3,20 @@ import { useAuth } from '@/context/AuthContext';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+/*
+    The page where the user first enters after he logs in
+*/
 const Dashboard = () => {
-    const { user, logOut } = useAuth();
+    const { logOut } = useAuth();
     const router = useRouter();
 
     return (
         <ProtectedRoute>
             <Head>
-                <title>Dashboard - Firebase Authentication With Next.js</title>
+                <title>Dashboard - Finterest</title>
                 <meta
                     name="description"
-                    content="Learn how to implement Google Firebase Authentication in your React, Next.js, TypeScript projects."
+                    content="Finterest dashboard"
                 />
                 <meta
                     name="viewport"

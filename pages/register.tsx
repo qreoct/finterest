@@ -5,10 +5,10 @@ const register = () => {
     return (
         <>
             <Head>
-                <title>Register - Firebase Authentication With Next.js</title>
+                <title>Finterest</title>
                 <meta
                     name="description"
-                    content="Learn how to implement Google Firebase Authentication in your React, Next.js, TypeScript projects."
+                    content="Register for a new Finterest account"
                 />
                 <meta
                     name="viewport"

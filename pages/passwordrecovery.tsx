@@ -7,8 +7,8 @@ const passwordrecovery = () => {
             <Head>
                 <title>Password Recovery</title>
                 <meta
-                    name="description"
-                    content="Learn how to implement Google Firebase Authentication in your React, Next.js, TypeScript projects."
+                    name="Finterest"
+                    content="Recover your password for Finterest"
                 />
                 <meta
                     name="viewport"
