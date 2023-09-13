@@ -1,0 +1,42 @@
+.chatbox {
+    width: 500px;
+    height: 500px;
+    border: 3px solid black;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatboxMessages {
+    flex: 1;
+    overflow-y: scroll;
+}
+
+.chatboxMessage {
+    padding: 10px;
+    border-bottom: 1px solid black;
+    font-size: 20px;
+}
+
+.chatboxInput {
+    display: flex;
+    flex-direction: row;
+    border-top: 1px solid black;
+}
+
+.chatboxInputTextArea {
+    flex: 1;
+    resize: none;
+}
+
+.chatboxInputButton {
+    width: 100px;
+}
+
+.chatboxInputButton:hover {
+    cursor: pointer;
+}
+
+.chatboxInputButton:active {
+    background-color: #ccc;
+}
