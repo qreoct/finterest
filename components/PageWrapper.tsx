@@ -2,6 +2,11 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from './common/Footer';
 
+/*
+Animated transition when a page appears. Also includes a footer component.
+Taken from https://github.com/realstoman/nextjs-firebase-auth/tree/main
+*/
+
 export const PageWrapper = ({ children }: { children: any }) => {
 	return (
 		<>

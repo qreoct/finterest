@@ -1,14 +1,15 @@
 import Head from 'next/head';
 import LoginForm from '@/components/LoginForm';
 
+//Entry point of the application
 export default function Home() {
     return (
         <>
             <Head>
-                <title>Login - Firebase Authentication With Next.js</title>
+                <title>Finterest</title>
                 <meta
                     name="description"
-                    content="Learn how to implement Google Firebase Authentication in your React, Next.js, TypeScript projects."
+                    content="Turning learning into earning for youths"
                 />
                 <meta
                     name="viewport"

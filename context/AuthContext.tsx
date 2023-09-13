@@ -3,20 +3,30 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndP
 import { auth, googleProvider } from '../config/firebase.config';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 
+
+/* 
+The AuthContext is a context that is stores authentication information such that all pages
+can access the currently signed in user.
+
+Adapted from https://www.stoman.me/articles/nextjs-firebase-auth
+*/
+
 //Custom user data type interface
 interface UserType {
     email: string | null;
     uid: string | null;
 }
 
-//Create auth context such that all pages can share the user information
-const authContext = createContext({});
-//Make it available across the app by exporting it
-export const useAuth = () => useContext<any>(authContext);
+//Create authcontext and make it available across pages
+const AuthContext = createContext({});
+export const useAuth = () => useContext<any>(AuthContext);
 
-//Create the auth context provider
-export const AuthContextProvider = ({children}: {
-    children: React.ReactNode; }) => {
+
+
+//Create the provider that provides the context to child components such that child components
+//can access the information in the context
+export const AuthContextProvider = (
+    {children}: { children: React.ReactNode; }) => {
         // Keeps track of the user currently logged in and whether we are loading information from Firebase
         const [user, setUser] = useState<UserType>({ email: null, uid: null });
         const [loading, setLoading] = useState<Boolean>(true);
@@ -25,11 +35,13 @@ export const AuthContextProvider = ({children}: {
         useEffect(() => {
             const unsubscribe = onAuthStateChanged(auth, (user) => {
                 if (user) {
+                    //There is a currently signed-in user
                     setUser({
                         email: user.email,
                         uid: user.uid
                     });
                 } else {
+                    //No user is signed in
                     setUser({ email: null, uid: null });
                 }
             });
@@ -39,54 +51,34 @@ export const AuthContextProvider = ({children}: {
             return () => unsubscribe();
         }, []);
 
-    //Sign up function
-    const signUp = (email: string, password: string) => {
+ 
+    //Register new account via email and password
+    const signUpViaEmail = (email: string, password: string) => {
         return createUserWithEmailAndPassword(auth, email, password);
     };
 
-    //Login function
-    const logIn = (email: string, password: string) => {
+    //Logins via email and password
+    const loginViaEmail = (email: string, password: string) => {
         return signInWithEmailAndPassword(auth, email, password);
     };
 
-
-
-
-    //Google sign in function
+    //Sign in via Google
     const googleSignIn = () => {
         signInWithPopup(auth, googleProvider)
             .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
                 const credential = GoogleAuthProvider.credentialFromResult(result);
                 const token = credential?.accessToken;
-                // The signed-in user info.
                 const user = result.user;
-                // IdP data available using getAdditionalUserInfo(result)
-                // ...
             }).catch((error) => {
                 // Handle Errors here.
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                // The email of the user's account used.
                 const email = error.customData.email;
-                // The AuthCredential type that was used.
                 const credential = GoogleAuthProvider.credentialFromError(error);
-                // ...
-    });
-
+            });
     };
 
-
-
-
-
-
-
-
-
-
-
-    //Logout function
+    //Log out from the app
     const logOut = async () => {
         setUser({email: null, uid: null});
         return await signOut(auth);
@@ -95,12 +87,10 @@ export const AuthContextProvider = ({children}: {
     //Wrap the children components with the context provider to access the user information
     //and authentication functionalities
     return (
-        <authContext.Provider value={{ user, signUp, logIn, googleSignIn, logOut }}>
+        <AuthContext.Provider value={{ user, signUpViaEmail: signUpViaEmail, loginViaEmail: loginViaEmail, googleSignIn: googleSignIn, logOut: logOut }}>
             { loading ? null : children }
-
-        </authContext.Provider>
+        </AuthContext.Provider>
     )
-
 };
 
 
