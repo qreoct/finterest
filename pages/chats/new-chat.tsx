@@ -43,7 +43,7 @@ export default function FirstChat() {
 
                             // Add the typed message into the chat box
                             const mySentMessage = document.createElement('div');
-                            mySentMessage.className = chatboxStyles.chatboxMessage;
+                            mySentMessage.className = chatboxStyles.chatboxMessage + ' ' + chatboxStyles.chatboxMessageFromUser;
                             mySentMessage.innerHTML = `<p>${message}</p>`;
                             document.getElementById('chatboxMessageList')?.appendChild(mySentMessage);
 
@@ -53,7 +53,7 @@ export default function FirstChat() {
 
                             // Create a new message element
                             const newMessage = document.createElement('div');
-                            newMessage.className = chatboxStyles.chatboxMessage;
+                            newMessage.className = chatboxStyles.chatboxMessage + ' ' + chatboxStyles.chatboxMessageFromSystem;
                             newMessage.innerHTML = `<p>${response}</p>`;
 
                             // Adds the new message to the chat box
