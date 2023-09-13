@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 
 //Protects pages from unauthenticated users
 const ProtectedRoute = ({ children }: { children: React.ReactNode}) => {
-    const router = useRouter(); //Route from one page to another
+    const router = useRouter();
     const { user } = useAuth();
 
 
