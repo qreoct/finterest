@@ -28,14 +28,17 @@ function Footer({ children, showBackButton }) {
 						className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
 					>
 						<svg
-							className="fill-current w-4 h-4 mr-2"
 							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 20 20"
+							className="h-6 w-6 mr-2"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
 						>
 							<path
-								fillRule="evenodd"
-								d="M7.707 14.707a1 1 0 010-1.414L10.586 10 7.707 7.121a1 1 0 111.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-								clipRule="evenodd"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth="2"
+								d="M15 19l-7-7 7-7"
 							/>
 						</svg>
 						<span>Back</span>

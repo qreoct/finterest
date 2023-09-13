@@ -6,6 +6,7 @@ import finterestGenerateArticlePrompt from '../../utils/prompt.json';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import chatboxStyles from '@/styles/chatbox.module.css';
 import { useEffect } from 'react';
+import Footer from '@/components/common/Footer';
 
 
 export default function FirstChat() {
@@ -71,6 +72,8 @@ export default function FirstChat() {
                     }>Send</button>
                 </div>
             </div>
+
+            <Footer children={false} showBackButton={true} />
 
             <Script src="/utils/openai.js" />
 
