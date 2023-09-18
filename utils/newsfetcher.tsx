@@ -137,11 +137,12 @@ function convertArticleJSONToArticleType(article: any): ArticleType {
     return articleData;
 }
 
-export async function fixNewsArticleContentWithAI(article: ArticleType): Promise<ArticleType> {
+export async function fixNewsArticleContentWithAIAndSummarise(article: ArticleType, summarisationAmount: number): Promise<ArticleType> {
 
     console.log("FIXING ARTICLE: " + article.article_id);
+    console.log("Summarise to " + summarisationAmount + " minutes");
     console.log(article.content);
-    const fixedContent = await generatePrompts('gpt-3.5-turbo', article.content.toString(), finterestPrompts.finterestFixNewsArticle);
+    const fixedContent = await generatePrompts('gpt-3.5-turbo', article.content.toString(), finterestPrompts.finterestFixNewsArticle + summarisationAmount + ". The article content is: ");
 
     console.log("FIXED: " + fixedContent);
 

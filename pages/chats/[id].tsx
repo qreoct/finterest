@@ -9,7 +9,7 @@ import { getArticle } from '@/config/firestore';
 import { useEffect, useState } from 'react';
 import { ExistingChatDisplay } from '@/components/ChatStuff/ExistingChatDisplay';
 
-export default function ArticleMain() {
+export default function ChatMain() {
 
     // Get current id from page context
     const { id } = useRouter().query;
