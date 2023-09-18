@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 
 //A footer component that can be used across pages
-function Footer({ children, showBackButton }) {
+function Footer({ children, showBackButton }: { children: React.ReactNode, showBackButton: Boolean }) {
 	const router = useRouter();
 	return (
 		<>

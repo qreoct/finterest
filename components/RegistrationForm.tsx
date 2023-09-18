@@ -34,7 +34,7 @@ const RegistrationForm = () => {
     //Get registration functionalities from the current context
 
     //Use the signUp method from the AuthContext
-    const {user, signUpViaEmail: signUpViaEmail } = useAuth();
+    const { user, signUpViaEmail: signUpViaEmail } = useAuth();
     //Prepare router for transitions between routes
     const router = useRouter();
 
@@ -65,7 +65,7 @@ const RegistrationForm = () => {
 
     //Handler that toggles password visibility
     const togglePasswordVisibility = () => {
-        setPasswordVisibility(! isPasswordVisible);
+        setPasswordVisibility(!isPasswordVisible);
     }
 
     // Destructure data from the data object
@@ -110,7 +110,7 @@ const RegistrationForm = () => {
                                 }}
                             />
                             <span className="mt-1 text-sm text-red-400">
-                                { emailErrorMessage }
+                                {emailErrorMessage}
                             </span>
                         </div>
                         <div className="mb-5">
@@ -139,11 +139,11 @@ const RegistrationForm = () => {
                                     }}
                                 />
                                 <span className='absolute inset-y-0 right-0 flex items-center pr-3 mr-3'>
-                                {! isPasswordVisible ? (
-                                    <BsFillEyeSlashFill className='text-lg cursor-pointer text-gray-300' onClick={ togglePasswordVisibility }/>
-                                ) : (
-                                    <BsFillEyeFill className='text-lg cursor-pointer text-blue-500' onClick={ togglePasswordVisibility }/>
-                                )}  
+                                    {!isPasswordVisible ? (
+                                        <BsFillEyeSlashFill className='text-lg cursor-pointer text-gray-300' onClick={togglePasswordVisibility} />
+                                    ) : (
+                                        <BsFillEyeFill className='text-lg cursor-pointer text-blue-500' onClick={togglePasswordVisibility} />
+                                    )}
                                 </span>
                             </div>
                             <span className="mt-1 text-sm text-red-400">
@@ -164,7 +164,7 @@ const RegistrationForm = () => {
                             </NextLink>
                         </div>
                     </form>
-                    <h4 className="mt-5 text-rose-500 text-center">{ errorMessage }</h4>
+                    <h4 className="mt-5 text-rose-500 text-center">{errorMessage}</h4>
                 </div>
             </div>
         </PageWrapper>

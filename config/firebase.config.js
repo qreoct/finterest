@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 //Firebase configuration
 const firebaseConfig = {
@@ -19,6 +20,8 @@ export const app = initializeApp(firebaseConfig);
 //Initialise Firebase auth
 export const auth = getAuth();
 
+export const db = getFirestore(app);
+
 //Prepare Google sign-in authentication provider
 export const googleProvider = new GoogleAuthProvider();
-googleProvider.setCustomParameters({prompt: "select_account"});
+googleProvider.setCustomParameters({ prompt: "select_account" });
