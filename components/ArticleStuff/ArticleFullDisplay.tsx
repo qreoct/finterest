@@ -37,7 +37,12 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
     console.log(currArticle?.article_id);
     console.log(currArticle?.title);
 
+    if (!currArticle) {
+        return <div>Loading article...</div>;
+    }
+
     const pubDateString = currArticle?.pubDate === undefined ? "Unknown" : new Date(currArticle?.pubDate.valueOf()).toLocaleString();
+    const categoryString = currArticle?.category === undefined ? "None" : currArticle?.category.join(', ');
 
     // Go through the article content string and add some new lines after fullstops
     // This is to make the article content look nicer
@@ -65,9 +70,21 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
         <div className="min-h-screen flex flex-col justify-between">
             <div className="p-6">
                 <h1 className="text-3xl font-bold mb-4">{currArticle.title}</h1>
-                <section className="mb-4 flex justify-center gap-96">
-                    <p className="text-gray-600 mb-2">Creator: {currArticle.creator}</p>
-                    <p className="text-gray-600 mb-2">Published On: {pubDateString}</p>
+                <section className="flex-col">
+                    <section className="mb-4">
+                        <p className="text-gray-600 mb-2">Description: {currArticle.description}</p>
+                    </section>
+
+                    <section className="mb-4 flex justify-center gap-96">
+                        <p className="text-gray-600 mb-2">Creator: {currArticle.creator}</p>
+                        <p className="text-gray-600 mb-2">Published On: {pubDateString}</p>
+                    </section>
+
+                    <section className="mb-4 flex justify-center gap-96">
+                        <p className="text-gray-600 mb-2">Source ID: {currArticle.source_id}</p>
+                        <p className="text-gray-600 mb-2">Categories: {currArticle.category}</p>
+                    </section>
+
                 </section>
                 <img src={currArticle.image_url} alt={currArticle.title} className="max-w-full mb-4" />
 

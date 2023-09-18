@@ -59,7 +59,7 @@ const Dashboard = () => {
                         </h2>
 
                         <p>
-                            Read a finance <NextLink className={utilStyles.linkNormal} href="/articles/article-main">article</NextLink>
+                            Test Page for Page Routing: <NextLink className={utilStyles.linkNormal} href="/articles/article-main">article</NextLink>
                         </p>
                     </section>
 

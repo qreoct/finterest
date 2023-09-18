@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 
 // This file will be removed in the future
 // It is currently used just to test the chatbox
+// This chat will not be saved in the database
 export default function FirstChat() {
 
     return (

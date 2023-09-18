@@ -7,7 +7,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import chatboxStyles from '@/styles/chatbox.module.css';
 import Footer from '@/components/common/Footer';
 import { useRouter } from 'next/router';
-import { getArticle } from '@/config/firestore';
+import { getArticle, getChat } from '@/config/firestore';
 import { useEffect, useState } from 'react';
 import { ArticleType, convertToArticleType } from '@/types/ArticleTypes';
 import { addChat, addMessage } from '@/config/firestore';
@@ -30,6 +30,8 @@ export default function NewChat() {
     const { user } = useAuth();
 
     const userId = user.uid;
+
+    const router = useRouter();
 
     const [currArticle, setArticles] = useState<ArticleType | null>({} as ArticleType);
 
@@ -69,6 +71,13 @@ export default function NewChat() {
     let previousMessages: OpenAIMessage[] = new Array<OpenAIMessage>();
 
     const newChatId = userId + currArticle.article_id;
+
+
+    // if chat already exists in db then route to that chat
+    if (getChat(newChatId) != null) {
+        router.push('/chats/' + newChatId);
+    }
+
 
     const newChat: ChatStruct = {
         article_id: currArticle.article_id,

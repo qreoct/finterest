@@ -168,7 +168,7 @@ export const ExistingChatDisplay = ({ chatId }: { chatId: string }) => {
                 <div className="mx-auto mt-7 border border-black p-10 rounded-xl text-gray-600">
 
                     <h2 className="text-2xl font-semibold mb-4">
-                        New Chat with the awesome Finterest Chatbot!
+                        Your Existing Chat with the awesome Finterest Chatbot has been loaded!
                     </h2>
                     <h2 className="text-2xl font-semibold mb-4">
                         Current Article: {currArticle?.title}
