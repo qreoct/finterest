@@ -4,6 +4,10 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import utilStyles from '@/styles/utils.module.css';
+import runGetNews from '@/utils/newsfetcher';
+import { ArticleList } from '@/components/ArticleStuff/ArticleList';
+import { getArticleIdList } from '@/config/firestore';
+import { useEffect, useState } from 'react';
 
 /*
     The page where the user first enters after he logs in
@@ -11,6 +15,23 @@ import utilStyles from '@/styles/utils.module.css';
 const Dashboard = () => {
     const { logOut } = useAuth();
     const router = useRouter();
+
+    // Instead of const articleIdList = getArticleIdList()
+    // For react need to use this state management thing so that the the Promise will be awaited
+    const [articleIdList, setArticleIdList] = useState<string[]>([]);
+
+    useEffect(() => {
+        const fetchArticleIdList = async () => {
+            const idList = await getArticleIdList();
+            setArticleIdList(idList);
+        };
+
+        fetchArticleIdList();
+    }, []);
+
+    // TODO: Replace with article selection algo in the future
+    // Randomly sort articleIdList and assign first 10 results to a new variable
+    const articleIdListRandom = articleIdList.sort(() => Math.random() - Math.random()).slice(0, 10);
 
     return (
         <ProtectedRoute>
@@ -38,19 +59,36 @@ const Dashboard = () => {
                         </h2>
 
                         <p>
-                            Read a finance <NextLink className={utilStyles.linkNormal} href="/articles/article-main">article</NextLink>
+                            Test Page for Page Routing: <NextLink className={utilStyles.linkNormal} href="/articles/article-main">article</NextLink>
                         </p>
+                    </section>
+
+                    <section>
+                        <h4 className="p-10 text-2xl">Recommended Articles</h4>
+                        <ArticleList articleIdList={articleIdListRandom} />
                     </section>
 
                     <section className={utilStyles.headingMd}>
                         <h4 className={utilStyles.h4heading}>Finterest Chats</h4>
                         <p>
-                            <NextLink className={utilStyles.linkNormal} href="/chats/new-chat">Start a new chat!</NextLink>
+                            <NextLink className={utilStyles.linkNormal} href="/chats/first-chat">Start a new chat!</NextLink>
                         </p>
                         <br />
                     </section>
 
-                    <div className="mb-8 flex items-center justify-center">
+
+                    <div>
+                        <button
+                            onClick={() => {
+                                runGetNews();
+                            }}
+                            className="rounded-md bg-green-600 px-10 py-3 text-white shadow-sm hover:bg-green-700"
+                        >
+                            (Test Button) Run News Fetcher
+                        </button>
+                    </div>
+
+                    {/* <div className="mb-8 flex items-center justify-center">
                         <button
                             onClick={() => {
                                 logOut();
@@ -60,7 +98,7 @@ const Dashboard = () => {
                         >
                             Logout
                         </button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </ProtectedRoute>
