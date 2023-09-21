@@ -17,7 +17,18 @@ cd finterest
 ```
 npm install
 ```
-5. Run Finterest on your local server
+5. Setup API keys (for more info check out PRs #14, #15)
+```
+NEXT_PUBLIC_OPENAI_API_KEY={apiKey}
+NEXT_PUBLIC_FIREBASE_API_KEY={apikey}
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN {domain}
+NEXT_PUBLIC_FIREBASE_PROJECT_ID={projectid}
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET={storagebucket}
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID={senderid}
+NEXT_PUBLIC_FIREBASE_APP_ID={appid}
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID={measurementid}
+```
+6. Run Finterest on your local server
 ```
 npm run dev
 ```
