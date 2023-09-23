@@ -37,6 +37,7 @@ const Dashboard = () => {
     }, []);
 
     const articleIdListRandom = articleIdList.sort(() => Math.random() - Math.random()).slice(0, 10);
+    //const articleIdListRandom = ['FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u'];
     const topArticleIdListRandom = ['FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', ];
 
     
@@ -125,13 +126,13 @@ const Dashboard = () => {
 
                 {/* Right Content */}
                 <div className="flex-1 bg-white overflow-y-auto" style={{ marginLeft: '25%', height: '100vh' }}>
+                    {/* Top articles */}
                     <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Today's Top Stories</h2>
                     <TopArticleList articleIdList={topArticleIdListRandom} />
-                    
 
-
-
-                    {/* <ArticleList articleIdList={articleIdListRandom} /> */}
+                    {/* Other articles, as recommended by the algorithm */}
+                    <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Stories For You</h2>
+                    <ArticleList articleIdList={articleIdListRandom} />
                 </div>
             </div>
 

@@ -16,7 +16,7 @@ export const TopArticleListItem = ({ article }: { article: DocumentData }) => {
 
     return (
         <div className='w-1/5 flex-shrink-0 '>
-            <NextLink href={`/articles/${currArticle.article_id}`}className="text-xl font-extra-bold text-blue-600 flex flex-col items-start justify-center space-y-2">
+            <NextLink href={`/articles/${currArticle.article_id}`} className="text-xl font-extra-bold text-blue-600 flex flex-col items-start justify-center space-y-2">
                 <img src={currArticle.image_url} alt={ currArticle.title } className='rounded-lg w-full h-1/16' />
                 <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>{currArticle.source_id}</h5>
                 <h3 className='font-dmsans font-bold text-neutral-headings-black text-2xl'>{currArticle.title}</h3>
