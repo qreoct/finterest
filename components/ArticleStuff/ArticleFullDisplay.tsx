@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getArticle } from "@/config/firestore";
 import { convertToArticleType } from "@/types/ArticleTypes";
 import Footer from "../common/Footer";
-import { fixNewsArticleContentWithAIAndSummarise } from "@/utils/newsfetcher";
+import { fixNewsArticleContentWithAIAndSummarise } from "@/lib/NewsController";
 import OpenChatPageButton from "./OpenChatPageButton";
 
 

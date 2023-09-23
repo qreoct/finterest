@@ -3,8 +3,8 @@ import { getArticleIdList, addNewArticle } from "@/config/firestore";
 import { ArticleType } from '@/types/ArticleTypes';
 import { NewsDataIoResponseType } from '@/types/ApiTypes';
 import schedule from 'node-schedule';
-import { generatePrompts } from "./openai";
-import finterestPrompts from "./prompt.json";
+import { generatePrompts } from "../utils/openai";
+import finterestPrompts from "../utils/prompt.json";
 
 // This runs everyday at midnight - DISABLED NOW
 // schedule.scheduleJob('0 0 * * *', () => {
