@@ -4,17 +4,14 @@ import NextLink from "next/link"
 import { useEffect, useState } from "react";
 import { getArticle } from "@/config/firestore";
 import { convertToArticleType } from "@/types/ArticleTypes";
-import { fixNewsArticleContentWithAIAndSummarise } from "@/lib/NewsController";
-import OpenChatPageButton from "./OpenChatPageButton";
 import Head from 'next/head';
 import { BiNews, BiMessage, BiSmile, BiLogOutCircle, BiStar, BiArrowBack, BiSolidMagicWand } from "react-icons/bi";
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
 import ArticleConvo from "../ChatStuff/ArticleConvo";
+import { parse } from "path";
 
-
-const summaryAndGibberishRemovalEnabled = false;
 
 
 export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
@@ -22,13 +19,25 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
     const { logOut } = useAuth();
     const router = useRouter();
 
-    let [preCurrArticle, setArticles] = useState<ArticleType | null>({} as ArticleType);
+ 
+
+    let [articleContent, setArticleContent] = useState<JSX.Element[] | undefined>([
+        <div key={1}>Placeholder element</div>,
+    ]);
+    
+    // Get the relevant article from database
+    let [currArticle, setConvertedArticle] = useState<ArticleType | null>(null);
+
+
+    // Checks whether text is currently summarised
+    let [isTextSummarised, setIsTextSummarised] = useState<Boolean>(false);
+
+    let [processedContent, setProcessedContent] = useState<JSX.Element[] | undefined>();
+
 
     useEffect(() => {
         const fetchArticle = async () => {
-            const articlePromises = await getArticle(articleId);
-            const resolvedArticle = await articlePromises;
-
+            const resolvedArticle = await getArticle(articleId);
             let convertedArticle = convertToArticleType(resolvedArticle);
 
             if (convertedArticle == null) {
@@ -36,77 +45,80 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                 return;
             }
 
-            // TESTING - When this is enabled, each time u load an article page GPT will run once
-            // NVM THIS DOES NOT WORK IN THE WAY THAT I INTENDED
-            // convertedArticle = await fixNewsArticleContentWithAI(convertedArticle);
-
-            setArticles(convertedArticle);
+            setConvertedArticle(convertedArticle);
+            
         };
 
         fetchArticle();
-    }, [articleId]);
+    }, []);
 
-    // Get the relevant article from database
-    const [currArticle, setConvertedArticle] = useState<ArticleType | null>(null);
 
     useEffect(() => {
-        const convertArticle = async () => {
-            if (!preCurrArticle?.article_id) {
-                return;
-            }
+        parseArticleContent()
+    }, [currArticle]);
 
-
-            const summarisationAmount = 3;
-            let convertedArticle;
-
-            if (summaryAndGibberishRemovalEnabled) {
-                convertedArticle = await fixNewsArticleContentWithAIAndSummarise(preCurrArticle, 3);
-            } else {
-                convertedArticle = preCurrArticle;
-            }
-
-            setConvertedArticle(convertedArticle);
-        };
-
-        convertArticle();
-    }, [preCurrArticle]);
-
-
+    //Loading indicator
     if (!currArticle) {
         return <div className="flex justify-center font-bold text-4xl">Loading article...</div>;
     }
 
-    const pubDateString = currArticle?.pubDate === undefined ? "Unknown" : new Date(currArticle?.pubDate.valueOf()).toLocaleString();
-    const categoryString = currArticle?.category === undefined ? "None" : currArticle?.category.map(x => {
-        // Capitalise the first letter of each category because it is stored as all small letters
-        return x[0].toUpperCase() + x.slice(1);
-    }).join(', ');
+    // Parse article content string and add some new lines after fullstops.
+    // This is to make the article content look nicer.
+    function parseArticleContent() {
+        const parsedContent = currArticle?.content?.split(new RegExp("[.?!] ")).map((sentence) => {
+            const randomNum = Math.random();
+            if (randomNum < 0.1) {
+                return sentence + '.\n\n';
+            } else if (randomNum < 0.2) {
+                return sentence + '.\n';
+            } else {
+                return sentence + '.';
+            }
+        }).join('  ');
 
-    const creatorString = currArticle.creator === "" ? "Unknown" : currArticle.creator;
+        // Need to manually add paragraph tags to each paragraph otherwise the text will be one big block
+        const paragraphs = parsedContent?.split('\n').map((paragraph, index) => (
+            <p key={index} className="text-neutral-text-gray font-dmsans mt-4">{paragraph}</p>
+        ));
 
-    const summaryLevel = summaryAndGibberishRemovalEnabled ? "3 minutes" : "None";
+        setArticleContent(paragraphs);
+        setProcessedContent(paragraphs);
 
-    // Go through the article content string and add some new lines after fullstops
-    // This is to make the article content look nicer
-    const parsedContent = currArticle?.content?.split(new RegExp("[.?!] ")).map((sentence) => {
-        const randomNum = Math.random();
-        if (randomNum < 0.1) {
-            return sentence + '.\n\n';
-        } else if (randomNum < 0.2) {
-            return sentence + '.\n';
-        } else {
-            return sentence + '.';
-        }
-    }).join('  ');
+    }
 
-    // Need to manually add paragraph tags to each paragraph otherwise the text will be one big block
-    const paragraphs = parsedContent?.split('\n').map((paragraph, index) => (
-        <p key={index} className="text-neutral-text-gray font-dmsans mt-4">{paragraph}</p>
-    ));
+
+
+    
+
 
     if (!currArticle) {
         return <div>Loading article...</div>;
     }
+
+
+
+
+
+    //Converts between summarised text and original article
+    function toggleBetweenOriginalAndSummary() {
+        if (isTextSummarised) {
+            //Display original text
+            console.log(processedContent);
+            setArticleContent(processedContent);
+        } else {
+            const summarisedText = [<p key={1} className="text-neutral-text-gray font-dmsans mt-4">{ currArticle?.content_summary}</p>];
+            setArticleContent(summarisedText);
+        }
+
+        setIsTextSummarised(! isTextSummarised);
+
+    }
+
+
+
+
+
+
 
 
     return (
@@ -200,20 +212,21 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                     </button>
 
                     <div className="flex flex-col justify-start mt-8 ml-16 mr-16 space-y-2">
-                        <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>{currArticle.source_id}</h5>
                         <h3 className='font-dmsans font-bold text-neutral-headings-black text-2xl'>{currArticle.title}</h3>
+                        <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>{currArticle.source_id}</h5>
+                        <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>Written by: {currArticle.creator}</h5>
                         <p className='font-dmsans text-neutral-text-gray text-base'>{currArticle.pubDate}</p>
                         
                         <img src={currArticle.image_url} alt={ currArticle.title } className='w-1/2 h-1/2 self-center' />
                         
-                        <button className="bg-neutral-color-300 hover:bg-neutral-text-gray text-neutral-headings-black hover:text-white p-2 w-1/4 font-semibold rounded-md flex justify-center items-center mt-5 self-center">
+                        <button className="bg-neutral-color-300 hover:bg-neutral-text-gray text-neutral-headings-black hover:text-white p-2 w-1/4 font-semibold rounded-md flex justify-center items-center mt-5 self-center" onClick={ toggleBetweenOriginalAndSummary }>
                             <BiSolidMagicWand className='text-3xl cursor-pointer' />
                             <span className="ml-2">AI Summary</span>
                         </button> 
 
 
-                        <div>
-                            {paragraphs}
+                        <div id='article-content'>
+                            {articleContent}
                         </div>
 
 
