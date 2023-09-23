@@ -15,7 +15,7 @@ const config: Config = {
       },
       backgroundColor: {
         'neutral-color-300': '#F9F9FF',
-        'netural-headings-black': '#5D5A88',
+        'neutral-headings-black': '#5D5A88',
         'neutral-text-gray': '#9795B5',
       },
       fontFamily: {

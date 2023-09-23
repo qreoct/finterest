@@ -53,3 +53,38 @@
 .chatboxInputButton:active {
     background-color: #ccc;
 }
+
+
+
+
+/* Loading animation taken from https://dev.to/kirteshbansal/bouncing-dots-loader-in-react-4jng */
+.bouncingloader {
+    display: flex;
+    justify-content: center;
+  }
+  
+.bouncingloader > div {
+    width: 16px;
+    height: 16px;
+    margin: 3px 6px;
+    border-radius: 50%;
+    background-color: #5D5A88;
+    opacity: 1;
+    animation: bouncingloader 0.6s infinite alternate;
+}
+
+@keyframes bouncingloader {
+    to {
+      opacity: 0.1;
+      transform: translateY(-16px);
+    }
+  }
+  
+  .bouncingloader > div:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  
+  .bouncingloader > div:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+

@@ -169,3 +169,28 @@ export async function getMessageList(chatId) {
         return [];
     }
 }
+
+
+
+// Checks if an article conversation exists in the database, given a user and an article
+export async function doesArticleChatExist(articleChatId) {
+    const docRef = doc(db, "article_chats", articleChatId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        return docSnap.data();
+    } else {
+        return null;
+    }
+}
+
+
+
+// Creates a new article chat
+export async function createNewArticleChat(uid, articleId, articleChatId) {
+    await setDoc(doc(db, "article_chats", articleChatId), {
+        uid: uid,
+        article_id: articleId,
+        message_history: []
+    });
+}
