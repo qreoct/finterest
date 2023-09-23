@@ -208,8 +208,8 @@ export default function ArticleConvo() {
 
 
         //Send message to OpenAI to get response
-        // const response = await generatePrompts('gpt-3.5-turbo', promptContent, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages);
-        const response = "Sample response 1";
+        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages);
+        // const response = "Sample response 1";
 
         
      
