@@ -34,6 +34,9 @@ const config: Config = {
       width: {
         '1/8': '12.5%',
         '1/16': '6.25%',
+      },
+      colors: {
+        'neutral-headings-black': '#5D5A88',
       }
 
     },

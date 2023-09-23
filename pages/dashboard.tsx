@@ -16,9 +16,6 @@ import { BiNews, BiMessage, BiSmile, BiLogOutCircle, BiStar } from "react-icons/
 */
 const Dashboard = () => {
 
-    //TODO: Remove later
-
-
 
     const { logOut } = useAuth();
     const router = useRouter();
@@ -125,7 +122,7 @@ const Dashboard = () => {
                                     
 
                 {/* Right Content */}
-                <div className="flex-1 bg-white overflow-y-auto" style={{ marginLeft: '25%', height: '100vh' }}>
+                <div className="width-3/4 bg-white overflow-y-auto" style={{ marginLeft: '25%', height: '100vh' }}>
                     {/* Top articles */}
                     <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Today's Top Stories</h2>
                     <TopArticleList articleIdList={topArticleIdListRandom} />
@@ -134,6 +131,8 @@ const Dashboard = () => {
                     <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Stories For You</h2>
                     <ArticleList articleIdList={articleIdListRandom} />
                 </div>
+
+    
             </div>
 
 
