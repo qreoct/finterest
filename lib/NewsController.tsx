@@ -128,7 +128,7 @@ function convertArticleJSONToArticleType(article: any): ArticleType {
         image_url: article.image_url,
         description: article.description,
         content: article.content,
-        pubDate: Date.parse(article.pubDate),
+        pubDate: article.pubDate,
         source_id: article.source_id,
         category: article.category,
         dateStored: (new Date()).getTime()

@@ -5,7 +5,8 @@ import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import utilStyles from '@/styles/utils.module.css';
 import runGetNews from '@/lib/NewsController';
-import { ArticleList } from '@/components/ArticleStuff/ArticleList';
+import { ArticleList } from '@/components/Article/ArticleList';
+import { TopArticleList } from '@/components/Article/TopArticleList';
 import { getArticleIdList } from '@/config/firestore';
 import { useEffect, useState } from 'react';
 import { BiNews, BiMessage, BiSmile, BiLogOutCircle, BiStar } from "react-icons/bi";
@@ -14,6 +15,11 @@ import { BiNews, BiMessage, BiSmile, BiLogOutCircle, BiStar } from "react-icons/
     The page where the user first enters after he logs in
 */
 const Dashboard = () => {
+
+    //TODO: Remove later
+
+
+
     const { logOut } = useAuth();
     const router = useRouter();
 
@@ -29,6 +35,9 @@ const Dashboard = () => {
 
         fetchArticleIdList();
     }, []);
+
+    const articleIdListRandom = articleIdList.sort(() => Math.random() - Math.random()).slice(0, 10);
+    const topArticleIdListRandom = ['FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', ];
 
     
     return (
@@ -49,7 +58,7 @@ const Dashboard = () => {
 
             </Head>
 
-            <div className="flex min-h-screen">
+            <div className="flex">
                 {/* Navigation Bar */}
                 <div className="w-1/4 flex flex-col justify-between bg-neutral-color-300 p-16 fixed top-0 left-0 bottom-0 overflow-y-auto">
                     {/* Logo Bar */}
@@ -115,8 +124,14 @@ const Dashboard = () => {
                                     
 
                 {/* Right Content */}
-                <div className="flex-1 bg-white p-4 overflow-y-auto">
-                    {/* Your right content goes here */}
+                <div className="flex-1 bg-white overflow-y-auto" style={{ marginLeft: '25%', height: '100vh' }}>
+                    <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Today's Top Stories</h2>
+                    <TopArticleList articleIdList={topArticleIdListRandom} />
+                    
+
+
+
+                    {/* <ArticleList articleIdList={articleIdListRandom} /> */}
                 </div>
             </div>
 

@@ -7,7 +7,7 @@ export interface ArticleType {
     image_url: string;
     creator: string
     description: string;
-    pubDate: Number;
+    pubDate: string;
     source_id: string;
     category: [string];
     dateStored: Number;

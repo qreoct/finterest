@@ -26,7 +26,16 @@ const config: Config = {
       textColor: {
         'neutral-headings-black': '#5D5A88',
         'neutral-text-gray': '#9795B5',
+      },
+      height: {
+        '1/8': '12.5%',
+        '1/16': '6.25%',
+      },
+      width: {
+        '1/8': '12.5%',
+        '1/16': '6.25%',
       }
+
     },
   },
   plugins: [],
