@@ -87,17 +87,24 @@ const Dashboard = () => {
                                 <h5 className="font-dmsans text-neutral-headings-black text-xl ml-2">Profile</h5>
                             </div>
 
+                           
                             <div className="flex justify-center items-center">
-                                <BiLogOutCircle className='text-3xl cursor-pointer text-neutral-headings-black m-2' />
-                                <h5 className="font-dmsans text-neutral-headings-black text-xl ml-2">Logout</h5>
+                                <button onClick={
+                                        () => { logOut();
+                                        router.push('/');
+                                        }}
+                                
+                                    className="bg-transparent text-neutral-headings-black hover:text-neutral-text-gray py-2 px-8 rounded-full flex items-center">
+                                    <BiLogOutCircle className='text-3xl cursor-pointer m-2' />
+                                    <span className="font-dmsans text-xl ml-2">Logout</span>
+                                </button>
                             </div>
 
                             <div className="flex justify-center items-center">
-                            <button className="bg-netural-headings-black hover:bg-neutral-text-gray text-white font-semibold py-2 px-8 rounded-full flex items-center mt-5">
-                            <BiStar className='text-3xl cursor-pointer text-white m-2' />
-                                <span className="mr-2">Upgrade</span>
-                            </button>
-                                
+                                <button className="bg-netural-headings-black hover:bg-neutral-text-gray text-white font-semibold py-2 px-8 rounded-full flex items-center mt-5">
+                                    <BiStar className='text-3xl cursor-pointer text-white m-2' />
+                                    <span className="mr-2">Upgrade</span>
+                                </button> 
                             </div>
                         </div>
                     </div>
