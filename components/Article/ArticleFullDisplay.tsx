@@ -58,8 +58,10 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
     }, [currArticle]);
 
     //Loading indicator
-    if (!currArticle) {
-        return <div className="flex justify-center font-bold text-4xl">Loading article...</div>;
+    if (! currArticle) {
+        return <div className="flex justify-center items-center font-dmsans text-neutral-headings-black font-bold text-4xl h-screen w-screen bg-neutral-color-300">
+            <h3>Loading article...</h3>
+        </div>;
     }
 
     // Parse article content string and add some new lines after fullstops.
@@ -88,12 +90,6 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
 
 
 
-    
-
-
-    if (!currArticle) {
-        return <div>Loading article...</div>;
-    }
 
 
 
@@ -218,11 +214,25 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                         <p className='font-dmsans text-neutral-text-gray text-base'>{currArticle.pubDate}</p>
                         
                         <img src={currArticle.image_url} alt={ currArticle.title } className='w-1/2 h-1/2 self-center' />
+
+                        {! isTextSummarised ? (
+                            <button className="bg-neutral-color-300 hover:bg-neutral-text-gray text-neutral-headings-black hover:text-white p-2 w-1/4 font-semibold rounded-md flex justify-center items-center mt-5 self-center duration-200" style={{ marginTop: '5%', marginBottom: '5%'  }} onClick={ toggleBetweenOriginalAndSummary }>
+                                <BiSolidMagicWand className='text-3xl cursor-pointer' />
+                                <span className="ml-2">AI Summary</span>
+                            </button> 
+                        ) : (
+                            <button className="bg-neutral-text-gray hover:bg-neutral-color-300 text-white hover:text-neutral-headings-black p-2 w-1/4 font-semibold rounded-md flex justify-center items-center mt-5 self-center duration-200" style={{ marginTop: '5%', marginBottom: '5%' }} onClick={ toggleBetweenOriginalAndSummary }>
+                                <BiSolidMagicWand className='text-3xl cursor-pointer' />
+                                <span className="ml-2">AI Summary</span>
+                            </button> 
+             
+                        )}
+
+
+
+
                         
-                        <button className="bg-neutral-color-300 hover:bg-neutral-text-gray text-neutral-headings-black hover:text-white p-2 w-1/4 font-semibold rounded-md flex justify-center items-center mt-5 self-center" onClick={ toggleBetweenOriginalAndSummary }>
-                            <BiSolidMagicWand className='text-3xl cursor-pointer' />
-                            <span className="ml-2">AI Summary</span>
-                        </button> 
+                        
 
 
                         <div id='article-content'>
