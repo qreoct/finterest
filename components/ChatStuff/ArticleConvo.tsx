@@ -7,8 +7,8 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import chatboxStyles from '@/styles/chatbox.module.css';
 import Footer from '@/components/common/Footer';
 import { useRouter } from 'next/router';
-import { doesArticleChatExist, getArticle, getChat } from '@/config/firestore';
-import { useEffect, useState } from 'react';
+import { doesArticleChatExist, getArticle, getChat, storeArticleChatMessage, fetchArticleChatHistory } from '@/config/firestore';
+import { useEffect, useState, useRef } from 'react';
 import { ArticleType, convertToArticleType } from '@/types/ArticleTypes';
 import { addChat, addMessage } from '@/config/firestore';
 import { useAuth } from '@/context/AuthContext';
@@ -49,6 +49,37 @@ export default function ArticleConvo() {
     //State to track if we are waiting a response from OpenAI
     const [isAwaitingMessageFromOpenAi, setIsAwaitingMessageFromOpenAI] = useState(false);
 
+    //State to track user input in text area
+    const [textInTextArea, setTextInTextArea] = useState('');
+
+
+    //Enable auto-scrolling to the bottom of the chat
+    //Taken from https://reacthustle.com/blog/react-auto-scroll-to-bottom-tutorial
+    const ref = useRef<HTMLDivElement>(null);
+    // useEffect(() => {
+    //     if (messageJsxElements?.length) {
+    //         ref.current?.scrollIntoView({
+    //             behavior: "smooth",
+    //             block: "end",
+    //         })
+    //     }
+    // });
+     
+    
+    const [newMessageSubmitted, setNewMessageSubmitted] = useState(false);
+
+    useEffect(() => {
+        if (newMessageSubmitted && ref.current) {
+          // Scroll to the bottom of the chat
+          ref.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+        })
+          
+          // Reset the flag to false
+          setNewMessageSubmitted(false);
+        }
+      }, [newMessageSubmitted]);
 
 
     useEffect(() => {
@@ -65,6 +96,20 @@ export default function ArticleConvo() {
 
         fetchArticle();
     }, []);
+
+
+    //Update JSX elements whenever messages changes, in order to update the UI
+    useEffect(() => {
+        const messageJsxElements = messages.map((openAiMessage, index) => (
+            (openAiMessage.role == 'user')
+            ? <p key={index} className="text-white font-dmsans mt-4 self-end w-3/4 bg-neutral-headings-black rounded-2xl p-5">{ openAiMessage.content }</p>
+            : <p key={index} className="text-neutral-headings-black font-dmsans mt-4 self-start w-3/4 bg-white rounded-2xl p-5">{ openAiMessage.content }</p>
+        ));
+        setMessageJsxElements(messageJsxElements);
+    }, [messages])
+
+
+
 
     //Loading indicator
     if (! currArticle) {
@@ -87,14 +132,21 @@ export default function ArticleConvo() {
         // Check if there is an existing chat
         if (chatInformation == null) {
             //Chat does not exist. Create a new chat instance.
-            createNewArticleChat(userId, currArticle.article_id, newChatId);
+            await createNewArticleChat(userId, currArticle.article_id, newChatId);
         } else {
             //Chat exists already. Check if there is any message
             if (chatInformation.message_history.length == 0) {
                 //No message history. No action required.
             } else {
                 setDoesUserHaveChatHistory(true); 
-                //TODO: Fetch original messages
+
+                //Fetch original messages
+                const messageHistory = await fetchArticleChatHistory(newChatId);
+                console.log(messageHistory);
+                const previousMessages = messageHistory.map((pastMessage, index) => (
+                    { role: pastMessage.role, content: pastMessage.content }
+                ));
+                setMessages(previousMessages);
             }
         }
 
@@ -111,122 +163,122 @@ export default function ArticleConvo() {
 
 
 
+    //Helper function to add messages into the UI
+    const addMessagesToInterface = (role: string, message: string) => {
+        setMessages((prevMessages) => [...prevMessages, {role: role, content: message}]);
+    }
+
+
+
     //Process prompt selected by the user and feed into OpenAI
-    const processPrompt = (promptIndex: number) => {
+    const processPrompt = async (promptIndex: number) =>  {
+        //Show loading indicator
+        setIsAwaitingMessageFromOpenAI(true);
+
+        //Get respective prompt
         const promptContent = (promptIndex == 1)
                               ? currArticle.prompt_one
                               : currArticle.prompt_two;
+        
+        //Process prompt accordingly
+        await processUserMessage(promptContent);
+
+        
+    }
+
+
+    //Processes a message given by the user
+    const processUserMessage = async (userMessage: string) => {
+
+        //Show loading indicator
+        setIsAwaitingMessageFromOpenAI(true);
 
         // Make other prompts disappear
         setDoesUserHaveChatHistory(true);
         
         // Add the prompt into the UI
-        const currentMessages = [...messages];
-        currentMessages.push({role: 'user', content: promptContent});
-        setMessages(currentMessages);
-        const messageJsxElements = currentMessages.map((openAiMessage, index) => (
-            (openAiMessage.role == 'user')
-            ? <p key={index} className="text-white font-dmsans mt-4 self-end w-3/4 bg-neutral-headings-black rounded-2xl p-5">{ openAiMessage.content }</p>
-            : <p key={index} className="text-neutral-headings-black font-dmsans mt-4 self-start w-3/4 bg-white rounded-2xl p-5">{ openAiMessage.content }</p>
+        addMessagesToInterface('user', userMessage);
+       
+
+        //Store the prompt in MESSAGES and in message_history of the current article chat
+        const newMessageHistory = await storeArticleChatMessage(userId + currArticle.article_id, userMessage, 'user');
+        const previousMessages = newMessageHistory.map((pastMessage, index) => (
+            { role: pastMessage.role, content: pastMessage.content }
         ));
-        setMessageJsxElements(messageJsxElements);
-
-
-        //TODO: Store the prompt in MESSAGES and in message_history of the current article chat
-
-
 
 
         //Send message to OpenAI to get response
-        setIsAwaitingMessageFromOpenAI(true);
+        // const response = await generatePrompts('gpt-3.5-turbo', promptContent, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages);
+        const response = "Sample response 1";
+
+        
+     
+        console.log("Response" + response);
+
+        //Show new response on the UI
+        if (response != null) {
+                //Add the response to the MESSAGES database
+                await storeArticleChatMessage(userId + currArticle.article_id, response, 'system'); 
+
+                //Show new response on the UI
+                addMessagesToInterface('system', response != null ? response : '');
+        }
+
+        setNewMessageSubmitted(true);
+        
 
 
+        //Hide loading indicator
+        setIsAwaitingMessageFromOpenAI(false);
 
 
+    }
 
-        // const mySentMessage = document.createElement('div');
-        // mySentMessage.className = chatboxStyles.chatboxMessage + ' ' + chatboxStyles.chatboxMessageFromUser;
-        // mySentMessage.innerHTML = `<p>${message}</p>`;
-        // document.getElementById('chatboxMessageList')?.appendChild(mySentMessage);
-
-        // messageEle.value = '';
-
-        // // Generate a response from the OpenAI API
-        // const response = await generatePrompts('gpt-3.5-turbo', message, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + articleContent, previousMessages);
-
-        // // Create a new message element
-        // const newMessage = document.createElement('div');
-        // newMessage.className = chatboxStyles.chatboxMessage + ' ' + chatboxStyles.chatboxMessageFromSystem;
-        // newMessage.innerHTML = `<p>${response}</p>`;
-
-        // // Adds the new message to the chat box
-        // // Another way to use querySelector safely without explicitly checking if the element exists
-        // // is to use the optional chaining operator (?) 
-        // // Then we can do whatever after the ? safely such as running one of the methods
-        // // If the object does not exist then the method will just not run
-        // document.getElementById('chatboxMessageList')?.appendChild(newMessage);
-
-        // // We can also use the ! operator to tell typescript to ignore the null error and pretend the thing always exists
-        // // But this can be unsafe and cause errors if the object does not exist so we should 
-        // // usually use the first 2 options (explicitly checking if the thing exists or using ?) instead
-
-        // const promptUnNulled = message == null ? '' : String(message);
-        // const responseUnNulled = response == null ? '' : String(response);
-
-        // const newMessageButOpenAI: OpenAIMessage = {
-        //     role: "user",
-        //     content: promptUnNulled
-        // };
-
-        // const newResponseButOpenAI: OpenAIMessage = {
-        //     role: "system",
-        //     content: responseUnNulled
-        // };
-
-
-        // previousMessages.push(newMessageButOpenAI);
-        // previousMessages.push(newResponseButOpenAI);
-        // addMessage(newMessageButOpenAI, newChatId);
-        // addMessage(newResponseButOpenAI, newChatId);
-
-        // console.log(previousMessages);
+    //Function that handles changes in text area field
+    const handleChangesInTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setTextInTextArea(e.target.value);
     };
 
+    //Function that handles submission of user prompt from text area
+    const handleEnterSubmission = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        //Submit user text when they press enter when typing in the text area
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
 
-    //Updates the UI whenever the chat history changes
+            //Check if user submitted at least some content, otherwise reject
+            if (textInTextArea.trim() === '') {
+                return;
+            }
+
+            //Submit text in text area
+            processUserMessage(textInTextArea);
+
+            //Clear text area
+            setTextInTextArea('');
+        }
+    }
+
+    //Function that handles submission when user presses the submit icon button
+    const handleSubmitIconClick = async () => {
+        //Check if user submitted at least some content, otherwise reject
+        if (textInTextArea.trim() === '') {
+            return;
+        }
+
+        //Submit text in text area
+        processUserMessage(textInTextArea);
+
+        //Clear text area
+        setTextInTextArea('');
+    }
+
     
-   
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
     return (
         <div>
             <div>
                 <div className="flex flex-col justify-between h-screen overflow-y-hidden">  
-                    <div id="chatboxMessageList" className="ml-4 mr-4 mt-16 overflow-y-auto pr-0">
+                    <div id="chatboxMessageList" className="ml-4 mr-4 mt-16 overflow-y-auto pr-0 h-70">
                             <p className='font-dmsans text-neutral-headings-black font-bold text-center'>Hey there! Finterest AI can help you understand this article better.</p>
                             {/* Provide prompts */}
                             {
@@ -252,6 +304,7 @@ export default function ArticleConvo() {
                             <div className='flex flex-col justify-start'>
                                 { messageJsxElements }
                             </div>
+                            <div className='h-20' ref={ref} />
 
                     </div>
 
@@ -267,9 +320,14 @@ export default function ArticleConvo() {
                             <textarea id="chatboxTextInput"
                                 className={'bg-neutral-color-300 w-4/5 h-auto m-5 font-dmsans text-neutral-text-gray pl-5 pt-3 pr-5 pb-3 focus:outline-neutral-headings-black outline-none align-middle' }
                                 style={{ lineHeight: 'normal', verticalAlign: 'middle', overflowY: 'auto', resize: 'none' }}
-                                placeholder="Type your message here..."></textarea>
+                                placeholder="Type your message here..."
+                                value={textInTextArea}
+                                onChange={handleChangesInTextArea}
+                                onKeyDown={handleEnterSubmission}
+                                disabled={isAwaitingMessageFromOpenAi}
+                            ></textarea>
                             {/* Send button */}
-                            <button className={'w-1/5 ml-2'}>
+                            <button className={'w-1/5 ml-2'} onClick={ handleSubmitIconClick }>
                                 <BiSend className='text-3xl cursor-pointer text-white m-2 hover:text-neutral-headings-black' />
                             </button>
                         </div>

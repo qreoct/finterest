@@ -99,7 +99,6 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
     function toggleBetweenOriginalAndSummary() {
         if (isTextSummarised) {
             //Display original text
-            console.log(processedContent);
             setArticleContent(processedContent);
         } else {
             const summarisedText = [<p key={1} className="text-neutral-text-gray font-dmsans mt-4">{ currArticle?.content_summary}</p>];
