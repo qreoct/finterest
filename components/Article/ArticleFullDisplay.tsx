@@ -227,13 +227,6 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
              
                         )}
 
-
-
-
-                        
-                        
-
-
                         <div id='article-content'>
                             {articleContent}
                         </div>

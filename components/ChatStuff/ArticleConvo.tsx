@@ -54,20 +54,9 @@ export default function ArticleConvo() {
 
 
     //Enable auto-scrolling to the bottom of the chat
-    //Taken from https://reacthustle.com/blog/react-auto-scroll-to-bottom-tutorial
+    //Adapted from https://reacthustle.com/blog/react-auto-scroll-to-bottom-tutorial and ChatGPT
     const ref = useRef<HTMLDivElement>(null);
-    // useEffect(() => {
-    //     if (messageJsxElements?.length) {
-    //         ref.current?.scrollIntoView({
-    //             behavior: "smooth",
-    //             block: "end",
-    //         })
-    //     }
-    // });
-     
-    
     const [newMessageSubmitted, setNewMessageSubmitted] = useState(false);
-
     useEffect(() => {
         if (newMessageSubmitted && ref.current) {
           // Scroll to the bottom of the chat
@@ -102,7 +91,7 @@ export default function ArticleConvo() {
     useEffect(() => {
         const messageJsxElements = messages.map((openAiMessage, index) => (
             (openAiMessage.role == 'user')
-            ? <p key={index} className="text-white font-dmsans mt-4 self-end w-3/4 bg-neutral-headings-black rounded-2xl p-5">{ openAiMessage.content }</p>
+            ? <p key={index} className="text-white font-dmsans mt-4 self-end w-3/4 bg-neutral-headings-black rounded-2xl p-5 mr-4">{ openAiMessage.content }</p>
             : <p key={index} className="text-neutral-headings-black font-dmsans mt-4 self-start w-3/4 bg-white rounded-2xl p-5">{ openAiMessage.content }</p>
         ));
         setMessageJsxElements(messageJsxElements);
@@ -315,11 +304,11 @@ export default function ArticleConvo() {
                     {/* Input area */}
                     <div className='flex flex-col h-1/3 lg:h-1/4 xl:h-1/5 items-center w-full'>
                         { isAwaitingMessageFromOpenAi ? <BouncingDots /> : <div style={{ height: '22px' }}></div> }
-                        <div className='bg-neutral-text-gray flex items-center flex-1 w-full mt-5'>
+                        <div className='bg-neutral-text-gray flex items-center flex-1 w-full mt-5 leading-8'>
                             {/* Input field  */}
                             <textarea id="chatboxTextInput"
-                                className={'bg-neutral-color-300 w-4/5 h-auto m-5 font-dmsans text-neutral-text-gray pl-5 pt-3 pr-5 pb-3 focus:outline-neutral-headings-black outline-none align-middle' }
-                                style={{ lineHeight: 'normal', verticalAlign: 'middle', overflowY: 'auto', resize: 'none' }}
+                                className={'bg-neutral-color-300 w-4/5 h-auto m-5 font-dmsans text-neutral-text-gray pl-5 pt-3 pr-5 pb-3 focus:outline-neutral-headings-black outline-none align-middle leading-6' }
+                                style={{ verticalAlign: 'middle', overflowY: 'auto', resize: 'none' }}
                                 placeholder="Type your message here..."
                                 value={textInTextArea}
                                 onChange={handleChangesInTextArea}
