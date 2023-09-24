@@ -14,6 +14,7 @@ import {
     where,
     addDoc,
     arrayUnion,
+    FieldValue,
 } from "firebase/firestore";
 
 import { db } from "@/config/firebase.config.js";
@@ -70,6 +71,44 @@ export async function addArticleIdToUser(userId, articleId) {
         chats: arrayUnion(articleId)
     });
     // chatId = userId + articleId << In this way all chats still have unique Ids
+}
+
+// Update user's article history and category history
+export async function updateUserHistory(userId, articleId) {
+    const userRef = doc(db, "users", userId);
+    const category = (await getArticle(articleId)).category[0];
+    const user_category_count = (await getDoc(userRef)).data()["category_history"];
+    // Check if user has category_history, if not, create one
+    if (!user_category_count) {
+        await updateDoc(userRef, {
+            article_history: arrayUnion(articleId),
+            category_history: {
+                [category]: 1
+            }
+        });
+        return;
+    }
+    // Else, update the category_history
+    if (!user_category_count[category]) {
+        await updateDoc(userRef, {
+            chats: arrayUnion(articleId),
+            article_history: arrayUnion(articleId),
+            // Add new category to user's category_history
+            category_history: {
+                ...user_category_count,
+                [category]: 1
+            }
+        });
+        return;
+    }
+    await updateDoc(userRef, {
+        chats: arrayUnion(articleId),
+        article_history: arrayUnion(articleId),
+        category_history: {
+            ...user_category_count,
+            [category]: user_category_count[category] + 1
+        }
+    });
 }
 
 // Add user to user collection with empty chat list

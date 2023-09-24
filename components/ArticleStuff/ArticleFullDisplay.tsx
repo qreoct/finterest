@@ -2,8 +2,9 @@ import { ArticleType } from "@/types/ArticleTypes"
 import { DocumentData } from "firebase/firestore"
 import NextLink from "next/link"
 import { useEffect, useState } from "react";
-import { getArticle } from "@/config/firestore";
+import { getArticle, updateUserHistory } from "@/config/firestore";
 import { convertToArticleType } from "@/types/ArticleTypes";
+import { useAuth } from '@/context/AuthContext';
 import Footer from "../common/Footer";
 import { fixNewsArticleContentWithAIAndSummarise } from "@/utils/newsfetcher";
 import OpenChatPageButton from "./OpenChatPageButton";
@@ -13,6 +14,8 @@ const summaryAndGibberishRemovalEnabled = false;
 
 
 export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
+
+    const { user } = useAuth();
 
     let [preCurrArticle, setArticles] = useState<ArticleType | null>({} as ArticleType);
 
@@ -71,6 +74,8 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
     if (!currArticle) {
         return <div className="flex justify-center font-bold text-4xl">Loading article...</div>;
     }
+
+    updateUserHistory(user.uid, currArticle.article_id);
 
     const pubDateString = currArticle?.pubDate === undefined ? "Unknown" : new Date(currArticle?.pubDate.valueOf()).toLocaleString();
     const categoryString = currArticle?.category === undefined ? "None" : currArticle?.category.map(x => {
