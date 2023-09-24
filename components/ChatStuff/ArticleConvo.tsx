@@ -15,6 +15,7 @@ import { useAuth } from '@/context/AuthContext';
 import { BiSend } from "react-icons/bi";
 import { createNewArticleChat } from '@/config/firestore';
 import BouncingDots from './BouncingDots';
+import { text } from 'stream/consumers';
 
 interface OpenAIMessage {
     role: string;
@@ -26,7 +27,21 @@ interface ChatStruct {
     messages: number[];
 }
 
-export default function ArticleConvo() {
+export default function ArticleConvo({ textFromArticle }: { textFromArticle: string }) {
+    useEffect(() => {
+        if (textFromArticle != '') {
+            handleArticleHighlighting(textFromArticle);
+        }
+    }, [textFromArticle])
+
+
+
+
+
+
+
+
+
 
     //Article id
     const { id } = useRouter().query;
@@ -258,6 +273,11 @@ export default function ArticleConvo() {
 
         //Clear text area
         setTextInTextArea('');
+    }
+
+    //Function that passes in text as prompt from article highlighting
+    const handleArticleHighlighting = async (articleText : string) => {
+        processUserMessage('Can you explain "' + articleText + '" in the context of this article?');
     }
 
     

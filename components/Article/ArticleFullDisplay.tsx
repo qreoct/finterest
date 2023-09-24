@@ -17,6 +17,9 @@ import { HighlightMenu, MenuButton } from "react-highlight-menu";
 
 export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
 
+    //To pass highlighted text information to article convo
+    const [highlightedText, setHighlightedText] = useState('');
+
     const { logOut } = useAuth();
     const router = useRouter();
 
@@ -229,40 +232,24 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                         )}
 
                         <div id='article-content' className='article-content-div'>
-                        <HighlightMenu
-                            target=".article-content-div"
-                            allowedPlacements={["top", "bottom"]}
-                            styles = {{ backgroundColor: "#5D5A88" }}
-                            menu={({ selectedText = ""}) => (
-                            <>
-                                <MenuButton
-                                title="Search Term"
-                                onClick={() => {
-                                    window.open(
-                                    `https://www.google.com/search?q=${encodeURIComponent(
-                                        selectedText
-                                    )}`
-                                    );
-                                }}
-                                icon="magnifying-glass"
-                                style = {{ backgroundColor: "#5D5A88" }}
-                                />
-                            </>
-                            )}
-                        />
-
-
-
-
-
-
-
-
-
-
-
-
-
+                            {/* Highlighting feature */}
+                            <HighlightMenu
+                                target=".article-content-div"
+                                allowedPlacements={["top", "bottom"]}
+                                styles = {{ backgroundColor: "#5D5A88" }}
+                                menu={({ selectedText = ""}) => (
+                                <>
+                                    <MenuButton
+                                    title="Search Term"
+                                    onClick={() => {
+                                       setHighlightedText(selectedText);
+                                    }}
+                                    icon="magnifying-glass"
+                                    style = {{ backgroundColor: "#5D5A88" }}
+                                    />
+                                </>
+                                )}
+                            />
 
 
                             {articleContent}
@@ -275,7 +262,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
 
                  {/* Right Content */}
                  <div className="w-1/4 bg-neutral-color-300 overflow-y-auto">
-                   <ArticleConvo />
+                   <ArticleConvo textFromArticle={highlightedText} />
                 </div>
             </div>
 
