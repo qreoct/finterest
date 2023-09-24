@@ -77,9 +77,6 @@ export async function getPersonalisedArticleIdList(userId, numArticles) {
         }
     });
 
-    console.warn("prob");
-    console.warn(category_prob);
-
     const user_category_count = (await getDoc(userRef)).data()["category_history"];
 
     if (!user_category_count) {
@@ -109,9 +106,6 @@ export async function getPersonalisedArticleIdList(userId, numArticles) {
         category_prior_prob[key] = value / user_article_count;
     }
 
-    console.warn("prior");
-    console.warn(category_prior_prob);
-
     // Calculate the posterior probability of the user clicking given each category
     // P(user clicks | category) = [P(category | user clicks) * P(user clicks)] / P(category)
     // P(user clicks) is the same for all categories, so we can ignore it
@@ -126,9 +120,6 @@ export async function getPersonalisedArticleIdList(userId, numArticles) {
     for (const [key, value] of Object.entries(category_posterior_prob)) {
         category_posterior_prob[key] = value / posterior_sum;
     }
-
-    console.warn("posterior"); 
-    console.warn(category_posterior_prob);
 
     // Iterate through all unread articles and add to articleIdList based on probability until numArticles is reached
     const articleIdList = [];
