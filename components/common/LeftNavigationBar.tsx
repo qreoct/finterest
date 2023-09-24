@@ -47,23 +47,25 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
                     {/* Options */}
                     <div className="flex-grow flex justify-center items-center">
                         <div className="flex-col justify-center items-start space-y-8">
-                            <div className="flex justify-center items-center">
+       
+                            <NextLink href={'/'} className="flex justify-center items-center">
                                 <BiNews className='text-3xl cursor-pointer text-neutral-headings-black m-2' />
-                                <h5 className={`font-dmsans text-neutral-headings-black text-xl ml-2 ${tabIndex.tabIndex === 0 ? 'font-bold' : ''}`}>News</h5>
-                            </div>
-
-                            <div className="flex justify-center items-center">
+                                <h5 className={`font-dmsans text-neutral-headings-black text-xl ml-2 ${tabIndex.tabIndex === 0 ? 'font-bold' : ''}`}>News</h5> 
+                            </NextLink>  
+                        
+                               
+                            <NextLink href={'chatwithai'} className="flex justify-center items-center">
                                 <BiMessage className='text-3xl cursor-pointer text-neutral-headings-black m-2' />
                                 <h5 className={`font-dmsans text-neutral-headings-black text-xl ml-2 ${tabIndex.tabIndex === 1 ? 'font-bold' : ''}`}>AI Chat</h5>
-                            </div>
+                            </NextLink>
 
-                            <div className="flex justify-center items-center">
+                            <NextLink href={'/'} className="flex justify-center items-center">
                                 <BiSmile className='text-3xl cursor-pointer text-neutral-headings-black m-2' />
                                 <h5 className={`font-dmsans text-neutral-headings-black text-xl ml-2 ${tabIndex.tabIndex === 2 ? 'font-bold' : ''}`}>Profile</h5>
-                            </div>
+                            </NextLink>
 
                            
-                            <div className="flex justify-center items-center">
+                            <NextLink href={''} className="flex justify-center items-center">
                                 <button onClick={
                                         () => { logOut();
                                         router.push('/');
@@ -73,7 +75,7 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
                                     <BiLogOutCircle className='text-3xl cursor-pointer m-2' />
                                     <span className="font-dmsans text-xl ml-2">Logout</span>
                                 </button>
-                            </div>
+                            </NextLink>
 
                             <div className="flex justify-center items-center">
                                 <button className="bg-neutral-headings-black hover:bg-neutral-text-gray text-white font-semibold py-2 px-8 rounded-full flex items-center mt-5">

@@ -199,7 +199,7 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
         // Make other prompts disappear
         setDoesUserHaveChatHistory(true);
         
-        // Add the prompt into the UI
+        // Add the message into the UI
         addMessagesToInterface('user', userMessage);
        
 
@@ -328,7 +328,7 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
                             <textarea id="chatboxTextInput"
                                 className={'bg-neutral-color-300 w-4/5 h-auto m-5 font-dmsans text-neutral-text-gray pl-5 pt-3 pr-5 pb-3 focus:outline-neutral-headings-black outline-none align-middle leading-6' }
                                 style={{ verticalAlign: 'middle', overflowY: 'auto', resize: 'none' }}
-                                placeholder="Type your message here..."
+                                placeholder="Ask your question here"
                                 value={textInTextArea}
                                 onChange={handleChangesInTextArea}
                                 onKeyDown={handleEnterSubmission}

@@ -16,10 +16,6 @@ import LeftNavigationBar  from '@/components/common/LeftNavigationBar'
 */
 const Dashboard = () => {
 
-
-    const { logOut } = useAuth();
-    const router = useRouter();
-
     // Instead of const articleIdList = getArticleIdList()
     // For react need to use this state management thing so that the the Promise will be awaited
     const [articleIdList, setArticleIdList] = useState<string[]>([]);

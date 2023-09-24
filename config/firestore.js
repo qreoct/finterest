@@ -226,11 +226,52 @@ export async function storeArticleChatMessage(articleChatId, message, givenRole)
 }
 
 //Fetch list of article chat history based on user chat id
-//Each article chat history is returned in the form of an article instance, i.e. a map with the relevant fields stated in Firestore
+//Each article chat history is returned in the form of an article message instance, i.e. a map with the relevant fields stated in Firestore
 export async function fetchArticleChatHistory(articleChatId) {
     //Retrieve article chat message history
     const messagesCollection = collection(db, "article_messages");
     const querySnapshot = await getDocs(query(messagesCollection, where("article_chat_id", "==", articleChatId)));
+    const matchingDocuments = [];
+    querySnapshot.forEach((doc) => {
+        matchingDocuments.push(doc.data());
+    });
+
+    //Sort messages in ascending order of datetime
+    matchingDocuments.sort((messageOne, messageTwo) => messageOne.datetime - messageTwo.datetime);
+
+    return matchingDocuments;
+
+}
+
+
+//Check if user has an existing general chat. If yes, return general chat id.
+//Else, creates a new general chat instance for the user
+export async function checkOtherwiseCreateGeneralChat(uid) {
+    const docRef = doc(db, "general_chats", uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        //General chat exists. Just return id.
+        return docSnap.id;
+    } else {
+        //General chat does not exist. Create it, and return the id of the new chat
+        const chatDocRef = await addDoc(collection(db, "general_chats"), {
+            uid: uid,
+            hasMessage: false
+        });
+        return chatDocRef.id
+    }
+
+}
+
+//Fetch list of general chat history based on general chat id
+//Each item in the list is returned in the form of a general message instance, i.e. a map with the relevant fields in GENERAL_MESSAGE
+//Fetch list of article chat history based on user chat id
+//Each article chat history is returned in the form of an article instance, i.e. a map with the relevant fields stated in Firestore
+export async function fetchGeneralChatHistory(generalChatId) {
+    //Retrieve general chat message history
+    const messagesCollection = collection(db, "general_messages");
+    const querySnapshot = await getDocs(query(messagesCollection, where("general_chat_id", "==", generalChatId)));
     const matchingDocuments = [];
     querySnapshot.forEach((doc) => {
         matchingDocuments.push(doc.data());
