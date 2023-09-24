@@ -1,76 +1,81 @@
 import { ArticleType } from "@/types/ArticleTypes"
-import { DocumentData } from "firebase/firestore"
-import NextLink from "next/link"
 import { useEffect, useState } from "react";
 import { getArticle } from "@/config/firestore";
 import { convertToArticleType } from "@/types/ArticleTypes";
 import Head from 'next/head';
-import { BiNews, BiMessage, BiSmile, BiLogOutCircle, BiStar, BiArrowBack, BiSolidMagicWand } from "react-icons/bi";
+import { BiArrowBack, BiSolidMagicWand } from "react-icons/bi";
 import ProtectedRoute from '@/components/ProtectedRoute';
-import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
 import ArticleConvo from "../ChatStuff/ArticleConvo";
-import { parse } from "path";
 import { HighlightMenu, MenuButton } from "react-highlight-menu";
 import LeftNavigationBar  from '@/components/common/LeftNavigationBar'
 
-
-
+//Represents a component that shows the full information of an article when the user clicks into it
 export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
 
-    //To pass highlighted text information to article convo
-    const [highlightedText, setHighlightedText] = useState('');
-
-    const { logOut } = useAuth();
+    /* Routing */
     const router = useRouter();
 
- 
 
+    /* State variables */
+
+    //To pass highlighted text information to article convo, which is a child component
+    let [highlightedText, setHighlightedText] = useState('');
+    
+    //JSX elements that contain the currently displayed content
     let [articleContent, setArticleContent] = useState<JSX.Element[] | undefined>([
         <div key={1}>Placeholder element</div>,
     ]);
     
-    // Get the relevant article from database
+    //Retrieved article from the database
     let [currArticle, setConvertedArticle] = useState<ArticleType | null>(null);
 
-
-    // Checks whether text is currently summarised
+    //Checks whether text is currently summarised
     let [isTextSummarised, setIsTextSummarised] = useState<Boolean>(false);
 
+    //JSX elements that contain the paragraphs of the article
     let [processedContent, setProcessedContent] = useState<JSX.Element[] | undefined>();
 
 
+    /* Effects */
+    
+    //Runs when component first gets mounted to fetch the article from the database
     useEffect(() => {
         const fetchArticle = async () => {
             const resolvedArticle = await getArticle(articleId);
             let convertedArticle = convertToArticleType(resolvedArticle);
-
             if (convertedArticle == null) {
                 console.log("Article not found");
                 return;
             }
 
-            setConvertedArticle(convertedArticle);
-            
+            setConvertedArticle(convertedArticle);   
         };
 
         fetchArticle();
     }, []);
 
 
+
+    //Runs when the article has been fetched from the database, to parse it into JSX paragraph elements
     useEffect(() => {
         parseArticleContent()
     }, [currArticle]);
 
-    //Loading indicator
+
+    /* Miscelleanous */
+
+    //Displays loading indicator if article has not been retrieved
     if (! currArticle) {
         return <div className="flex justify-center items-center font-dmsans text-neutral-headings-black font-bold text-4xl h-screen w-screen bg-neutral-color-300">
             <h3>Loading article...</h3>
         </div>;
     }
 
-    // Parse article content string and add some new lines after fullstops.
-    // This is to make the article content look nicer.
+
+    /* Helper Functions */
+
+    // Parse article content string and add some new lines after fullstops. This is to make the article content look nicer.
     function parseArticleContent() {
         const parsedContent = currArticle?.content?.split(new RegExp("[.?!] ")).map((sentence) => {
             const randomNum = Math.random();
@@ -90,17 +95,9 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
 
         setArticleContent(paragraphs);
         setProcessedContent(paragraphs);
-
     }
 
-
-
-
-
-
-
-
-    //Converts between summarised text and original article
+    //Converts between summarised text and original article on the UI
     function toggleBetweenOriginalAndSummary() {
         if (isTextSummarised) {
             //Display original text
@@ -113,12 +110,6 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
         setIsTextSummarised(! isTextSummarised);
 
     }
-
-
-
-
-
-
 
 
     return (
@@ -135,15 +126,12 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                 />
                 <link rel="icon" href="/favicon.ico" />
                 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Gupter:wght@400;500;700&display=swap');
-                
-
             </Head>
 
             <div className="flex">
                 {/* Navigation Bar */}
                 <LeftNavigationBar tabIndex={0} />
                                     
-
                 {/* Middle Content */}
                 <div className="w-1/2 bg-white overflow-y-auto p-4" style={{ marginLeft: '25%', height: '100vh' }}>
                     {/* Back navigation button */}
@@ -191,7 +179,6 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                                 </>
                                 )}
                             />
-
 
                             {articleContent}
                         </div>

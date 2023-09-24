@@ -5,9 +5,11 @@ import { TopArticleListItem } from "./TopArticleListItem";
 import { useEffect, useState } from "react";
 import { convertToArticleType } from "@/types/ArticleTypes";
 
+//A component representing the list of top article items shown in the dashboard
 export const TopArticleList = ({ articleIdList }: { articleIdList: string[] }) => {
     const [articles, setArticles] = useState<ArticleType[]>([]);
 
+    //Fetches the top articles from the database given a list of id values
     useEffect(() => {
         const fetchArticles = async () => {
             const articlePromises = articleIdList.map(async (articleId) => {

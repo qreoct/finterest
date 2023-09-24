@@ -1,8 +1,8 @@
 import { ArticleType } from "@/types/ArticleTypes"
 import { DocumentData } from "firebase/firestore"
 import NextLink from "next/link"
-import { convertTimestampToString } from "@/utils/convertTimeStampToString"
 
+//Represents an item in the top article list shown in the dashboard
 export const TopArticleListItem = ({ article }: { article: DocumentData }) => {
 
     let currArticle: ArticleType;

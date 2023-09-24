@@ -1,47 +1,25 @@
-import Head from 'next/head';
-import NextLink from 'next/link';
 import Script from 'next/script';
 import { generatePrompts } from '../../utils/openai';
 import finterestGenerateArticlePrompt from '../../utils/prompt.json';
-import ProtectedRoute from '@/components/ProtectedRoute';
-import chatboxStyles from '@/styles/chatbox.module.css';
-import Footer from '@/components/common/Footer';
 import { useRouter } from 'next/router';
-import { doesArticleChatExist, getArticle, getChat, storeArticleChatMessage, fetchArticleChatHistory } from '@/config/firestore';
+import { doesArticleChatExist, getArticle, storeArticleChatMessage, fetchArticleChatHistory } from '@/config/firestore';
 import { useEffect, useState, useRef } from 'react';
 import { ArticleType, convertToArticleType } from '@/types/ArticleTypes';
-import { addChat, addMessage } from '@/config/firestore';
 import { useAuth } from '@/context/AuthContext';
 import { BiSend } from "react-icons/bi";
 import { createNewArticleChat } from '@/config/firestore';
 import BouncingDots from './BouncingDots';
-import { text } from 'stream/consumers';
 
+//Helper interface
 interface OpenAIMessage {
     role: string;
     content: string;
 }
 
-interface ChatStruct {
-    article_id: string;
-    messages: number[];
-}
 
+//Represents the chatbot interface for an article conversation
 export default function ArticleConvo({ textFromArticle }: { textFromArticle: string }) {
-    useEffect(() => {
-        if (textFromArticle != '') {
-            handleArticleHighlighting(textFromArticle);
-        }
-    }, [textFromArticle])
-
-
-
-
-
-
-
-
-
+    /* Preparation variables */
 
     //Article id
     const { id } = useRouter().query;
@@ -50,11 +28,13 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
     const { user } = useAuth();
     const userId = user.uid;
 
+
+    /* State variables */
+
     //Does user have a prior chat
     const [doesUserHaveChatHistory, setDoesUserHaveChatHistory] = useState(false);
 
-    const router = useRouter();
-
+    //Current article being fetched
     const [currArticle, setCurrArticle] = useState<ArticleType | null>({} as ArticleType);
 
     //State to track message history
@@ -66,6 +46,16 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
 
     //State to track user input in text area
     const [textInTextArea, setTextInTextArea] = useState('');
+
+
+    /* Effects */
+
+    //Obtain highlighted text from article
+    useEffect(() => {
+        if (textFromArticle != '') {
+            handleArticleHighlighting(textFromArticle);
+        }
+    }, [textFromArticle])
 
 
     //Enable auto-scrolling to the bottom of the chat
@@ -86,6 +76,7 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
       }, [newMessageSubmitted]);
 
 
+    //Runs initially to fetch article from database
     useEffect(() => {
         const fetchArticle = async () => {
             const resolvedArticle = await getArticle(id);
@@ -112,6 +103,12 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
         setMessageJsxElements(messageJsxElements);
     }, [messages])
 
+    //Process chat after article loads
+    useEffect(() => {
+        // Check if there is an existing chat
+        checkUserChatHistory();
+     
+    }, [currArticle]);
 
 
 
@@ -123,6 +120,9 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
     }
 
 
+
+   
+    /* Helper functions */
 
     //Checks if user has a past chat history
     const checkUserChatHistory = async () => {
@@ -156,22 +156,10 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
 
     };
 
-    //Process chat after article loads
-    useEffect(() => {
-
-        // Check if there is an existing chat
-        checkUserChatHistory();
-     
-    }, [currArticle]);
-
-
-
     //Helper function to add messages into the UI
     const addMessagesToInterface = (role: string, message: string) => {
         setMessages((prevMessages) => [...prevMessages, {role: role, content: message}]);
     }
-
-
 
     //Process prompt selected by the user and feed into OpenAI
     const processPrompt = async (promptIndex: number) =>  {
@@ -188,7 +176,6 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
 
         
     }
-
 
     //Processes a message given by the user
     const processUserMessage = async (userMessage: string) => {
@@ -211,8 +198,8 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
 
 
         //Send message to OpenAI to get response
-        // const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages);
-        const response = "Sample response 1";
+        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages);
+        //const response = "Sample response 1";
 
         
      
@@ -315,10 +302,6 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
                             <div className='h-20' ref={ref} />
 
                     </div>
-
-        
-
-                    
                     
                     {/* Input area */}
                     <div className='flex flex-col h-1/3 lg:h-1/4 xl:h-1/5 items-center w-full'>

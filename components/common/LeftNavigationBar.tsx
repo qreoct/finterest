@@ -1,14 +1,7 @@
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useAuth } from '@/context/AuthContext';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
-import utilStyles from '@/styles/utils.module.css';
-import runGetNews from '@/lib/NewsController';
-import { ArticleList } from '@/components/Article/ArticleList';
-import { TopArticleList } from '@/components/Article/TopArticleList';
-import { getArticleIdList } from '@/config/firestore';
-import { useEffect, useState } from 'react';
 import { BiNews, BiMessage, BiSmile, BiLogOutCircle, BiStar } from "react-icons/bi";
 
 /*

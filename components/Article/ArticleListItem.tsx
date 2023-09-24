@@ -2,6 +2,7 @@ import { ArticleType } from "@/types/ArticleTypes"
 import { DocumentData } from "firebase/firestore"
 import NextLink from "next/link"
 
+//A component that shows an article list item in the dashboard
 export const ArticleListItem = ({ article }: { article: DocumentData }) => {
 
     let currArticle: ArticleType;
@@ -36,15 +37,5 @@ export const ArticleListItem = ({ article }: { article: DocumentData }) => {
             </NextLink>
         </div>
 
-
-
-
-        //     <NextLink href={`/articles/${currArticle.article_id}`} className="text-xl font-extra-bold text-blue-600">
-        //         {currArticle.title}
-        //     </NextLink>
-        //     <div className="font-light">
-        //         {currArticle.description}
-        //     </div>
-        // </div>
     );
 }

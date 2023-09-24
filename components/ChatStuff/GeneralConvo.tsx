@@ -1,22 +1,26 @@
-
 import Script from 'next/script';
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { BiSend } from "react-icons/bi";
 import { checkOtherwiseCreateGeneralChat, fetchGeneralChatHistory, storeGeneralChatMessage } from '@/config/firestore';
 import BouncingDots from './BouncingDots';
-import runGetNews from '@/lib/NewsController';
+import finterestGenerateArticlePrompt from '../../utils/prompt.json';
+import { generatePrompts } from '../../utils/openai';
 
 interface OpenAIMessage {
     role: string;
     content: string;
 }
-
+//The UI component for a chatbot with general AI
 export default function GeneralConvo() {
+    /* Preparation Variables */
   
     //User id
     const { user } = useAuth();
     const userId = user.uid;
+
+
+    /* States */
 
     //State to track message history
     const [messages, setMessages] = useState<OpenAIMessage[]>([]);
@@ -32,6 +36,8 @@ export default function GeneralConvo() {
     //State to track general chat id
     const [generalChatId, setGeneralChatId] = useState('');
 
+
+    /* Effects */
 
     //Enable auto-scrolling to the bottom of the chat
     //Adapted from https://reacthustle.com/blog/react-auto-scroll-to-bottom-tutorial and ChatGPT
@@ -59,18 +65,7 @@ export default function GeneralConvo() {
             : <p key={index} className="text-neutral-headings-black font-dmsans mt-4 self-start w-2/5 bg-neutral-color-300 rounded-2xl p-5">{ openAiMessage.content }</p>
         ));
         setMessageJsxElements(messageJsxElements);
-    }, [messages])
-
-
-    //Check if user has a general chat instance
-    const fetchGeneralChat = async () => {
-        //Check if user has a prior general chat instance. If not, we create the instance.
-        const generalChatIdNew = await checkOtherwiseCreateGeneralChat(userId)
-        if (generalChatIdNew != null) {
-            setGeneralChatId(generalChatIdNew);
-        }
-    };
-
+    }, [messages]);
 
     //Fetch messages once we obtain the general chat id
     useEffect(() => {
@@ -90,11 +85,21 @@ export default function GeneralConvo() {
     }, [generalChatId]);
 
 
+    /* Helper Functions */
+
+    //Check if user has a general chat instance
+    const fetchGeneralChat = async () => {
+        //Check if user has a prior general chat instance. If not, we create the instance.
+        const generalChatIdNew = await checkOtherwiseCreateGeneralChat(userId)
+        if (generalChatIdNew != null) {
+            setGeneralChatId(generalChatIdNew);
+        }
+    };
+
     //Helper function to add messages into the UI
     const addMessagesToInterface = (role: string, message: string) => {
         setMessages((prevMessages) => [...prevMessages, {role: role, content: message}]);
     }
-
 
     //Processes a message given by the user
     const processUserMessage = async (userMessage: string) => {
@@ -115,8 +120,8 @@ export default function GeneralConvo() {
 
 
         //Send message to OpenAI to get response
-        //const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt, previousMessages);
-        const response = "Sample response 1";
+        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt, previousMessages);
+        //const response = "Sample response 1";
 
         
 
