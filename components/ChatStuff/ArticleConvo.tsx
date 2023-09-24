@@ -124,14 +124,13 @@ export default function ArticleConvo() {
             await createNewArticleChat(userId, currArticle.article_id, newChatId);
         } else {
             //Chat exists already. Check if there is any message
-            if (chatInformation.message_history.length == 0) {
+            if (! chatInformation.hasMessage) {
                 //No message history. No action required.
             } else {
                 setDoesUserHaveChatHistory(true); 
 
                 //Fetch original messages
                 const messageHistory = await fetchArticleChatHistory(newChatId);
-                console.log(messageHistory);
                 const previousMessages = messageHistory.map((pastMessage, index) => (
                     { role: pastMessage.role, content: pastMessage.content }
                 ));
@@ -197,8 +196,8 @@ export default function ArticleConvo() {
 
 
         //Send message to OpenAI to get response
-        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages);
-        // const response = "Sample response 1";
+        // const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages);
+        const response = "Sample response 1";
 
         
      

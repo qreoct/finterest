@@ -196,7 +196,7 @@ export async function createNewArticleChat(uid, articleId, articleChatId) {
 }
 
 
-// Stores a new message being sent by the user into the article chat history
+// Stores a new message being sent by the user
 // Returns the updated list of messages
 export async function storeArticleChatMessage(articleChatId, message, givenRole) {
     //Retrieve article chat information
@@ -206,31 +206,22 @@ export async function storeArticleChatMessage(articleChatId, message, givenRole)
 
 
     //Add a new message instance into MESSAGES
-    const messagesDocRef = await addDoc(collection(db, "messages"), {
+    const messagesDocRef = await addDoc(collection(db, "article_messages"), {
         content: message,
         role: givenRole,
         datetime: serverTimestamp(),
-        uid: articleChatSnapData.uid
+        article_chat_id: articleChatId
     });
 
    
-    //Update message history of the article chat
-    const newMessageHistory = [...articleChatSnapData.message_history];
-    newMessageHistory.push(messagesDocRef.id);
-    await updateDoc(articleChatRef, {
-        message_history: newMessageHistory
-    });
-
-    //Convert list of message ids to actual message instances
-    //TODO: Need to limit to only 30 messages, as Firebase can only support up to 30
-    const messagesCollection = collection(db, "messages");
-    const querySnapshot = await getDocs(query(messagesCollection, where(documentId(), "in", newMessageHistory)));
-    const matchingDocuments = [];
-    querySnapshot.forEach((doc) => {
-        matchingDocuments.push(doc.data());
-    });
-
-    return matchingDocuments;
+    //Update article chat to indicate that there is at least a message in the history
+    if (! articleChatSnapData.hasMessage) {
+        await updateDoc(articleChatRef, {
+            hasMessage: true
+        });
+    }
+    
+    return fetchArticleChatHistory(articleChatId);
 
 }
 
@@ -238,12 +229,8 @@ export async function storeArticleChatMessage(articleChatId, message, givenRole)
 //Each article chat history is returned in the form of an article instance, i.e. a map with the relevant fields stated in Firestore
 export async function fetchArticleChatHistory(articleChatId) {
     //Retrieve article chat message history
-    const articleChatRef = doc(db, "article_chats", articleChatId);
-    const articleChatSnap = await getDoc(articleChatRef);
-    const articleChatSnapData = articleChatSnap.data();
-
-    const messagesCollection = collection(db, "messages");
-    const querySnapshot = await getDocs(query(messagesCollection, where(documentId(), "in", articleChatSnapData.message_history)));
+    const messagesCollection = collection(db, "article_messages");
+    const querySnapshot = await getDocs(query(messagesCollection, where("article_chat_id", "==", articleChatId)));
     const matchingDocuments = [];
     querySnapshot.forEach((doc) => {
         matchingDocuments.push(doc.data());
