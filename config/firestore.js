@@ -55,6 +55,31 @@ export async function getArticleIdList() {
 // Use naive bayes approach to recommend articles according to a probability distribution based on user's category history
 export async function getPersonalisedArticleIdList(userId, numArticles) {
     const userRef = doc(db, "users", userId);
+
+    // Filter out all articles that the user has read
+    const user_article_history = (await getDoc(userRef)).data()["article_history"];
+    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
+    const results = await getDocs(q);
+    const user_article_history_set = new Set(user_article_history);
+    let filtered_articles = results.docs.filter(currDoc => {
+        return !user_article_history_set.has(currDoc.id);
+    });
+
+    // Calculate the probability of each category in the whole database (from results)
+    const category_prob = {};
+    results.docs.forEach(currDoc => {
+        const currArticle = currDoc.data();
+        const currArticleCategory = currArticle.category[0];
+        if (!category_prob[currArticleCategory]) {
+            category_prob[currArticleCategory] = 1 / results.docs.length;
+        } else {
+            category_prob[currArticleCategory] += 1 / results.docs.length;
+        }
+    });
+
+    console.warn("prob");
+    console.warn(category_prob);
+
     const user_category_count = (await getDoc(userRef)).data()["category_history"];
 
     if (!user_category_count) {
@@ -70,7 +95,7 @@ export async function getPersonalisedArticleIdList(userId, numArticles) {
     }
 
     // Add 1 to all other categories not in user's category history
-    const all_categories = ["business", "world", "top", "technology"]; // Maybe change this to a global variable in newsfetcher
+    const all_categories = Object.keys(category_prob);
     all_categories.forEach(currCategory => {
         if (!user_category_count[currCategory]) {
             user_category_count[currCategory] = 1;
@@ -78,35 +103,54 @@ export async function getPersonalisedArticleIdList(userId, numArticles) {
         }
     });
 
-    // Calculate the probability of each category
-    const category_prob = {};
+    // Calculate the probability of each category given the user's category history
+    const category_prior_prob = {};
     for (const [key, value] of Object.entries(user_category_count)) {
-        category_prob[key] = value / user_article_count;
+        category_prior_prob[key] = value / user_article_count;
     }
 
-    // Filter out all articles that the user has read
-    const user_article_history = (await getDoc(userRef)).data()["article_history"];
-    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
-    const results = await getDocs(q);
-    console.warn(results.docs.length);
-    const user_article_history_set = new Set(user_article_history);
-    let filtered_articles = results.docs.filter(currDoc => {
-        return !user_article_history_set.has(currDoc.id);
-    });
+    console.warn("prior");
+    console.warn(category_prior_prob);
 
-    // Iterate through all articles and add to articleIdList based on probability until numArticles is reached
+    // Calculate the posterior probability of the user clicking given each category
+    // P(user clicks | category) = [P(category | user clicks) * P(user clicks)] / P(category)
+    // P(user clicks) is the same for all categories, so we can ignore it
+    const category_posterior_prob = {};
+    let posterior_sum = 0;
+    for (const [key, value] of Object.entries(category_prob)) {
+        category_posterior_prob[key] = category_prior_prob[key] / category_prob[key];
+        posterior_sum += category_posterior_prob[key];
+    }
+
+    // Rescale the posterior probabilities so that they sum to 1
+    for (const [key, value] of Object.entries(category_posterior_prob)) {
+        category_posterior_prob[key] = value / posterior_sum;
+    }
+
+    console.warn("posterior"); 
+    console.warn(category_posterior_prob);
+
+    // Iterate through all unread articles and add to articleIdList based on probability until numArticles is reached
     const articleIdList = [];
     filtered_articles.forEach(currDoc => {
         const currArticle = currDoc.data();
         const currArticleCategory = currArticle.category[0];
-        const currArticleProb = category_prob[currArticleCategory];
-        const randNum = Math.random();
-        if (randNum < currArticleProb) {
+        const currArticlePosteriorProb = category_posterior_prob[currArticleCategory];
+        const randNum = Math.random(); // Random number between 0 and 1
+        if (randNum <= currArticlePosteriorProb) {
             articleIdList.push(currArticle.article_id);
         }
     });
 
-    console.warn(articleIdList.length);
+    // If not enough articles, add articles that the user has not read and are not in the list
+    if (articleIdList.length < numArticles) {
+        filtered_articles.forEach(currDoc => {
+            const currArticle = currDoc.data();
+            if (!articleIdList.includes(currArticle.article_id)) {
+                articleIdList.push(currArticle.article_id);
+            }
+        });
+    }
 
     return articleIdList.slice(0, numArticles);
 }
