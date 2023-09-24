@@ -1,7 +1,6 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import Navbar from "./Navbar";
 
 
 //Protects pages from unauthenticated users

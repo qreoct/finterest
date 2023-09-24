@@ -54,7 +54,7 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
                             </NextLink>  
                         
                                
-                            <NextLink href={'chatwithai'} className="flex justify-center items-center">
+                            <NextLink href={'/chatwithai'} className="flex justify-center items-center">
                                 <BiMessage className='text-3xl cursor-pointer text-neutral-headings-black m-2' />
                                 <h5 className={`font-dmsans text-neutral-headings-black text-xl ml-2 ${tabIndex.tabIndex === 1 ? 'font-bold' : ''}`}>AI Chat</h5>
                             </NextLink>
