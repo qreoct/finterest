@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { BiSend } from "react-icons/bi";
 import { checkOtherwiseCreateGeneralChat, fetchGeneralChatHistory, storeGeneralChatMessage } from '@/config/firestore';
 import BouncingDots from './BouncingDots';
+import runGetNews from '@/lib/NewsController';
 
 interface OpenAIMessage {
     role: string;

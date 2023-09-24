@@ -27,15 +27,18 @@ export async function addNewArticle(
     const articleToStore = {
         article_id: articleId,
         title: article.title,
-        link: article.link,
+        source_id: article.source_id,
+        pubDate: article.pubDate,
         creator: article.creator,
+        category: article.category,
         image_url: article.image_url,
         description: article.description,
+        link: article.link,
         content: article.content,
-        pubDate: (new Date(article.pubDate)).getTime(),
-        source_id: article.source_id,
-        category: article.category,
-        dateStored: (new Date()).getTime(),
+        content_summary:  article.content_summary,
+        prompt_one: article.prompt_one,
+        prompt_two: article.prompt_two,
+
     }
 
     // Add article to database

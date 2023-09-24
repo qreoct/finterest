@@ -21,6 +21,7 @@ type LeftNavigationBarProps = {
 const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
 
 
+
     const { logOut } = useAuth();
     const router = useRouter();
 
