@@ -205,7 +205,7 @@ export async function storeArticleChatMessage(articleChatId, message, givenRole)
     const articleChatSnapData = articleChatSnap.data();
 
 
-    //Add a new message instance into MESSAGES
+    //Add a new message instance into article messages
     const messagesDocRef = await addDoc(collection(db, "article_messages"), {
         content: message,
         role: givenRole,
@@ -246,20 +246,34 @@ export async function fetchArticleChatHistory(articleChatId) {
 
 //Check if user has an existing general chat. If yes, return general chat id.
 //Else, creates a new general chat instance for the user
+let isCreatingGeneralChat = false;
 export async function checkOtherwiseCreateGeneralChat(uid) {
-    const docRef = doc(db, "general_chats", uid);
-    const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-        //General chat exists. Just return id.
-        return docSnap.id;
-    } else {
-        //General chat does not exist. Create it, and return the id of the new chat
-        const chatDocRef = await addDoc(collection(db, "general_chats"), {
-            uid: uid,
-            hasMessage: false
-        });
-        return chatDocRef.id
+    if (isCreatingGeneralChat) {
+        return null;
+    
+    }
+
+    try {
+        isCreatingGeneralChat = true;
+        const generalChatsCollection = collection(db, "general_chats")
+        const queryMade = query(generalChatsCollection, where("uid", "==", uid));
+        const querySnapshot = await getDocs(queryMade);
+       
+
+        if (! querySnapshot.empty) {
+            //General chat exists. Just return id.
+            return querySnapshot.docs[0].id;
+        } else {
+            //General chat does not exist. Create it, and return the id of the new chat
+            const chatDocRef = await addDoc(collection(db, "general_chats"), {
+                uid: uid,
+                hasMessage: false
+            });
+            return chatDocRef.id
+        }
+    } finally {
+        isCreatingGeneralChat = false;
     }
 
 }
@@ -281,5 +295,35 @@ export async function fetchGeneralChatHistory(generalChatId) {
     matchingDocuments.sort((messageOne, messageTwo) => messageOne.datetime - messageTwo.datetime);
 
     return matchingDocuments;
+
+}
+
+
+// Stores a new general chat message into the database, updating the associated
+// general chat instance
+export async function storeGeneralChatMessage(generalChatId, message, givenRole) {
+    //Retrieve general chat information
+    const generalChatRef = doc(db, "general_chats", generalChatId);
+    const generalChatSnap = await getDoc(generalChatRef);
+    const generalChatSnapData = generalChatSnap.data();
+
+
+    //Add a new message instance into general messages
+    const messagesDocRef = await addDoc(collection(db, "general_messages"), {
+        content: message,
+        role: givenRole,
+        datetime: serverTimestamp(),
+        general_chat_id: generalChatId
+    });
+
+   
+    //Update general chat to indicate that there is at least a message in the history
+    if (! generalChatSnapData.hasMessage) {
+        await updateDoc(generalChatRef, {
+            hasMessage: true
+        });
+    }
+    
+    return fetchGeneralChatHistory(generalChatId);
 
 }
