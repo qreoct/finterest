@@ -43,12 +43,72 @@ export async function addNewArticle(
 
 // Returns a list of article id strings
 export async function getArticleIdList() {
-    const q = query(collection(db, "articles"));
+    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
     const results = await getDocs(q);
 
     return results.docs.map(currDoc => {
         return currDoc.id;
     });
+}
+
+// Returns a personalised list of article id strings based on user's category history
+// Use naive bayes approach to recommend articles according to a probability distribution based on user's category history
+export async function getPersonalisedArticleIdList(userId, numArticles) {
+    const userRef = doc(db, "users", userId);
+    const user_category_count = (await getDoc(userRef)).data()["category_history"];
+
+    if (!user_category_count) {
+        // No category history, return all articles
+        return getArticleIdList();
+    }
+
+    let user_article_count = 0;
+    // Add 1 to each category count to avoid 0 probability
+    for (const [key, value] of Object.entries(user_category_count)) {
+        user_category_count[key] = value + 1;
+        user_article_count += value + 1;
+    }
+
+    // Add 1 to all other categories not in user's category history
+    const all_categories = ["business", "world", "top", "technology"]; // Maybe change this to a global variable in newsfetcher
+    all_categories.forEach(currCategory => {
+        if (!user_category_count[currCategory]) {
+            user_category_count[currCategory] = 1;
+            user_article_count += 1;
+        }
+    });
+
+    // Calculate the probability of each category
+    const category_prob = {};
+    for (const [key, value] of Object.entries(user_category_count)) {
+        category_prob[key] = value / user_article_count;
+    }
+
+    // Filter out all articles that the user has read
+    const user_article_history = (await getDoc(userRef)).data()["article_history"];
+    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
+    const results = await getDocs(q);
+    console.warn(results.docs.length);
+    const user_article_history_set = new Set(user_article_history);
+    let filtered_articles = results.docs.filter(currDoc => {
+        return !user_article_history_set.has(currDoc.id);
+    });
+
+    // Iterate through all articles and add to articleIdList based on probability until numArticles is reached
+    const articleIdList = [];
+    filtered_articles.forEach(currDoc => {
+        const currArticle = currDoc.data();
+        const currArticleCategory = currArticle.category[0];
+        const currArticleProb = category_prob[currArticleCategory];
+        const randNum = Math.random();
+        if (randNum < currArticleProb) {
+            articleIdList.push(currArticle.article_id);
+        }
+    });
+
+    console.warn(articleIdList.length);
+
+    return articleIdList.slice(0, numArticles);
 }
 
 // Get an article object

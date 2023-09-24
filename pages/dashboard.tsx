@@ -6,14 +6,14 @@ import NextLink from 'next/link';
 import utilStyles from '@/styles/utils.module.css';
 import runGetNews from '@/utils/newsfetcher';
 import { ArticleList } from '@/components/ArticleStuff/ArticleList';
-import { getArticleIdList } from '@/config/firestore';
+import { getPersonalisedArticleIdList } from '@/config/firestore';
 import { useEffect, useState } from 'react';
 
 /*
     The page where the user first enters after he logs in
 */
 const Dashboard = () => {
-    const { logOut } = useAuth();
+    const { logOut, user } = useAuth();
     const router = useRouter();
 
     // Instead of const articleIdList = getArticleIdList()
@@ -22,16 +22,15 @@ const Dashboard = () => {
 
     useEffect(() => {
         const fetchArticleIdList = async () => {
-            const idList = await getArticleIdList();
+            const NUMBER_OF_ARTICLES_TO_RECOMMEND = 10
+            const idList = await getPersonalisedArticleIdList(user.uid, NUMBER_OF_ARTICLES_TO_RECOMMEND);
             setArticleIdList(idList);
         };
 
         fetchArticleIdList();
     }, []);
 
-    // TODO: Replace with article selection algo in the future
-    // Randomly sort articleIdList and assign first 10 results to a new variable
-    const articleIdListRandom = articleIdList.sort(() => Math.random() - Math.random()).slice(0, 10);
+    const articleIdListPersonalised = articleIdList;
 
     return (
         <ProtectedRoute>
@@ -65,7 +64,7 @@ const Dashboard = () => {
 
                     <section>
                         <h4 className="p-10 text-2xl">Recommended Articles</h4>
-                        <ArticleList articleIdList={articleIdListRandom} />
+                        <ArticleList articleIdList={articleIdListPersonalised} />
                     </section>
 
                     <section className={utilStyles.headingMd}>
