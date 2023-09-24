@@ -11,6 +11,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
 import ArticleConvo from "../ChatStuff/ArticleConvo";
 import { parse } from "path";
+import { HighlightMenu, MenuButton } from "react-highlight-menu";
 
 
 
@@ -227,7 +228,43 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
              
                         )}
 
-                        <div id='article-content'>
+                        <div id='article-content' className='article-content-div'>
+                        <HighlightMenu
+                            target=".article-content-div"
+                            allowedPlacements={["top", "bottom"]}
+                            styles = {{ backgroundColor: "#5D5A88" }}
+                            menu={({ selectedText = ""}) => (
+                            <>
+                                <MenuButton
+                                title="Search Term"
+                                onClick={() => {
+                                    window.open(
+                                    `https://www.google.com/search?q=${encodeURIComponent(
+                                        selectedText
+                                    )}`
+                                    );
+                                }}
+                                icon="magnifying-glass"
+                                style = {{ backgroundColor: "#5D5A88" }}
+                                />
+                            </>
+                            )}
+                        />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             {articleContent}
                         </div>
 
@@ -242,49 +279,6 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                 </div>
             </div>
 
-
-            
         </ProtectedRoute>
-
-
-
-
     );
-
-    // return (
-    //     <div className="min-h-screen flex flex-col justify-between">
-    //         <div className="p-6">
-    //             <h1 className="text-3xl font-bold mb-4">{currArticle.title}</h1>
-    //             <section className="flex-col">
-    //                 <section className="mb-4">
-    //                     <p className="text-gray-600 mb-2">Description: {currArticle.description ?? "None"}</p>
-    //                 </section>
-
-    //                 <section className="mb-4 flex justify-center gap-96">
-    //                     <p className="text-gray-600 mb-2">Creator: {creatorString}</p>
-    //                     <p className="text-gray-600 mb-2">Published On: {pubDateString}</p>
-    //                 </section>
-
-    //                 <section className="mb-4 flex justify-center gap-96">
-    //                     <p className="text-gray-600 mb-2">Source ID: {currArticle.source_id}</p>
-    //                     <p className="text-gray-600 mb-2">Categories: {categoryString}</p>
-    //                 </section>
-
-    //             </section>
-    //             <img src={currArticle.image_url} alt={currArticle.title} className="max-w-full mb-4" />
-
-    //             <p className="text-gray-600 p-3 font-bold text-xl">Summary Level: {summaryLevel}</p>
-
-    //             <OpenChatPageButton article={currArticle} />
-
-    //             <section className="mb-4 border-4 border-black m-10 p-10 text-lg">
-
-    //                 {paragraphs}
-    //             </section>
-
-    //             <OpenChatPageButton article={currArticle} />
-    //         </div>
-    //         <Footer children={false} showBackButton={true} />
-    //     </div>
-    // );
 }
