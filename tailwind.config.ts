@@ -24,6 +24,7 @@ const config: Config = {
 
       },
       textColor: {
+
         'neutral-headings-black': '#5D5A88',
         'neutral-text-gray': '#9795B5',
       },
@@ -38,6 +39,23 @@ const config: Config = {
       },
       colors: {
         'neutral-headings-black': '#5D5A88',
+        'finance-firecracker-100': '#FFBABA',
+        'finance-firecracker-500': '#DD4126',
+        'finance-firecracker-900': '#A41703',
+        'prosperity-pine-100': '#DEE387',
+        'prosperity-pine-500': '#50A020',
+        'prosperity-pine-900': '#24564B',
+        'growth-gold-100': '#FFEBA4',
+        'growth-gold-500': '#F0AE00',
+        'growth-gold-900': '#BD7100',
+        'steady-sapphire-100': '#D8EDFF',
+        'steady-sapphire-500': '#829BDE',
+        'steady-sapphire-900': '#5666B7',
+        'rising-rose-100': '#FFD6EE',
+        'rising-rose-500': '#EB9CC2',
+        'rising-rose-900': '#AF3B65',
+        'finterest-solid': '#0F172A',
+        'finterest-white': '#FFFFFF'
       }
 
     },
