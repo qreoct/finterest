@@ -1,7 +1,6 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import Navbar from "./Navbar";
 
 
 //Protects pages from unauthenticated users
@@ -23,9 +22,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     //If user is authenticated, no need for reroute so we just render the children
     //components that are encapsulated within this protected route
     return (
-        <Navbar>
             <div>{user ? children : null}</div>
-        </Navbar>
     )
 }
 

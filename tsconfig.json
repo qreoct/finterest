@@ -28,7 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     "utils/openai.js",
-    "config/firestore.js",
+    "utils/firestore.js",
     "utils/newsfetcher.js",
   ],
   "exclude": [
