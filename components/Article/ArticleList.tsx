@@ -23,7 +23,7 @@ export const ArticleList = ({ articleIdList }: { articleIdList: string[] }) => {
     }, [articleIdList]);
 
     return (
-        <div className="space-y-5">
+        <div className="space-y-12 mb-4">
             {articles.map((article: ArticleType) => {
                 return <ArticleListItem key={article.article_id} article={article} />;
             })}

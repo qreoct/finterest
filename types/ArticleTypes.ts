@@ -1,16 +1,18 @@
 
 export interface ArticleType {
     article_id: string;
-    title: string;
-    content: string;
-    link: string;
-    image_url: string;
-    creator: string
-    description: string;
-    pubDate: Number;
-    source_id: string;
     category: [string];
-    dateStored: Number;
+    content: string;
+    creator: string;
+    description: string;
+    image_url: string;
+    link: string;
+    pubDate: string;
+    source_id: string;
+    title: string;
+    content_summary: string
+    prompt_one: string
+    prompt_two: string
 }
 
 export function convertToArticleType(articleData: any): ArticleType | null {

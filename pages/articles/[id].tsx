@@ -7,7 +7,7 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { getArticle } from '@/config/firestore';
 import { useEffect, useState } from 'react';
-import { ArticleFullDisplay } from '@/components/ArticleStuff/ArticleFullDisplay';
+import { ArticleFullDisplay } from '@/components/Article/ArticleFullDisplay';
 
 export default function ArticleMain() {
 

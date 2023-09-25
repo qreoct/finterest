@@ -15,6 +15,8 @@ import {
     addDoc,
     arrayUnion,
     FieldValue,
+    serverTimestamp,
+    documentId,
 } from "firebase/firestore";
 
 import { db } from "@/config/firebase.config.js";
@@ -26,15 +28,18 @@ export async function addNewArticle(
     const articleToStore = {
         article_id: articleId,
         title: article.title,
-        link: article.link,
+        source_id: article.source_id,
+        pubDate: article.pubDate,
         creator: article.creator,
+        category: article.category,
         image_url: article.image_url,
         description: article.description,
+        link: article.link,
         content: article.content,
-        pubDate: (new Date(article.pubDate)).getTime(),
-        source_id: article.source_id,
-        category: article.category,
-        dateStored: (new Date()).getTime(),
+        content_summary:  article.content_summary,
+        prompt_one: article.prompt_one,
+        prompt_two: article.prompt_two,
+
     }
 
     // Add article to database
@@ -302,4 +307,160 @@ export async function getMessageList(chatId) {
     } else {
         return [];
     }
+}
+
+
+
+// Checks if an article conversation exists in the database, given a user and an article
+export async function doesArticleChatExist(articleChatId) {
+    const docRef = doc(db, "article_chats", articleChatId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        return docSnap.data();
+    } else {
+        return null;
+    }
+}
+
+// Creates a new article chat
+export async function createNewArticleChat(uid, articleId, articleChatId) {
+    await setDoc(doc(db, "article_chats", articleChatId), {
+        uid: uid,
+        article_id: articleId,
+        message_history: []
+    });
+}
+
+
+// Stores a new message being sent by the user
+// Returns the updated list of messages
+export async function storeArticleChatMessage(articleChatId, message, givenRole) {
+    //Retrieve article chat information
+    const articleChatRef = doc(db, "article_chats", articleChatId);
+    const articleChatSnap = await getDoc(articleChatRef);
+    const articleChatSnapData = articleChatSnap.data();
+
+
+    //Add a new message instance into article messages
+    const messagesDocRef = await addDoc(collection(db, "article_messages"), {
+        content: message,
+        role: givenRole,
+        datetime: serverTimestamp(),
+        article_chat_id: articleChatId
+    });
+
+   
+    //Update article chat to indicate that there is at least a message in the history
+    if (! articleChatSnapData.hasMessage) {
+        await updateDoc(articleChatRef, {
+            hasMessage: true
+        });
+    }
+    
+    return fetchArticleChatHistory(articleChatId);
+
+}
+
+//Fetch list of article chat history based on user chat id
+//Each article chat history is returned in the form of an article message instance, i.e. a map with the relevant fields stated in Firestore
+export async function fetchArticleChatHistory(articleChatId) {
+    //Retrieve article chat message history
+    const messagesCollection = collection(db, "article_messages");
+    const querySnapshot = await getDocs(query(messagesCollection, where("article_chat_id", "==", articleChatId)));
+    const matchingDocuments = [];
+    querySnapshot.forEach((doc) => {
+        matchingDocuments.push(doc.data());
+    });
+
+    //Sort messages in ascending order of datetime
+    matchingDocuments.sort((messageOne, messageTwo) => messageOne.datetime - messageTwo.datetime);
+
+    return matchingDocuments;
+
+}
+
+
+//Check if user has an existing general chat. If yes, return general chat id.
+//Else, creates a new general chat instance for the user
+let isCreatingGeneralChat = false;
+export async function checkOtherwiseCreateGeneralChat(uid) {
+
+    if (isCreatingGeneralChat) {
+        return null;
+    
+    }
+
+    try {
+        isCreatingGeneralChat = true;
+        const generalChatsCollection = collection(db, "general_chats")
+        const queryMade = query(generalChatsCollection, where("uid", "==", uid));
+        const querySnapshot = await getDocs(queryMade);
+       
+
+        if (! querySnapshot.empty) {
+            //General chat exists. Just return id.
+            return querySnapshot.docs[0].id;
+        } else {
+            //General chat does not exist. Create it, and return the id of the new chat
+            const chatDocRef = await addDoc(collection(db, "general_chats"), {
+                uid: uid,
+                hasMessage: false
+            });
+            return chatDocRef.id
+        }
+    } finally {
+        isCreatingGeneralChat = false;
+    }
+
+}
+
+//Fetch list of general chat history based on general chat id
+//Each item in the list is returned in the form of a general message instance, i.e. a map with the relevant fields in GENERAL_MESSAGE
+//Fetch list of article chat history based on user chat id
+//Each article chat history is returned in the form of an article instance, i.e. a map with the relevant fields stated in Firestore
+export async function fetchGeneralChatHistory(generalChatId) {
+    //Retrieve general chat message history
+    const messagesCollection = collection(db, "general_messages");
+    const querySnapshot = await getDocs(query(messagesCollection, where("general_chat_id", "==", generalChatId)));
+    const matchingDocuments = [];
+    querySnapshot.forEach((doc) => {
+        matchingDocuments.push(doc.data());
+    });
+
+    //Sort messages in ascending order of datetime
+    matchingDocuments.sort((messageOne, messageTwo) => messageOne.datetime - messageTwo.datetime);
+
+    return matchingDocuments;
+
+}
+
+
+// Stores a new general chat message into the database, updating the associated
+// general chat instance
+export async function storeGeneralChatMessage(generalChatId, message, givenRole) {
+    //Retrieve general chat information
+    const generalChatRef = doc(db, "general_chats", generalChatId);
+    const generalChatSnap = await getDoc(generalChatRef);
+    const generalChatSnapData = generalChatSnap.data();
+
+
+    //Add a new message instance into general messages
+    const messagesDocRef = await addDoc(collection(db, "general_messages"), {
+        content: message,
+        role: givenRole,
+        datetime: serverTimestamp(),
+        general_chat_id: generalChatId
+    });
+
+   
+    //Update general chat to indicate that there is at least a message in the history
+    if (! generalChatSnapData.hasMessage) {
+        await updateDoc(generalChatRef, {
+            hasMessage: true
+        });
+    }
+    
+    return fetchGeneralChatHistory(generalChatId);
+
 }

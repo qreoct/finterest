@@ -4,10 +4,12 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import utilStyles from '@/styles/utils.module.css';
-import runGetNews from '@/utils/newsfetcher';
-import { ArticleList } from '@/components/ArticleStuff/ArticleList';
+import runGetNews from '@/lib/NewsController';
+import { ArticleList } from '@/components/Article/ArticleList';
+import { TopArticleList } from '@/components/Article/TopArticleList';
 import { getPersonalisedArticleIdList } from '@/config/firestore';
 import { useEffect, useState } from 'react';
+import LeftNavigationBar  from '@/components/common/LeftNavigationBar'
 
 /*
     The page where the user first enters after he logs in
@@ -31,7 +33,9 @@ const Dashboard = () => {
     }, []);
 
     const articleIdListPersonalised = articleIdList;
+    const topArticleIdListRandom = ['FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', ];
 
+    
     return (
         <ProtectedRoute>
             <Head>
@@ -45,61 +49,32 @@ const Dashboard = () => {
                     content="width=device-width, initial-scale=1"
                 />
                 <link rel="icon" href="/favicon.ico" />
+                @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Gupter:wght@400;500;700&display=swap');
+                
+
             </Head>
 
-            <div className="container mx-auto flex min-h-screen items-center py-2">
-                <div className="mx-auto mt-24 overflow-y-hidden px-12 py-24 text-gray-600">
+            <div className="flex">
+                {/* Navigation Bar */}
+                <LeftNavigationBar tabIndex={0} />
+                                    
 
-                    <section>
-                        <h1 className={utilStyles.h1heading}>Finterest</h1>
+                {/* Right Content */}
+                <div className="width-3/4 bg-white overflow-y-auto" style={{ marginLeft: '25%', height: '100vh' }}>
+                    {/* Top articles */}
+                    <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Today's Top Stories</h2>
+                    <TopArticleList articleIdList={topArticleIdListRandom} />
 
-                        <h2 className="mb-4 text-2xl font-semibold">
-                            You are logged in!
-                        </h2>
-
-                        <p>
-                            Test Page for Page Routing: <NextLink className={utilStyles.linkNormal} href="/articles/article-main">article</NextLink>
-                        </p>
-                    </section>
-
-                    <section>
-                        <h4 className="p-10 text-2xl">Recommended Articles</h4>
-                        <ArticleList articleIdList={articleIdListPersonalised} />
-                    </section>
-
-                    <section className={utilStyles.headingMd}>
-                        <h4 className={utilStyles.h4heading}>Finterest Chats</h4>
-                        <p>
-                            <NextLink className={utilStyles.linkNormal} href="/chats/first-chat">Start a new chat!</NextLink>
-                        </p>
-                        <br />
-                    </section>
-
-
-                    <div>
-                        <button
-                            onClick={() => {
-                                runGetNews();
-                            }}
-                            className="rounded-md bg-green-600 px-10 py-3 text-white shadow-sm hover:bg-green-700"
-                        >
-                            (Test Button) Run News Fetcher
-                        </button>
-                    </div>
-
-                    {/* <div className="mb-8 flex items-center justify-center">
-                        <button
-                            onClick={() => {
-                                logOut();
-                                router.push('/');
-                            }}
-                            className="rounded-md bg-green-600 px-10 py-3 text-white shadow-sm hover:bg-green-700"
-                        >
-                            Logout
-                        </button>
-                    </div> */}
+                    {/* Other articles, as recommended by the algorithm */}
+                    <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Stories For You</h2>
+                    <ArticleList articleIdList={articleIdListPersonalised} />
                 </div>
+
+    
             </div>
+
+
+            
         </ProtectedRoute>
     );
 };
