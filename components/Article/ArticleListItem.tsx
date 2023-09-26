@@ -22,11 +22,11 @@ export const ArticleListItem = ({ article }: { article: DocumentData }) => {
             <NextLink href={`/articles/${currArticle.article_id}`} className="text-xl font-extra-bold text-blue-600">
                 <div className="flex">
                     {/* Left Column (75% width) */}
-                    <div className="w-3/4 space-y-2">
-                        <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>{currArticle.source_id}</h5>
-                        <h3 className='font-dmsans font-bold text-neutral-headings-black text-2xl'>{currArticle.title}</h3>
-                        <p className='font-dmsans text-neutral-text-gray text-base'>{currArticle.description}</p>
-                        <h5 className='font-dmsans text-neutral-text-gray text-sm'>{currArticle.pubDate}</h5>
+                    <div className="w-3/4 max-w-prose space-y-2">
+                        <h5 className='font-dmsans text-stone-700 text-sm uppercase tracking-widest'>{currArticle.source_id}</h5>
+                        <h3 className='font-dmsans font-bold text-stone-900 text-2xl'>{currArticle.title}</h3>
+                        <p className='font-dmsans text-stone-700 text-base'>{currArticle.description}</p>
+                        <h5 className='font-dmsans text-stone-700 text-sm tracking-widest'>{currArticle.pubDate}</h5>
                     </div>
 
                     {/* Right Column (25% width) */}
