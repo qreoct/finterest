@@ -22,7 +22,7 @@ export const PageWrapper = ({ children }: { children: any }) => {
 					}}
 					exit={{ opacity: 0, y: 0 }}
 					transition={{ delay: 0.3 }}
-					className="min-h-screen flex justify-center items-center bg-stone-100"
+					className="min-h-screen flex justify-center items-center bg-white"
 				>
 					<div className='w-full h-full'>
 						{children}
