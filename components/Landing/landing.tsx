@@ -178,9 +178,23 @@ const Landing = () => {
 
                 </div>
                 {/* Footer */}
-                <div className='bg-orange-200 flex justify-between'>
-                    <div className='h-48'>Footer Left</div>
-                    <div>Footer Right</div>
+                <div className='bg-white flex justify-between'>
+                    <div className='flex flex-col items-start'>
+                        <div className="flex justify-center items-center ml-8 mt-4">
+                            {/* Image */}
+                            <img src="/assets/finterest-logo-black.png" alt="Finterest Logo" className="w-5 h-8 m-4" />
+                            {/* Title */}
+                            <h2 className="font-gupter text-finterest-solid font-bold text-2xl ml-2">Finterest</h2>
+                        </div>
+                        <div className='ml-8 mb-8 mt-2'>
+                            <h6 className="font-dmsans text-stone-500">An AI-enabled financial news application</h6>
+                        </div>
+                    </div>
+                    <div className='self-end flex justify-end pr-36 overflow-hidden'>
+                    <img src="/assets/green-arrow.png" alt="Green Arrow" className="w-1/3 h-1/3" style={{ marginBottom: '-2%' }}/>
+
+
+                    </div>
                 </div>
 
             </div>
