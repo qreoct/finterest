@@ -37,6 +37,20 @@ const config: Config = {
         '1/8': '12.5%',
         '1/16': '6.25%',
       },
+      translate: {
+        '1/8': '12.5%'
+      },
+      margin: {
+        'minus-2': '-2%',
+        'minus-15': '-15%',
+        'minus-20': '-20%',
+        'minus-30': '-30%',
+        'minus-40': '-40%',
+        'minus-50': '-50%',
+        'minus-60': '-60%',
+        'minus-80': '-80%',
+        'minus-120': '-120%'
+      },
       colors: {
         'neutral-headings-black': '#5D5A88',
         'finance-firecracker-100': '#FFBABA',
@@ -56,7 +70,10 @@ const config: Config = {
         'rising-rose-900': '#AF3B65',
         'finterest-solid': '#0F172A',
         'finterest-white': '#FFFFFF'
-      }
+      },
+      screens: {
+        xs: "480px",
+      },
 
     },
   },
