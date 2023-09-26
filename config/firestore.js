@@ -1,7 +1,6 @@
 
 import {
     collection,
-    onSnapshot,
     query,
     getDocs,
     doc,
@@ -9,14 +8,10 @@ import {
     updateDoc,
     setDoc,
     orderBy,
-    Timestamp,
-    runTransaction,
     where,
     addDoc,
     arrayUnion,
-    FieldValue,
     serverTimestamp,
-    documentId,
 } from "firebase/firestore";
 
 import { db } from "@/config/firebase.config.js";
