@@ -1,17 +1,13 @@
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { BsList, BsXLg } from 'react-icons/bs';
 import chatboxStyles from '@/styles/chatbox.module.css';
-import React, { useEffect } from 'react'
+import React from 'react'
 import { PageWrapper } from '../PageWrapper';
-import LandingBody from './landing-body';
 
 
 /*
-A login form component that consists of the login options available
-for the user.
-Adapted from https://github.com/realstoman/nextjs-firebase-auth/tree/main
+Landing page
 */
 
 const Landing = () => {
@@ -119,7 +115,7 @@ const Landing = () => {
                         </button>
                     </div>
 
-                    <div className='flex flex-col self-center flex-grow justify-center space-y-8'>
+                    <div className='flex flex-col self-center flex-grow justify-center items-center space-y-16'>
                         {/* Home */}
                         <NextLink href={'/'} className="flex justify-center items-center">
                                 <h5 className="font-dmsans text-growth-gold-900 text-xl ml-2 font-bold">Home</h5> 
@@ -129,13 +125,13 @@ const Landing = () => {
                                 <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Pricing</h5> 
                         </NextLink> 
                         {/* Login */}
-                        <button className="bg-finterest-white hover:bg-finterest-solid text-xl text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-finterest-solid font-dmsans py-3 px-6 rounded-full duration-300">
-                            <span>Login</span>
-                        </button>
+                        <NextLink href={'/login'}>
+                            <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Login</h5> 
+                        </NextLink>
                         {/* Get Started */}
-                        <button className="bg-finterest-solid hover:bg-slate-200 text-xl text-finterest-white hover:text-finterest-solid font-bold font-dmsans py-3 px-6 rounded-full duration-300">
-                            <span>Get started</span>
-                        </button> 
+                        <NextLink href={'/register'}>
+                            <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Register</h5> 
+                        </NextLink>
 
                     </div>
                 </div>
@@ -159,9 +155,11 @@ const Landing = () => {
                                 <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-lg ml-2">Pricing</h5> 
                         </NextLink> 
                         {/* Login */}
-                        <button className="bg-finterest-white hover:bg-finterest-solid text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-finterest-solid font-dmsans py-3 px-6 rounded-full flex items-center duration-300">
-                            <span>Login</span>
-                        </button>
+                        <NextLink href='/login'>
+                            <button className="bg-finterest-white hover:bg-finterest-solid text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-finterest-solid font-dmsans py-3 px-6 rounded-full flex items-center duration-300">
+                                <span>Login</span>
+                            </button>
+                        </NextLink>
                         {/* Get Started */}
                         <button className="bg-finterest-solid hover:bg-slate-200 text-finterest-white hover:text-finterest-solid font-bold font-dmsans py-3 px-6 rounded-full flex items-center duration-300">
                             <span>Get started</span>

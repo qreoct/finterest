@@ -9,9 +9,7 @@ import Head from 'next/head';
 
 
 /*
-A login form component that consists of the login options available
-for the user.
-Adapted from https://github.com/realstoman/nextjs-firebase-auth/tree/main
+Pricing page
 */
 
 const Pricing = () => {
@@ -111,7 +109,7 @@ const Pricing = () => {
     return (
         <>
             <Head>
-                <title>Finterest</title>
+                <title>Finterest - Pricing </title>
                 <meta
                     name="description"
                     content="Turning Wisdom Into Wealth"
@@ -134,23 +132,23 @@ const Pricing = () => {
                                 </button>
                             </div>
 
-                            <div className='flex flex-col self-center flex-grow justify-center space-y-8'>
+                            <div className='flex flex-col self-center flex-grow justify-center items-center space-y-16'>
                                 {/* Home */}
                                 <NextLink href={'/'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2 ">Home</h5> 
+                                        <h5 className="font-dmsans text-growth-gold-900 text-xl ml-2 font-bold">Home</h5> 
                                 </NextLink> 
                                 {/* Pricing */}
-                                <NextLink href={'/'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans text-growth-gold-900 text-xl ml-2 font-bold">Pricing</h5> 
+                                <NextLink href={'/pricing'} className="flex justify-center items-center">
+                                        <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Pricing</h5> 
                                 </NextLink> 
                                 {/* Login */}
-                                <button className="bg-finterest-white hover:bg-finterest-solid text-xl text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-finterest-solid font-dmsans py-3 px-6 rounded-full duration-300">
-                                    <span>Login</span>
-                                </button>
+                                <NextLink href={'/login'}>
+                                    <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Login</h5> 
+                                </NextLink>
                                 {/* Get Started */}
-                                <button className="bg-finterest-solid hover:bg-slate-200 text-xl text-finterest-white hover:text-finterest-solid font-bold font-dmsans py-3 px-6 rounded-full duration-300">
-                                    <span>Get started</span>
-                                </button> 
+                                <NextLink href={'/register'}>
+                                    <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Register</h5> 
+                                </NextLink>
 
                             </div>
                         </div>
@@ -170,13 +168,16 @@ const Pricing = () => {
                                         <h5 className="font-dmsans  text-finterest-solid hover:text-growth-gold-900 text-lg ml-2">Home</h5> 
                                 </NextLink> 
                                 {/* Pricing */}
-                                <NextLink href={'/'} className="flex justify-center items-center">
+                                <NextLink href={'/pricing'} className="flex justify-center items-center">
                                         <h5 className="font-dmsans text-growth-gold-900 text-lg ml-2 font-bold">Pricing</h5> 
                                 </NextLink> 
                                 {/* Login */}
-                                <button className="bg-finterest-white hover:bg-finterest-solid text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-finterest-solid font-dmsans py-3 px-6 rounded-full flex items-center duration-300">
-                                    <span>Login</span>
-                                </button>
+                                <NextLink href='/login'>
+                                    <button className="bg-finterest-white hover:bg-finterest-solid text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-finterest-solid font-dmsans py-3 px-6 rounded-full flex items-center duration-300">
+                                        <span>Login</span>
+                                    </button>
+                                </NextLink>
+
                                 {/* Get Started */}
                                 <button className="bg-finterest-solid hover:bg-slate-200 text-finterest-white hover:text-finterest-solid font-bold font-dmsans py-3 px-6 rounded-full flex items-center duration-300">
                                     <span>Get started</span>
@@ -248,7 +249,7 @@ const Pricing = () => {
                                 </div>
 
                                 {/* Finterest Plus */}
-                                <div className='bg-gradient-to-br from-custom-gold-top to-custom-gold-bottom flex flex-col rounded-lg w-full sm:w-auto md:w-3/5 p-4 sm:p-8 md:p-12'>
+                                <div className='bg-gradient-to-br from-custom-gold-top to-custom-gold-bottom flex flex-col rounded-lg w-full sm:w-auto md:w-3/5 p-4 sm:p-8 md:p-12 xl:p-16'>
                                     <div className='flex justify-between items-center mx-5 my-3'>
                                             <img src="/assets/finterest-plus.png" alt="Logo for Finterest PLUS Plan" className="w-20 h-20 m-4" />
                                             <div className='bg-white rounded-full w-1/2 lg:w-1/3 xl:w-1/5 text-dmsans text-center py-4 px-5 text-black font-bold'>$399/mo</div>
@@ -316,7 +317,7 @@ const Pricing = () => {
                                     </div>
                                     <NextLink href={'/'} className='mx-5 my-3'>
                                         <button className="bg-white hover:bg-growth-gold-900 text-finterest-black hover:text-finterest-white text-bold font-dmsans font-bold py-4 px-6 rounded-full flex items-center duration-300 mt-5">
-                                            <span>Get started</span>
+                                            <span>Purchase</span>
                                         </button>
                                     </NextLink>
                                 </div>
