@@ -7,7 +7,7 @@ import utilStyles from '@/styles/utils.module.css';
 import runGetNews from '@/lib/NewsController';
 import { ArticleList } from '@/components/Article/ArticleList';
 import { TopArticleList } from '@/components/Article/TopArticleList';
-import { getPersonalisedArticleIdList } from '@/config/firestore';
+import { getPersonalisedArticleIdList, getTrendingArticleIdList } from '@/config/firestore';
 import { useEffect, useState } from 'react';
 import LeftNavigationBar  from '@/components/common/LeftNavigationBar'
 
@@ -20,22 +20,34 @@ const Dashboard = () => {
 
     // Instead of const articleIdList = getArticleIdList()
     // For react need to use this state management thing so that the the Promise will be awaited
-    const [articleIdList, setArticleIdList] = useState<string[]>([]);
+    // For personalised articles
+    const [personalisedArticleIdList, setPersonalisedArticleIdList] = useState<string[]>([]);
 
     useEffect(() => {
-        const fetchArticleIdList = async () => {
-            const NUMBER_OF_ARTICLES_TO_RECOMMEND = 10
-            const idList = await getPersonalisedArticleIdList(user.uid, NUMBER_OF_ARTICLES_TO_RECOMMEND);
-            setArticleIdList(idList);
+        const fetchPersonalisedArticleIdList = async () => {
+            const NUMBER_OF_PERSONALISED_ARTICLES_TO_RECOMMEND = 10
+            const idList = await getPersonalisedArticleIdList(user.uid, NUMBER_OF_PERSONALISED_ARTICLES_TO_RECOMMEND);
+            setPersonalisedArticleIdList(idList);
         };
 
-        fetchArticleIdList();
+        fetchPersonalisedArticleIdList();
     }, []);
 
-    const articleIdListPersonalised = articleIdList;
-    const topArticleIdListRandom = ['FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', ];
+    // For trending articles
+    const [trendingArticleIdList, setTrendingArticleIdList] = useState<string[]>([]);
+    useEffect(() => {
+        const fetchTrendingArticleIdList = async () => {
+            const NUMBER_OF_TRENDING_ARTICLES_TO_RECOMMEND = 6
+            const idList = await getTrendingArticleIdList(user.uid, NUMBER_OF_TRENDING_ARTICLES_TO_RECOMMEND);
+            setTrendingArticleIdList(idList);
+        };
 
-    
+        fetchTrendingArticleIdList();
+    }, []);
+
+    const articleIdListPersonalised = personalisedArticleIdList; 
+    const topArticleIdListRandom = trendingArticleIdList;
+
     return (
         <ProtectedRoute>
             <Head>

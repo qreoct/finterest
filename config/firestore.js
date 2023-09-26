@@ -151,6 +151,68 @@ export async function getPersonalisedArticleIdList(userId, numArticles) {
     return articleIdList.slice(0, numArticles);
 }
 
+// Get trending article list based on the number of times each article has been read by all users
+export async function getTrendingArticleIdList(userId, numArticles) {
+    const userRef = doc(db, "users", userId);
+
+    // Filter out all articles that the user has read
+    const user_article_history = (await getDoc(userRef)).data()["article_history"];
+    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
+    const results = await getDocs(q);
+    const user_article_history_set = new Set(user_article_history);
+    let filtered_articles = results.docs.filter(currDoc => {
+        return !user_article_history_set.has(currDoc.id);
+    });
+
+    // Count the number of times each article has been read by all users
+    const article_count = {};
+    const all_users = await getDocs(collection(db, "users"));
+    all_users.docs.forEach(currUser => {
+        // Skip if the user is the current user or if the user has no article history
+        if (currUser.id === userId || !currUser.data()["article_history"]) {
+            return;
+        }
+
+        const currUserArticleHistory = currUser.data()["article_history"];
+        currUserArticleHistory.forEach(currArticle => {
+            // Skip if the user has read the article
+            if (user_article_history_set.has(currArticle)) {
+                return;
+            }
+            if (!article_count[currArticle]) {
+                article_count[currArticle] = 1; 
+            } else {
+                article_count[currArticle] += 1;
+            }
+        });
+    });
+
+    // Sort the articles by the number of times they have been read (descending)
+    // If two articles have the same number of reads, sort by dateStored
+    filtered_articles.sort((a, b) => {
+        let a_count = article_count[a.data().article_id];
+        let b_count = article_count[b.data().article_id];
+        // Articles not in article_count are given a count of 0
+        if (!a_count) {
+            a_count = 0;
+        }
+        if (!b_count) {
+            b_count = 0;
+        } 
+
+        if (a_count === b_count) {
+            return b.data().dateStored - a.data().dateStored;
+        } else {
+            return b_count - a_count;
+        }
+    });
+
+    // Return the top numArticles articles
+    return filtered_articles.slice(0, numArticles).map(currDoc => {
+        return currDoc.id;
+    });
+}
+
 // Get an article object
 export async function getArticle(articleId) {
     const docRef = doc(db, "articles", articleId);
