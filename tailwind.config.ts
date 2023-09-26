@@ -69,7 +69,9 @@ const config: Config = {
         'rising-rose-500': '#EB9CC2',
         'rising-rose-900': '#AF3B65',
         'finterest-solid': '#0F172A',
-        'finterest-white': '#FFFFFF'
+        'finterest-white': '#FFFFFF',
+        'custom-gold-top': '#CD9500',
+        'custom-gold-bottom': '#FBD85C'
       },
       screens: {
         xs: "480px",

@@ -1,11 +1,3 @@
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { BsList, BsXLg } from 'react-icons/bs';
-import chatboxStyles from '@/styles/chatbox.module.css';
-import React, { useEffect } from 'react'
-import { PageWrapper } from '../PageWrapper';
-import LandingBody from './landing-body';
 
 
 /*
@@ -14,172 +6,9 @@ for the user.
 Adapted from https://github.com/realstoman/nextjs-firebase-auth/tree/main
 */
 
-const Landing = () => {
-    const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
+const LandingBody = () => {
 
-
-    //Function that handles toggling of hamburger menu
-    const handleHamburgerMenuOnClick = async () => {
-        if (isHamburgerMenuOpen) {
-            //Menu is open. Need to close it.
-            const hamburgerMenuItem = document.getElementById('hamburger-menu-element');
-            const headerItem = document.getElementById('header-element');
-            const bodyItem = document.getElementById('body-element');
-            const footerItem = document.getElementById('footer-element');
-
-
-            //Make menu disappear
-            hamburgerMenuItem?.classList.remove(chatboxStyles['animateshow']);
-            hamburgerMenuItem?.classList.remove('flex');
-            hamburgerMenuItem?.classList.add('hidden');
-
-
-            //Make menu appear
-            headerItem?.classList.add('flex');
-            headerItem?.classList.remove('hidden');
-            headerItem?.classList.add(chatboxStyles['hiddenelement']);
-            bodyItem?.classList.add('flex');
-            bodyItem?.classList.remove('hidden');
-            bodyItem?.classList.add(chatboxStyles['hiddenelement']);
-            footerItem?.classList.add('flex');
-            footerItem?.classList.remove('hidden');
-            footerItem?.classList.add(chatboxStyles['hiddenelement']);
-            
-            setTimeout(function () {
-                headerItem?.classList.add(chatboxStyles['animateshow']);
-                headerItem?.classList.remove(chatboxStyles['hiddenelement']);
-                bodyItem?.classList.add(chatboxStyles['animateshow']);
-                bodyItem?.classList.remove(chatboxStyles['hiddenelement']);
-                footerItem?.classList.add(chatboxStyles['animateshow']);
-                footerItem?.classList.remove(chatboxStyles['hiddenelement']);
-            }, 40);
-
-
-
-
-                //Update state and cause page to re-render
-                setIsHamburgerMenuOpen(false);
-            
-        
-
-    
-
-
-        } else {
-            //Menu is closed. Need to open it.
-            const hamburgerMenuItem = document.getElementById('hamburger-menu-element');
-            const headerItem = document.getElementById('header-element');
-            const bodyItem = document.getElementById('body-element');
-            const footerItem = document.getElementById('footer-element');
-
-
-            //Make menu appear
-            hamburgerMenuItem?.classList.add('flex');
-            hamburgerMenuItem?.classList.remove('hidden');
-            hamburgerMenuItem?.classList.add(chatboxStyles['hiddenelement']);
-            headerItem?.classList.remove(chatboxStyles['animateshow']);
-            bodyItem?.classList.remove(chatboxStyles['animateshow']);
-            footerItem?.classList.remove(chatboxStyles['animateshow']);
-
-
-
-            setTimeout(function () {
-                hamburgerMenuItem?.classList.add(chatboxStyles['animateshow']);
-                hamburgerMenuItem?.classList.remove(chatboxStyles['hiddenelement']);
-
-            }, 40);
-
-            //Make the rest of the content disappear
-            headerItem?.classList.remove('flex');
-            headerItem?.classList.add('hidden');
-
-            bodyItem?.classList.remove('flex');
-            bodyItem?.classList.add('hidden');
-
-            footerItem?.classList.remove('flex');
-            footerItem?.classList.add('hidden');
-
-            //Update state and cause page to re-render
-            setIsHamburgerMenuOpen(true);
-
-        }
-        
-    }
-
-
-    
-    return (
-        <PageWrapper>
-            <div className="flex flex-col justify-between h-screen w-full overflow-y-auto">
-                {/* Hamburger menu */}
-                <div id="hamburger-menu-element" className="bg-stone-100 h-screen flex-col py-10 px-10 duration-300 hidden">
-                    <div className='self-end'>
-                        <button onClick={ handleHamburgerMenuOnClick }>
-                            <BsXLg className='text-4xl cursor-pointer text-finterest-solid' />
-                        </button>
-                    </div>
-
-                    <div className='flex flex-col self-center flex-grow justify-center space-y-8'>
-                        {/* Home */}
-                        <NextLink href={'/'} className="flex justify-center items-center">
-                                <h5 className="font-dmsans text-growth-gold-900 text-xl ml-2 font-bold">Home</h5> 
-                        </NextLink> 
-                        {/* Pricing */}
-                        <NextLink href={'/pricing'} className="flex justify-center items-center">
-                                <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Pricing</h5> 
-                        </NextLink> 
-                        {/* Login */}
-                        <button className="bg-finterest-white hover:bg-finterest-solid text-xl text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-finterest-solid font-dmsans py-3 px-6 rounded-full duration-300">
-                            <span>Login</span>
-                        </button>
-                        {/* Get Started */}
-                        <button className="bg-finterest-solid hover:bg-slate-200 text-xl text-finterest-white hover:text-finterest-solid font-bold font-dmsans py-3 px-6 rounded-full duration-300">
-                            <span>Get started</span>
-                        </button> 
-
-                    </div>
-                </div>
-
-
-                 {/* Header */}
-                 <div id="header-element" className='bg-white flex flex-row sm:flex-col justify-between sm:justify-center items-center py-4 px-6 sm:p-2 sm:pb-8'>
-                    <div className="flex justify-center items-center">
-                        {/* Image */}
-                        <img src="/assets/finterest-logo-black.png" alt="Finterest Logo" className="w-8 h-12 xl:w-10 xl:h-16 m-4" />
-                        {/* Title */}
-                        <h2 className="font-gupter text-finterest-solid font-bold text-3xl sm:text-4xl xl:text-5xl ml-2">Finterest</h2>
-                    </div>
-                    <div className='hidden sm:flex sm:justify-center sm:space-x-12'>
-                        {/* Home */}
-                        <NextLink href={'/'} className="flex justify-center items-center">
-                                <h5 className="font-dmsans text-growth-gold-900 text-lg ml-2 font-bold">Home</h5> 
-                        </NextLink> 
-                        {/* Pricing */}
-                        <NextLink href={'/pricing'} className="flex justify-center items-center">
-                                <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-lg ml-2">Pricing</h5> 
-                        </NextLink> 
-                        {/* Login */}
-                        <button className="bg-finterest-white hover:bg-finterest-solid text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-finterest-solid font-dmsans py-3 px-6 rounded-full flex items-center duration-300">
-                            <span>Login</span>
-                        </button>
-                        {/* Get Started */}
-                        <button className="bg-finterest-solid hover:bg-slate-200 text-finterest-white hover:text-finterest-solid font-bold font-dmsans py-3 px-6 rounded-full flex items-center duration-300">
-                            <span>Get started</span>
-                        </button> 
-
-                    </div>
-                    <div className="sm:hidden">
-                        <button onClick={handleHamburgerMenuOnClick}>
-                            <BsList className='text-4xl cursor-pointer text-finterest-solid' />
-                        </button>
-                    </div>
-                    
-
-
-                </div>
-
-                {/* Body */}
-                <div id="body-element" className='bg-white flex-grow grid grid-rows-8 sm:grid-rows-5 lg:grid-rows-4 grid-cols-1 sm:grid-cols-6 gap-4 m-8 ml-4 mr-4 sm:ml-16 sm:mr-16 lg:ml-32 lg:mr-32'>
+    return (<div id="body-element" className='bg-white flex-grow grid grid-rows-8 sm:grid-rows-5 lg:grid-rows-4 grid-cols-1 sm:grid-cols-6 gap-4 m-8 ml-4 mr-4 sm:ml-16 sm:mr-16 lg:ml-32 lg:mr-32'>
                     {/* Element 1 */}
                     <div className="row-start-1 col-span-1 sm:col-span-6 lg:col-span-4 bg-growth-gold-100 rounded-md sm:flex sm:justify-center sm:items-center px-5 md:px-10 xl:px-16">
                         <div className='sm:w-3/5 sm:flex sm:flex-col space-y-5 py-12'>
@@ -292,17 +121,13 @@ const Landing = () => {
                                 </span></h2>
                         </div>
                         <div className='flex flex-col sm:flex-row justify-center items-center mt-8 space-y-5 sm:space-y-0 sm:space-x-5'>
-                            <NextLink href={'/'}>
-                                <button className="bg-growth-gold-900 hover:bg-growth-gold-500 text-finterest-white font-bold font-dmsans py-4 px-6 rounded-full flex items-center duration-300">
-                                    <span>Get started</span>
-                                </button>
-                            </NextLink>
+                            <button className="bg-growth-gold-900 hover:bg-growth-gold-500 text-finterest-white font-bold font-dmsans py-4 px-6 rounded-full flex items-center duration-300">
+                                <span>Get started</span>
+                            </button>
                             <div className="relative">
-                                <NextLink href={'/pricing'}>
                                 <button className="bg-finterest-white hover:bg-growth-gold-900 text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-growth-gold-900 font-dmsans py-4 px-6 rounded-full flex items-center duration-300">
                                     <span>Pricing (psst, it's free!)</span>
                                 </button>
-                                </NextLink>
                                 {/* Image positioned relative to the second button */}
                                 <img src="/assets/gold-exclamation.png" alt="Exclamation mark" className="absolute top-0 right-0 transform translate-x-12 md:translate-x-16 translate-y-[-50%] w-12 h-16 mt-4" />
                             </div>
@@ -311,38 +136,8 @@ const Landing = () => {
                         <img src="/assets/gold-arrow.png" alt="Exclamation mark" className="h-3/4 w-4/5" />      
                        </div> */}
                     </div>
-
-                
-
                 </div>
-
-                {/* Footer */}
-                <div id="footer-element"className='bg-white flex justify-between'>
-                    <div className='flex w-2/3 flex-col items-start'>
-                        <div className="flex justify-center items-center ml-8 mt-4">
-                            {/* Image */}
-                            <img src="/assets/finterest-logo-black.png" alt="Finterest Logo" className="w-5 h-8 m-4" />
-                            {/* Title */}
-                            <h2 className="font-gupter text-finterest-solid font-bold text-2xl ml-2">Finterest</h2>
-                        </div>
-                        <div className='ml-8 mb-8 mt-2'>
-                            <h6 className="font-dmsans text-stone-500">An AI-enabled financial news application</h6>
-                        </div>
-                    </div>
-                    <div className='self-end flex w-1/3 flex-grow-1 justify-end pr-16 sm:pr-36 overflow-hidden'>
-                    <img src="/assets/green-arrow.png" alt="Green Arrow" className="lg:w-1/3 lg:h-1/3 sm:mb-minus-2"/>
-                    </div>
-                </div>
-
-               
-                
-
-
-
-              
-            </div>
-        </PageWrapper>
     );
 };
 
-export default Landing;
+export default LandingBody;
