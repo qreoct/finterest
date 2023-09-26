@@ -329,7 +329,7 @@ const Pricing = () => {
 
                         </div>
 
-                        {/* Footer */}
+                       {/* Footer */}
                         <div id="footer-element"className='bg-white flex justify-between'>
                             <div className='flex w-2/3 flex-col items-start'>
                                 <div className="flex justify-center items-center ml-8 mt-4">
@@ -339,13 +339,14 @@ const Pricing = () => {
                                     <h2 className="font-gupter text-finterest-solid font-bold text-2xl ml-2">Finterest</h2>
                                 </div>
                                 <div className='ml-8 mb-8 mt-2'>
-                                    <h6 className="font-dmsans text-stone-500">An AI-enabled financial news application</h6>
+                                    <h6 className="text-sm sm:text-base font-dmsans text-stone-500">An AI-enabled financial news app</h6>
                                 </div>
                             </div>
                             <div className='self-end flex w-1/3 flex-grow-1 justify-end pr-16 sm:pr-36 overflow-hidden'>
                             <img src="/assets/green-arrow.png" alt="Green Arrow" className="lg:w-1/3 lg:h-1/3 sm:mb-minus-2"/>
                             </div>
                         </div>
+
 
                     
                         

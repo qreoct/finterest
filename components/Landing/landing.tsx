@@ -324,7 +324,7 @@ const Landing = () => {
                             <h2 className="font-gupter text-finterest-solid font-bold text-2xl ml-2">Finterest</h2>
                         </div>
                         <div className='ml-8 mb-8 mt-2'>
-                            <h6 className="font-dmsans text-stone-500">An AI-enabled financial news application</h6>
+                            <h6 className="text-sm sm:text-base font-dmsans text-stone-500">An AI-enabled financial news app</h6>
                         </div>
                     </div>
                     <div className='self-end flex w-1/3 flex-grow-1 justify-end pr-16 sm:pr-36 overflow-hidden'>
