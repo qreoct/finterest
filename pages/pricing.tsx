@@ -257,7 +257,7 @@ const Pricing = () => {
 
                                     <h4 className='font-dmsans text-4xl font-bold mx-5 my-3 text-white'>Finterest PLUS</h4>
                                     <p className='font-dmsans text-white mx-5'>Want more AI insights into the world? This plan would be the right for you.</p>
-                                    <div className='flex flex-col md:flex-row justify-start items-center mx-5 my-3 mt-5 space-y-4 md:space-y-auto md:space-x-16'>
+                                    <div className='flex flex-col md:flex-row justify-start items-start md:items-center mx-5 my-3 mt-5 space-y-4 md:space-y-auto md:space-x-16'>
                                         <ul className='font-dmsans text-white font-bold space-y-3 md:w-1/2'>
                                             <li className="mb-2 pl-6 relative ">
                                                 <div className="absolute left-0 w-6 h-6">
