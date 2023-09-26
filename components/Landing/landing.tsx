@@ -77,40 +77,101 @@ const Landing = () => {
 
 
                     {/* Element 3 */}
-                    <div className="row-start-2 col-span-2 bg-stone-200 rounded-md flex flex-col justify-content items-center p-8">
-                        <img src="/assets/complex-ideas.png" alt="Search up a term and get Finterest AI to explain it" className="w-3/4 h-3/4"/>
-                        <h2 className='font-gupter font-bold text-3xl text-finterest-solid text-center mt-5'>Decode Complex Ideas</h2>
-                        <h5 className='text-finterest-solid text-center mt-5'>See a financial term you don't understand? AI-powered definitions to the rescue! </h5>
+                    <div className="row-start-2 col-span-2 bg-stone-200 rounded-md flex flex-col justify-center items-center px-4 py-4">
+                        <img src="/assets/complex-ideas.png" alt="Search up a term and get Finterest AI to explain it" className="w-3/4 h-1/2"/>
+                        <h2 className='font-gupter font-bold text-3xl text-finterest-solid text-center mt-5'>Decode complex ideas</h2>
+                        <h5 className='text-finterest-solid text-center mt-5'>See a financial term you don't understand? AI-powered definitions to the rescue!</h5>
                         
                     </div>
 
                     {/* Element 4 */}
-                    <div className="row-start-2 col-span-2 bg-prosperity-pine-100 rounded-md">
-                        {/* Your content that starts in row 1 and spans the first 2 columns */}
+                    <div className="row-start-2 col-span-2 bg-prosperity-pine-100 rounded-md flex flex-col justify-center items-center px-4 py-4">
+                        <img src="/assets/scroll-for-gold.png" alt="Scroll through insightful financial news articles" className="w-3/4 h-1/2"/>
+                        <h2 className='font-gupter font-bold text-3xl text-finterest-solid text-center mt-5'>Scroll for gold</h2>
+                        <h5 className='text-finterest-solid text-center mt-5'>Say goodbye to mindless scrolling on social media. Finterest delivers instant summaries of key insights.</h5>
+                        
                     </div>
 
                     {/* Element 5 */}
-                    <div className="row-start-2 col-span-2 bg-rising-rose-100 rounded-md">
-                        {/* Your content that starts in row 1 and spans the first 2 columns */}
+                    <div className="row-start-2 col-span-2 bg-rising-rose-100 rounded-md flex flex-col justify-content items-center px-4 py-4">
+                        <img src="/assets/chat.png" alt="Chat about articles with Finterest AI" className="w-3/4 h-1/2"/>
+                        <h2 className='font-gupter font-bold text-3xl text-finterest-solid text-center mt-5'>Chat about articles</h2>
+                        <h5 className='text-finterest-solid text-center mt-5'>Go into deeper details for each article with AI-powered insights at your fingertips.</h5>
+                        
                     </div>
-
 
                     {/* Element 6 */}
-                    <div className="row-start-3 col-span-3 bg-finance-firecracker-100 rounded-md">
-                        {/* Your content that starts in row 1 and spans the first 2 columns */}
+                    <div className="row-start-3 col-span-3 bg-finance-firecracker-100 rounded-md flex flex-col justify-center items-center px-4 py-5">
+                        <img src="/assets/personalised-list.png" alt="Finterest recommends articles according to your preferences" className="w-1/2 h-1/2"/>
+                        <h2 className='font-gupter font-bold text-3xl text-finterest-solid text-center mt-5'>Articles the way 
+                        <span style={{
+                            backgroundImage: `url('/assets/red-underline.png')`,
+                            backgroundRepeat: 'no-repeat',
+                            backgroundSize: 'cover',
+                            height: '10px',
+                            display: 'inline-block',
+                            position: 'relative',
+                            paddingLeft: '4px', 
+                            paddingRight: '4px',
+                            lineHeight: '0',
+                          
+                        }}>
+                        you   
+                        </span>want.</h2>
+                        <h5 className='text-finterest-solid text-center mt-5'>Finterest remembers your preferences and goals, and provides articles and explanations that suit you.</h5>
+                        
                     </div>
 
-
                     {/* Element 7 */}
-                    <div className="row-start-3 col-span-3 bg-steady-sapphire-100 rounded-md">
-                        {/* Your content that starts in row 1 and spans the first 2 columns */}
+                    <div className="row-start-3 col-span-3 bg-steady-sapphire-100 rounded-md flex flex-col justify-center items-center px-4 py-5">
+                        <img src="/assets/trusted-by.png" alt="Finterest is trusted by many people around the world" className="w-3/4 h-1/2"/>
+                            <h2 className='font-gupter font-bold text-3xl text-finterest-solid text-center mt-5'>Trusted by 
+                            <span className="relative"> many.
+                                <span
+                                className="absolute top-0 left-0 transform translate-x-1/6  w-24 h-12"
+                                style={{ backgroundImage: `url('/assets/purple-circle.png')`, backgroundSize: 'cover' }}
+                                ></span>
+                            </span>
+                            </h2>
+                            <h5 className='text-finterest-solid text-center mt-5'>Trusted by many.</h5>
+                    
                     </div>
 
 
 
                     {/* Element 8 */}
-                    <div className="row-start-4 col-span-6 bg-growth-gold-100 rounded-md">
-                        {/* Your content that starts in row 1 and spans the first 2 columns */}
+                    <div className="row-start-4 col-span-6 bg-growth-gold-100 rounded-md flex flex-col justify-center items-center">
+                       <div>
+                            <h2 className="font-gupter text-finterest-solid font-bold text-4xl ml-2 text-center">Create your account today and get<br/>started
+                                <span> </span>
+                                <span className='' style={{
+                                backgroundImage: `url('/assets/gold-underline.png')`,
+                                backgroundRepeat: 'no-repeat',
+                                backgroundSize: 'cover',
+                                height: '30px',
+                                display: 'inline-block',
+                                position: 'relative',
+                                paddingLeft: '0px', 
+                                paddingRight: '4px',
+                                lineHeight: '0',
+                                }}> for free!  
+                                </span></h2>
+                        </div>
+                        <div className='flex justify-center items-center mt-8 space-x-5'>
+                            <button className="bg-growth-gold-900 hover:bg-growth-gold-500 text-finterest-white font-bold font-dmsans py-4 px-6 rounded-full flex items-center duration-300">
+                                <span>Get started</span>
+                            </button>
+                            <div className="relative">
+                                <button className="bg-finterest-white hover:bg-growth-gold-900 text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-growth-gold-900 font-dmsans py-4 px-6 rounded-full flex items-center duration-300">
+                                    <span>Pricing (psst, it's free!)</span>
+                                </button>
+                                {/* Image positioned relative to the second button */}
+                                <img src="/assets/gold-exclamation.png" alt="Exclamation mark" className="absolute top-0 right-0 transform translate-x-16 translate-y-[-50%] w-12 h-16 mt-4" />
+                            </div>
+                       </div>
+                       {/* <div className='self-start ml-64'>
+                        <img src="/assets/gold-arrow.png" alt="Exclamation mark" className="h-3/4 w-4/5" />      
+                       </div> */}
                     </div>
 
                 
@@ -118,9 +179,8 @@ const Landing = () => {
                 </div>
                 {/* Footer */}
                 <div className='bg-orange-200 flex justify-between'>
-                    <div className=''>Footer Left</div>
+                    <div className='h-48'>Footer Left</div>
                     <div>Footer Right</div>
-                    
                 </div>
 
             </div>
