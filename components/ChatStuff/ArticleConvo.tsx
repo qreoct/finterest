@@ -10,6 +10,7 @@ import { BiSend } from "react-icons/bi";
 import { createNewArticleChat } from '@/config/firestore';
 import BouncingDots from './BouncingDots';
 import { time } from 'console';
+import ChatMessageTextArea from './ChatMessageTextArea';
 
 //Helper interface
 interface OpenAIMessage {
@@ -277,7 +278,7 @@ export default function ArticleConvo({ textFromArticle, chatError }: IArticleCon
         <div>
             <div>
                 <div className="flex flex-col justify-between h-screen overflow-y-hidden">
-                    <div id="chatboxMessageList" className="ml-4 mr-4 mt-4 overflow-y-auto pr-0 h-3/4 lg:h-4/5">
+                    <div id="chatboxMessageList" className="ml-4 mr-4 mt-4 overflow-y-auto pr-0">
                         <p className='font-dmsans text-neutral-headings-black font-bold text-center'>Hey there! Finterest AI can help you understand this article better.</p>
                         {/* Provide prompts */}
                         {
@@ -306,26 +307,12 @@ export default function ArticleConvo({ textFromArticle, chatError }: IArticleCon
                     </div>
 
                     {/* Input area */}
-                    <div className='flex flex-col h-1/4 lg:h-1/5 items-center w-full'>
-                        {isAwaitingMessageFromOpenAi ? <BouncingDots /> : <></>}
-                        <div className='flex items-center flex-1 w-full leading-8'>
-                            {/* Input field  */}
-                            <textarea id="chatboxTextInput"
-                                className={`bg-white shadow-lg border-2 border-stone-300 w-4/5 h-auto ml-5 mr-3 font-dmsans text-neutral-text-gray
-                                            pl-5 pt-3 pr-5 pb-3 focus:outline-stone-500 align-middle leading-6 rounded-lg`}
-                                style={{ verticalAlign: 'middle', overflowY: 'auto', resize: 'none' }}
-                                placeholder="Ask your question here"
-                                value={textInTextArea}
-                                onChange={handleChangesInTextArea}
-                                onKeyDown={handleEnterSubmission}
-                                disabled={isAwaitingMessageFromOpenAi}
-                            ></textarea>
-                            {/* Send button */}
-                            <button className={'w-1/5 ml-2'} onClick={handleSubmitIconClick}>
-                                <BiSend className='text-3xl cursor-pointer text-stone-500 hover:text-stone-300' />
-                            </button>
-                        </div>
-                    </div>
+                    <ChatMessageTextArea isAwaitingMessageFromOpenAi={isAwaitingMessageFromOpenAi}
+                        textInTextArea={textInTextArea}
+                        handleChangesInTextArea={handleChangesInTextArea}
+                        handleEnterSubmission={handleEnterSubmission}
+                        handleSubmitIconClick={handleSubmitIconClick}
+                    />
                 </div>
             </div>
 

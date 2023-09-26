@@ -1,11 +1,10 @@
 import Script from 'next/script';
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { BiSend } from "react-icons/bi";
 import { checkOtherwiseCreateGeneralChat, fetchGeneralChatHistory, storeGeneralChatMessage } from '@/config/firestore';
-import BouncingDots from './BouncingDots';
 import finterestGenerateArticlePrompt from '../../utils/prompt.json';
 import { generatePrompts } from '../../utils/openai';
+import ChatMessageTextArea from './ChatMessageTextArea';
 
 interface OpenAIMessage {
     role: string;
@@ -14,7 +13,7 @@ interface OpenAIMessage {
 //The UI component for a chatbot with general AI
 export default function GeneralConvo() {
     /* Preparation Variables */
-  
+
     //User id
     const { user } = useAuth();
     const userId = user.uid;
@@ -45,24 +44,24 @@ export default function GeneralConvo() {
     const [newMessageSubmitted, setNewMessageSubmitted] = useState(false);
     useEffect(() => {
         if (newMessageSubmitted && ref.current) {
-          // Scroll to the bottom of the chat
-          ref.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "end",
-        })
-          
-          // Reset the flag to false
-          setNewMessageSubmitted(false);
+            // Scroll to the bottom of the chat
+            ref.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "end",
+            })
+
+            // Reset the flag to false
+            setNewMessageSubmitted(false);
         }
-      }, [newMessageSubmitted]);
+    }, [newMessageSubmitted]);
 
 
     //Update JSX elements whenever messages changes, in order to update the UI
     useEffect(() => {
         const messageJsxElements = messages.map((openAiMessage, index) => (
             (openAiMessage.role == 'user')
-            ? <p key={index} className="text-white font-dmsans mt-4 self-end w-2/5 bg-neutral-headings-black rounded-2xl p-5 mr-4">{ openAiMessage.content }</p>
-            : <p key={index} className="text-neutral-headings-black font-dmsans mt-4 self-start w-2/5 bg-neutral-color-300 rounded-2xl p-5">{ openAiMessage.content }</p>
+                ? <p key={index} className="text-white font-dmsans mt-4 self-end w-2/5 bg-neutral-headings-black rounded-2xl p-5 mr-4">{openAiMessage.content}</p>
+                : <p key={index} className="text-neutral-headings-black font-dmsans mt-4 self-start w-2/5 bg-neutral-color-300 rounded-2xl p-5">{openAiMessage.content}</p>
         ));
         setMessageJsxElements(messageJsxElements);
     }, [messages]);
@@ -98,7 +97,7 @@ export default function GeneralConvo() {
 
     //Helper function to add messages into the UI
     const addMessagesToInterface = (role: string, message: string) => {
-        setMessages((prevMessages) => [...prevMessages, {role: role, content: message}]);
+        setMessages((prevMessages) => [...prevMessages, { role: role, content: message }]);
     }
 
     //Processes a message given by the user
@@ -110,7 +109,7 @@ export default function GeneralConvo() {
 
         // Add the message into the UI
         addMessagesToInterface('user', userMessage);
-       
+
 
         // Store the prompt in general messages
         const newMessageHistory = await storeGeneralChatMessage(generalChatId, userMessage, 'user');
@@ -123,19 +122,19 @@ export default function GeneralConvo() {
         const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt, previousMessages);
         //const response = "Sample response 1";
 
-        
+
 
         //Show new response on the UI
         if (response != null) {
-                //Add the response to the MESSAGES database
-                await storeGeneralChatMessage(generalChatId, response, 'system'); 
+            //Add the response to the MESSAGES database
+            await storeGeneralChatMessage(generalChatId, response, 'system');
 
-                //Show new response on the UI
-                addMessagesToInterface('system', response != null ? response : '');
+            //Show new response on the UI
+            addMessagesToInterface('system', response != null ? response : '');
         }
 
         setNewMessageSubmitted(true);
-    
+
         //Hide loading indicator
         setIsAwaitingMessageFromOpenAI(false);
 
@@ -183,37 +182,24 @@ export default function GeneralConvo() {
     return (
         <div>
             <div>
-                <div className="flex flex-col justify-between h-screen overflow-y-hidden"> 
+                <div className="flex flex-col justify-between h-screen overflow-y-hidden">
                     <div id="chatboxMessageList" className="ml-4 mr-4 mt-16 overflow-y-auto pr-0 h-70">
-                            <p className='font-dmsans text-neutral-headings-black font-bold text-center'>Hey there! Finterest AI helps you learn financial concepts through the news.</p>
-                           
-                            {/* Messages from the user and the system */}
-                            <div className='flex flex-col justify-start'>
-                                { messageJsxElements }
-                            </div>
-                            <div className='h-20' ref={ref} />
+                        <p className='font-dmsans text-neutral-headings-black font-bold text-center'>Hey there! Finterest AI helps you learn financial concepts through the news.</p>
+
+                        {/* Messages from the user and the system */}
+                        <div className='flex flex-col justify-start'>
+                            {messageJsxElements}
+                        </div>
+                        <div className='h-20' ref={ref} />
                     </div>
 
                     {/* Input area */}
-                    <div className='flex flex-col h-1/3 lg:h-1/4 xl:h-1/5 items-center w-full'>
-                        { isAwaitingMessageFromOpenAi ? <BouncingDots /> : <div style={{ height: '22px' }}></div> }
-                        <div className='bg-neutral-text-gray flex items-center flex-1 w-full mt-5 leading-8'>
-                            {/* Input field  */}
-                            <textarea id="chatboxTextInput"
-                                className={'bg-neutral-color-300 w-11/12 h-auto m-5 font-dmsans text-neutral-text-gray pl-5 pt-3 pr-5 pb-3 focus:outline-neutral-headings-black outline-none align-middle leading-6' }
-                                style={{ verticalAlign: 'middle', overflowY: 'auto', resize: 'none' }}
-                                placeholder="Ask your question here"
-                                value={textInTextArea}
-                                onChange={handleChangesInTextArea}
-                                onKeyDown={handleEnterSubmission}
-                                disabled={isAwaitingMessageFromOpenAi}
-                            ></textarea>
-                            {/* Send button */}
-                            <button className={'w-1/12 ml-2'} onClick={ handleSubmitIconClick }>
-                                <BiSend className='text-3xl cursor-pointer text-white m-2 hover:text-neutral-headings-black' />
-                            </button>
-                        </div>
-                    </div>
+                    <ChatMessageTextArea isAwaitingMessageFromOpenAi={isAwaitingMessageFromOpenAi}
+                        textInTextArea={textInTextArea}
+                        handleChangesInTextArea={handleChangesInTextArea}
+                        handleEnterSubmission={handleEnterSubmission}
+                        handleSubmitIconClick={handleSubmitIconClick}
+                    />
                 </div>
             </div>
 

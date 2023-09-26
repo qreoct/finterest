@@ -2,7 +2,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
-import { BiNews, BiMessage, BiSmile, BiLogOutCircle, BiStar } from "react-icons/bi";
+import { BiNews, BiMessage, BiSmile, BiLogOut, BiStar } from "react-icons/bi";
 
 /*
     The common left navigation bar used across pages
@@ -61,7 +61,7 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
                                 logOut();
                                 router.push('/');
                             }}>
-                        <BiLogOutCircle className='text-3xl cursor-pointer m-2' />
+                        <BiLogOut className='text-3xl cursor-pointer m-2' />
                         <span className="font-dmsans text-xl ml-2">Logout</span>
                     </NextLink>
 

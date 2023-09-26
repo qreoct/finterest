@@ -149,7 +149,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                 <LeftNavigationBar tabIndex={0} />
 
                 {/* Middle Content */}
-                <div className="w-1/2 bg-white overflow-y-auto flex items-start" style={{ height: '100vh' }}>
+                <div className="w-full bg-white overflow-y-auto flex items-start" style={{ height: '100vh' }}>
                     {/* Back navigation button */}
                     <button onClick={() => { router.push('/'); }} className="bg-transparent text-neutral-headings-black hover:text-gold-500 ml-12 mr-2 mt-12">
                         <BiArrowBack className='text-3xl cursor-pointer m-2' />
@@ -218,7 +218,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                 </div>
 
                 {/* Right Content */}
-                <div className="max-w-lg bg-neutral-color-300 overflow-y-auto">
+                <div className="w-1/2 max-w-lg bg-neutral-color-300 overflow-y-auto">
                     <ArticleConvo textFromArticle={highlightedText} chatError={highlighterError} />
                 </div>
             </div>

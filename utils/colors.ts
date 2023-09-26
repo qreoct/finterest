@@ -18,10 +18,9 @@ export function generateColorFromTitle(title: string) {
         let firstThree: string = title.substring(0, 3)
         let charcodes = []
         for (let i = 0; i < 3; i++) {
-            charcodes.push(firstThree.charCodeAt(i));
+            charcodes.push(firstThree.charCodeAt(i))
         }
         let selection = charcodes.reduce((acc, code) => acc + code, 0) % 10;
-        console.log(selection)
         return colors[selection]
     }
 }
