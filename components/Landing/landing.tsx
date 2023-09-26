@@ -182,7 +182,7 @@ const Landing = () => {
                     {/* Element 1 */}
                     <div className="row-start-1 col-span-1 sm:col-span-6 lg:col-span-4 bg-growth-gold-100 rounded-md sm:flex sm:justify-center sm:items-center px-5 md:px-10 xl:px-16">
                         <div className='sm:w-3/5 sm:flex sm:flex-col space-y-5 py-12'>
-                            <h2 className='font-gupter font-bold text-3xl sm:text-4xl text-finterest-solid'>Turning Wisdom<br/>Into Wealth</h2>
+                            <h2 className='font-gupter font-bold text-3xl sm:text-4xl 2xl:text-5xl text-finterest-solid'>Turning Wisdom<br/>Into Wealth</h2>
                             <h5 className='text-finterest-solid'>Finterest makes gaining financial knowledge easy, with AI explanation and summarisation.</h5>
                         
                             <button className="bg-growth-gold-900 hover:bg-growth-gold-500 text-finterest-white font-bold font-dmsans py-3 px-4 w-2/3 sm:w-1/2 xl:w-2/5 rounded-full duration-300">
@@ -207,13 +207,13 @@ const Landing = () => {
                     {/* Element 2 */}
                     <div className="row-start-2 lg:row-start-1 col-span-1 sm:col-span-3 lg:col-span-2 bg-steady-sapphire-100 rounded-md flex flex-col justify-center items-center">
                         <img src="/assets/habit-grow.png" alt="Watch your reading habit grow." className="h-1/2 w-2/5 lg:w-1/2 lg:h-1/3"/>
-                        <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5'>Build a reading habit.<br/>Watch it evolve.</h2>
+                        <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5 2xl:mt-10'>Build a reading habit.<br/>Watch it evolve.</h2>
                     </div>
 
                     {/* Element 3 */}
                     <div className="row-start-3 sm:row-start-2 col-span-1 sm:col-span-3 lg:col-span-2 bg-stone-200 rounded-md flex flex-col justify-center items-center px-4  py-4">
                         <img src="/assets/complex-ideas.png" alt="Search up a term and get Finterest AI to explain it" className="h-3/5 sm:w-2/3 sm:h-2/5 lg:w-4/5 lg:h-2/3 xl:w-3/4 xl:h-1/2"/>
-                        <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5'>Decode complex ideas</h2>
+                        <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5 2xl:mt-10'>Decode complex ideas</h2>
                         <h5 className='text-finterest-solid text-center mt-5 text-sm xl:text-base'>See a financial term you don't understand? AI-powered definitions to the rescue!</h5>
                         
                     </div>
@@ -221,7 +221,7 @@ const Landing = () => {
                     {/* Element 4 */}
                     <div className="row-start-4 sm:row-start-3 lg:row-start-2 col-span-1 sm:col-span-3 lg:col-span-2 bg-prosperity-pine-100 rounded-md flex flex-col justify-center items-center px-4 py-4">
                         <img src="/assets/scroll-for-gold.png" alt="Scroll through insightful financial news articles" className="w-2/3 h-3/5 sm:h-1/2 lg:w-2/3 lg:h-2/3 xl:w-3/4 xl:h-1/2"/>
-                        <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5'>Scroll for gold</h2>
+                        <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5 2xl:mt-10'>Scroll for gold</h2>
                         <h5 className='text-finterest-solid text-center mt-5 text-sm xl:text-base'>Say goodbye to mindless scrolling on social media. Finterest delivers instant summaries of key insights.</h5>
                         
                     </div>
@@ -230,7 +230,7 @@ const Landing = () => {
                     {/* Element 5 */}
                     <div className="row-start-5 sm:row-start-3 lg:row-start-2 col-span-1 sm:col-span-3 lg:col-span-2 bg-rising-rose-100 rounded-md flex flex-col justify-center items-center px-4 py-4">
                         <img src="/assets/chat.png" alt="Chat about articles with Finterest AI" className="w-2/3 h-3/5 sm:h-1/2 lg:w-2/3 lg:h-1/3 xl:w-3/4 xl:h-1/2"/>
-                        <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5'>Chat about articles</h2>
+                        <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5 2xl:mt-10'>Chat about articles</h2>
                         <h5 className='text-finterest-solid text-center mt-5 text-sm xl:text-base'>Go into deeper details for each article with AI-powered insights at your fingertips.</h5>
                         
                     </div>
@@ -238,7 +238,7 @@ const Landing = () => {
                     {/* Element 6 */}
                     <div className="row-start-6 sm:row-start-4 lg:row-start-3 col-span-1 sm:col-span-3 bg-finance-firecracker-100 rounded-md flex flex-col justify-center items-center px-4 py-5">
                         <img src="/assets/personalised-list.png" alt="Finterest recommends articles according to your preferences" className="w-2/3 h-1/2 lg:w-1/2 lg:h-1/2 xl:w-1/2 xl:h-1/2"/>
-                        <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5'>Articles the way 
+                        <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5 2xl:mt-10'>Articles the way 
                         <span style={{
                             backgroundImage: `url('/assets/red-underline.png')`,
                             backgroundRepeat: 'no-repeat',
@@ -260,7 +260,7 @@ const Landing = () => {
                     {/* Element 7 */}
                     <div className="row-start-7 sm:row-start-4 lg:row-start-3 col-span-1 sm:col-span-3 bg-steady-sapphire-100 rounded-md flex flex-col justify-center items-center px-4 py-5">
                         <img src="/assets/trusted-by.png" alt="Finterest is trusted by many people around the world" className="w-4/5 h-1/2 lg:w-2/3 lg:h-1/2 xl:w-1/2 xl:h-1/2"/>
-                            <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5'>Trusted by 
+                            <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5 2xl:mt-10'>Trusted by 
                             <span className="relative"> many.
                                 <span
                                 className="absolute top-0 left-0 transform -translate-x-2 -translate-y-1 xl:translate-x-1/6 xl:-translate-y-0  w-24 h-12"
@@ -275,7 +275,7 @@ const Landing = () => {
                     {/* Element 8 */}
                     <div className="py-10 row-start-8 sm:row-start-5 lg:row-start-4 col-span-1 sm:col-span-6 bg-growth-gold-100 rounded-md flex flex-col justify-center items-center px-4 sm:px-0">
                        <div>
-                            <h2 className="font-gupter text-finterest-solid font-bold text-3xl lg:text-4xl text-center">Create your account today and get<br/>started
+                            <h2 className="font-gupter text-finterest-solid font-bold text-3xl lg:text-4xl text-center 2xl:text-6xl">Create your account today and get<br/>started
                                 <span> </span>
                                 <span className='' style={{
                                 backgroundImage: `url('/assets/gold-underline.png')`,
