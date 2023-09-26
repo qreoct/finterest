@@ -46,7 +46,7 @@ const Dashboard = () => {
     }, []);
 
     const articleIdListPersonalised = personalisedArticleIdList; 
-    const topArticleIdListRandom = trendingArticleIdList;
+    const articleIdListTrending = trendingArticleIdList;
 
     return (
         <ProtectedRoute>
@@ -75,7 +75,7 @@ const Dashboard = () => {
                 <div className="width-3/4 bg-white overflow-y-auto" style={{ marginLeft: '25%', height: '100vh' }}>
                     {/* Top articles */}
                     <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Today's Top Stories</h2>
-                    <TopArticleList articleIdList={topArticleIdListRandom} />
+                    <TopArticleList articleIdList={articleIdListTrending} />
 
                     {/* Other articles, as recommended by the algorithm */}
                     <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Stories For You</h2>
