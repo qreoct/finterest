@@ -101,9 +101,9 @@ const login = () => {
     return (
         <>
             <Head>
-                <title>Finterest - Pricing </title>
+                <title>Finterest - Login</title>
                 <meta
-                    name="description"
+                    name="Login to Finterest"
                     content="Turning Wisdom Into Wealth"
                 />
                 <meta
@@ -115,7 +115,7 @@ const login = () => {
             </Head>
             <main>
                 <PageWrapper>
-                    <div className="flex flex-col justify-between h-screen w-full overflow-y-auto">
+                    <div className="flex flex-col justify-between h-screen w-full overflow-y-auto overflow-x-hidden">
                         {/* Hamburger menu */}
                         <div id="hamburger-menu-element" className="bg-stone-100 h-screen flex-col py-10 px-10 duration-300 hidden">
                             <div className='self-end'>
@@ -127,15 +127,15 @@ const login = () => {
                             <div className='flex flex-col self-center flex-grow justify-center items-center space-y-16'>
                                 {/* Home */}
                                 <NextLink href={'/'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans text-growth-gold-900 text-xl ml-2 font-bold">Home</h5> 
+                                        <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Home</h5> 
                                 </NextLink> 
                                 {/* Pricing */}
                                 <NextLink href={'/pricing'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Pricing</h5> 
+                                        <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900  text-xl ml-2">Pricing</h5> 
                                 </NextLink> 
                                 {/* Login */}
                                 <NextLink href={'/login'}>
-                                    <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Login</h5> 
+                                    <h5 className="font-dmsans text-growth-gold-900 text-xl ml-2 font-bold">Login</h5> 
                                 </NextLink>
                                 {/* Get Started */}
                                 <NextLink href={'/register'}>
@@ -160,14 +160,12 @@ const login = () => {
                                 </NextLink> 
                                 {/* Pricing */}
                                 <NextLink href={'/pricing'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans text-growth-gold-900 text-lg ml-2 font-bold">Pricing</h5> 
+                                        <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 ml-2">Pricing</h5> 
                                 </NextLink> 
-                                {/* Login */}
-                                <NextLink href='/login'>
-                                    <button className="bg-finterest-white hover:bg-finterest-solid text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-finterest-solid font-dmsans py-3 px-6 rounded-full flex items-center duration-300">
-                                        <span>Login</span>
-                                    </button>
-                                </NextLink>
+                                {/* Pricing */}
+                                <NextLink href={'/pricing'} className="flex justify-center items-center">
+                                        <h5 className="font-dmsans text-growth-gold-900 text-lg ml-2 font-bold">Login</h5> 
+                                </NextLink> 
 
                                 {/* Get Started */}
                                 <button className="bg-finterest-solid hover:bg-slate-200 text-finterest-white hover:text-finterest-solid font-bold font-dmsans py-3 px-6 rounded-full flex items-center duration-300">
@@ -186,8 +184,10 @@ const login = () => {
                         </div>
 
                         {/* Body */}
-                        <div id="body-element" className='-mt-10'>
+                        <div id="body-element" className='-mt-0 sm:-mt-10 flex justify-center'>
+                            <div>
                             <LoginForm />
+                            </div>
                            
                         </div>
 

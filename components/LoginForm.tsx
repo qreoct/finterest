@@ -92,13 +92,13 @@ const LoginForm = () => {
     const { ...allData } = data;
     // Disable submit button until all fields are filled in
     const canSubmit = [...Object.values(allData)].every(Boolean);
-
+ 
     return (
-        <div className="flex justify-center items-center">
-            <div className="w-1/4 h-full p-4 py-8 sm:p-6 sm:py-10 md:p-8 md:py-14 dark:bg-gray-800 dark:border-gray-700">
+        <div className="flex justify-center items-center w-screen">
+            <div className="w-4/5 md:w-3/5 lg:w-2/5 xl:w-1/3 h-full p-4 py-8 sm:p-6 sm:py-10 md:p-8 md:py-14 dark:bg-gray-800 dark:border-gray-700">
 
                 <form action="" onSubmit={handleEmailLogin} className="group">
-                    <h3 className='font-dmsans text-4xl sm:text-5xl font-bold text-center'>Welcome back.</h3>
+                    <h3 className='font-dmsans text-3xl sm:text-4xl lg:text-5xl font-bold text-center'>Welcome back.</h3>
 
                     <div className="mt-5 mb-5">
                         <label htmlFor="email" className="block mb-2 text-sm font-dmsans font-bold text-finterest-black">Your email</label>
@@ -123,7 +123,7 @@ const LoginForm = () => {
                                 };
                             }}
                         />
-                        <span className="mt-1 text-sm font-dmsans text-red-400">
+                        <span className="mt-1 text-sm font-dmsans font-bold text-finance-firecracker-500">
                             {emailErrorMessage}
                         </span>
                     </div>
@@ -159,7 +159,7 @@ const LoginForm = () => {
                             </span>
 
                         </div>
-                        <span className="mt-1 text-sm text-red-400">
+                        <span className="mt-1 text-sm font-dmsans font-bold text-finance-firecracker-500">
                             {passwordErrorMessage}
                         </span>
                     </div>
@@ -169,25 +169,24 @@ const LoginForm = () => {
                         Login
                     </button>
 
-                    <div className="text-md font-bold text-gray-500 dark:text-gray-300 flex text-center font-lg justify-center items-center mb-3">
-                        <NextLink
-                            href="/register"
-                            className="text-finterest-solid hover:text-growth-gold-500 font-dmsans font-lg font-bold hover:underline dark:text-gray-200 flex justify-between items-center w-20"
-                        >
-                            Register <FiChevronRight className="text-lg" />
-                        </NextLink>
+                    <div className="text-md text-finterest-solid flex text-center text-lg justify-center items-center mb-3 w-full">
+                        <p>Don't have an account? Register <span><a href='/register' className='text-finterest-solid hover:text-growth-gold-500 font-dmsans text-lg font-bold hover:underline'>here</a></span></p>
                     </div>
                 </form>
-                <div className='flex justify-center items-center space-x-5'>
-                    <button onClick={handleGoogleLogin} className="flex justify-center content-center w-full text-white mt-5 font-dmsans font-bold  bg-steady-sapphire-500 p-3 rounded-md hover:bg-steady-sapphire-900">
-                        <BsGoogle className="text-lg mr-3 mt-auto mb-auto" />
-                        Google Sign In
-                    </button>
-                    <button onClick={passwordResetButtonClick} className="flex justify-center content-center w-full text-white mt-5 font-dmsans font-bold bg-finance-firecracker-500 p-3 rounded-md hover:bg-finance-firecracker-900">
-                        Forgot Password
-                    </button>
+                <div className='flex flex-col sm:flex-row justify-center items-center space-y-5 sm:space-y-0 sm:space-x-5 mt-8'>
+                    <div className='sm:w-1/2'>
+                        <button onClick={handleGoogleLogin} className="flex justify-center content-center w-48 sm:w-full text-white font-dmsans font-bold  bg-steady-sapphire-500 p-3 rounded-md hover:bg-steady-sapphire-900">
+                            <BsGoogle className="text-lg mr-3 mt-auto mb-auto" />
+                            Google Sign In
+                        </button>
+                    </div>
+                    <NextLink href='/passwordrecovery' className='sm:w-1/2 flex justify-center'>
+                        <button onClick={passwordResetButtonClick} className="flex justify-center content-center w-48 sm:w-full text-white font-dmsans font-bold bg-finance-firecracker-500 p-3 rounded-md hover:bg-finance-firecracker-900">
+                            Forgot Password
+                        </button>
+                    </NextLink>
                 </div>
-                <h4 className="mt-5 text-rose-500 text-center">{errorMessage}</h4>
+                <h4 className="mt-5 text-lg font-dmsans font-bold text-finance-firecracker-500 text-center">{errorMessage}</h4>
             </div>
         </div>
 
