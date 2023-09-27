@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import utilStyles from '@/styles/utils.module.css';
-import runGetNews from '@/lib/NewsController';
 import { ArticleList } from '@/components/Article/ArticleList';
 import { TopArticleList } from '@/components/Article/TopArticleList';
 import { getPersonalisedArticleIdList, getTrendingArticleIdList } from '@/config/firestore';
