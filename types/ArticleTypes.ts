@@ -1,4 +1,3 @@
-
 export interface ArticleType {
     article_id: string;
     category: [string];

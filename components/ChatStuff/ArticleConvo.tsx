@@ -289,7 +289,7 @@ export default function ArticleConvo({ textFromArticle, chatError }: IArticleCon
                                     <h6 className='text-neutral-text-gray uppercase tracking-widest'>Try these prompts</h6>
                                     {
                                         chatPrompts.map((prompt, idx) => (
-                                            <button id={`prompt-${idx}`}
+                                            <button key={`${prompt}-${idx}`} id={`prompt-${idx}`}
                                                 className={'rounded-lg bg-white hover:bg-stone-100 w-3/4 h-1/6 p-5 font-dmsans text-stone-600 hover:text-stone-800 duration-200'}
                                                 onClick={() => processPrompt(prompt)}>
                                                 <p>{prompt}</p>

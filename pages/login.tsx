@@ -4,7 +4,7 @@ import { PageWrapper } from '@/components/PageWrapper';
 import Header from '@/components/Landing/header';
 import Footer from '@/components/Landing/footer';
 
-const login = () => {
+const Login = () => {
    
     return (
         <>
@@ -18,7 +18,6 @@ const login = () => {
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
-            
             </Head>
             <main>
                 <PageWrapper>
@@ -36,23 +35,11 @@ const login = () => {
                         {/* Footer */}
                         <Footer />
 
-
-                    
-                        
-
-
-
-                    
                     </div>
                 </PageWrapper>
             </main>
         </>
     );
-
-
-
-
-
 };
 
-export default login;
+export default Login;

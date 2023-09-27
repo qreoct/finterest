@@ -1,11 +1,12 @@
 import { ArticleType } from "@/types/ArticleTypes"
 import { useEffect, useState } from "react";
-import { getArticle } from "@/config/firestore";
+import { getArticle, updateUserHistory } from "@/config/firestore";
 import { convertToArticleType } from "@/types/ArticleTypes";
 import Head from 'next/head';
 import { BiArrowBack, BiSolidMagicWand, BiMessage } from "react-icons/bi";
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/context/AuthContext';
 import ArticleConvo from "../ChatStuff/ArticleConvo";
 import { HighlightMenu, MenuButton } from "react-highlight-menu";
 import LeftNavigationBar from '@/components/common/LeftNavigationBar';
@@ -18,6 +19,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
     const router = useRouter();
 
     /* State variables */
+    const { user } = useAuth();
 
     //To pass highlighted text information to article convo, which is a child component
     let [highlightedText, setHighlightedText] = useState('');
@@ -77,6 +79,8 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
         </div>;
     }
 
+    // Update user history on clicking into article
+    updateUserHistory(user.uid, currArticle.article_id);
 
     /* Helper Functions */
 
@@ -95,7 +99,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
 
         // Need to manually add paragraph tags to each paragraph otherwise the text will be one big block
         const paragraphs = parsedContent?.split('\n').map((paragraph, index) => (
-            <p key={index} className="text-neutral-text-gray font-dmsans mt-4">{paragraph}</p>
+            <p key={index} className="text-stone-600 font-dmsans mt-4">{paragraph}</p>
         ));
 
         setArticleContent(paragraphs);
@@ -108,7 +112,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
             //Display original text
             setArticleContent(processedContent);
         } else {
-            const summarisedText = [<p key={1} className="text-neutral-text-gray font-dmsans mt-4">{currArticle?.content_summary}</p>];
+            const summarisedText = [<p key={1} className="text-stone-600 font-dmsans mt-4">{currArticle?.content_summary}</p>];
             setArticleContent(summarisedText);
         }
         setIsTextSummarised(!isTextSummarised);
@@ -322,7 +326,6 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
-              
             </Head>
 
             <div id='parent-container' className="flex items-center flex-col-reverse md:flex-row md:items-start h-screen overflow-y-hidden">

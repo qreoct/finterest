@@ -1,7 +1,5 @@
-
 import {
     collection,
-    onSnapshot,
     query,
     getDocs,
     doc,
@@ -9,18 +7,15 @@ import {
     updateDoc,
     setDoc,
     orderBy,
-    Timestamp,
-    runTransaction,
     where,
     addDoc,
     arrayUnion,
     serverTimestamp,
-    documentId,
 } from "firebase/firestore";
 
 import { db } from "@/config/firebase.config.js";
 
-export async function addNewArticle(
+export async function addNewArticleToDB(
     articleId,
     article
 ) {
@@ -47,10 +42,167 @@ export async function addNewArticle(
 
 // Returns a list of article id strings
 export async function getArticleIdList() {
-    const q = query(collection(db, "articles"));
+    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
     const results = await getDocs(q);
 
     return results.docs.map(currDoc => {
+        return currDoc.id;
+    });
+}
+
+// Returns a personalised list of article id strings based on user's category history
+// Use naive bayes approach to recommend articles according to a probability distribution based on user's category history
+export async function getPersonalisedArticleIdList(userId, numArticles) {
+    const userRef = doc(db, "users", userId);
+
+    // Filter out all articles that the user has read
+    const user_article_history = (await getDoc(userRef)).data()["article_history"];
+    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
+    const results = await getDocs(q);
+    const user_article_history_set = new Set(user_article_history);
+    let filtered_articles = results.docs.filter(currDoc => {
+        return !user_article_history_set.has(currDoc.id);
+    });
+
+    // Calculate the probability of each category in the whole database (from results)
+    const category_prob = {};
+    results.docs.forEach(currDoc => {
+        const currArticle = currDoc.data();
+        const currArticleCategory = currArticle.category[0];
+        if (!category_prob[currArticleCategory]) {
+            category_prob[currArticleCategory] = 1 / results.docs.length;
+        } else {
+            category_prob[currArticleCategory] += 1 / results.docs.length;
+        }
+    });
+
+    const user_category_count = (await getDoc(userRef)).data()["category_history"];
+
+    if (!user_category_count) {
+        // No category history, return all articles
+        return getArticleIdList();
+    }
+
+    let user_article_count = 0;
+    // Add 1 to each category count to avoid 0 probability
+    for (const [key, value] of Object.entries(user_category_count)) {
+        user_category_count[key] = value + 1;
+        user_article_count += value + 1;
+    }
+
+    // Add 1 to all other categories not in user's category history
+    const all_categories = Object.keys(category_prob);
+    all_categories.forEach(currCategory => {
+        if (!user_category_count[currCategory]) {
+            user_category_count[currCategory] = 1;
+            user_article_count += 1;
+        }
+    });
+
+    // Calculate the probability of each category given the user's category history
+    const category_prior_prob = {};
+    for (const [key, value] of Object.entries(user_category_count)) {
+        category_prior_prob[key] = value / user_article_count;
+    }
+
+    // Calculate the posterior probability of the user clicking given each category
+    // P(user clicks | category) = [P(category | user clicks) * P(user clicks)] / P(category)
+    // P(user clicks) is the same for all categories, so we can ignore it
+    const category_posterior_prob = {};
+    let posterior_sum = 0;
+    for (const [key, value] of Object.entries(category_prob)) {
+        category_posterior_prob[key] = category_prior_prob[key] / category_prob[key];
+        posterior_sum += category_posterior_prob[key];
+    }
+
+    // Rescale the posterior probabilities so that they sum to 1
+    for (const [key, value] of Object.entries(category_posterior_prob)) {
+        category_posterior_prob[key] = value / posterior_sum;
+    }
+
+    // Iterate through all unread articles and add to articleIdList based on probability until numArticles is reached
+    const articleIdList = [];
+    filtered_articles.forEach(currDoc => {
+        const currArticle = currDoc.data();
+        const currArticleCategory = currArticle.category[0];
+        const currArticlePosteriorProb = category_posterior_prob[currArticleCategory];
+        const randNum = Math.random(); // Random number between 0 and 1
+        if (randNum <= currArticlePosteriorProb) {
+            articleIdList.push(currArticle.article_id);
+        }
+    });
+
+    // If not enough articles, add articles that the user has not read and are not in the list
+    if (articleIdList.length < numArticles) {
+        filtered_articles.forEach(currDoc => {
+            const currArticle = currDoc.data();
+            if (!articleIdList.includes(currArticle.article_id)) {
+                articleIdList.push(currArticle.article_id);
+            }
+        });
+    }
+
+    return articleIdList.slice(0, numArticles);
+}
+
+// Get trending article list based on the number of times each article has been read by all users
+export async function getTrendingArticleIdList(userId, numArticles) {
+    const userRef = doc(db, "users", userId);
+
+    // Filter out all articles that the user has read
+    const user_article_history = (await getDoc(userRef)).data()["article_history"];
+    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
+    const results = await getDocs(q);
+    const user_article_history_set = new Set(user_article_history);
+    let filtered_articles = results.docs.filter(currDoc => {
+        return !user_article_history_set.has(currDoc.id);
+    });
+
+    // Count the number of times each article has been read by all users
+    const article_count = {};
+    const all_users = await getDocs(collection(db, "users"));
+    all_users.docs.forEach(currUser => {
+        // Skip if the user is the current user or if the user has no article history
+        if (currUser.id === userId || !currUser.data()["article_history"]) {
+            return;
+        }
+
+        const currUserArticleHistory = currUser.data()["article_history"];
+        currUserArticleHistory.forEach(currArticle => {
+            // Skip if the user has read the article
+            if (user_article_history_set.has(currArticle)) {
+                return;
+            }
+            if (!article_count[currArticle]) {
+                article_count[currArticle] = 1; 
+            } else {
+                article_count[currArticle] += 1;
+            }
+        });
+    });
+
+    // Sort the articles by the number of times they have been read (descending)
+    // If two articles have the same number of reads, sort by dateStored
+    filtered_articles.sort((a, b) => {
+        let a_count = article_count[a.data().article_id];
+        let b_count = article_count[b.data().article_id];
+        // Articles not in article_count are given a count of 0
+        if (!a_count) {
+            a_count = 0;
+        }
+        if (!b_count) {
+            b_count = 0;
+        } 
+
+        if (a_count === b_count) {
+            return b.data().dateStored - a.data().dateStored;
+        } else {
+            return b_count - a_count;
+        }
+    });
+
+    // Return the top numArticles articles
+    return filtered_articles.slice(0, numArticles).map(currDoc => {
         return currDoc.id;
     });
 }
@@ -75,6 +227,58 @@ export async function addArticleIdToUser(userId, articleId) {
         chats: arrayUnion(articleId)
     });
     // chatId = userId + articleId << In this way all chats still have unique Ids
+}
+
+// Update user's article history and category history
+export async function updateUserHistory(userId, articleId) {
+    const userRef = doc(db, "users", userId);
+    const category = (await getArticle(articleId)).category[0];
+    const user_category_count = (await getDoc(userRef)).data()["category_history"];
+    const user_read_count = (await getDoc(userRef)).data()["read_count"];
+    const today = getCurrentDate();
+
+    let new_read_count = 0;
+    let new_category_count = 0;
+
+    // Check if user has read_count, if not, create one
+    if (!user_read_count || !user_read_count[today]) {
+        new_read_count = 1;
+    } else {
+        new_read_count = user_read_count[today] + 1;
+    }
+
+    // Check if user has category_history, if not, create one
+    if (!user_category_count || !user_category_count[category]) {
+        new_category_count = 1; 
+    } else {
+        new_category_count = user_category_count[category] + 1;
+    }
+
+    // Else, update the article_history, category_history and read_count
+    await updateDoc(userRef, {
+        article_history: arrayUnion(articleId),
+        category_history: {
+            ...user_category_count,
+            [category]: new_category_count
+        },
+        read_count: {
+            ...user_read_count,
+            [today]: new_read_count
+        }
+    });
+}
+
+// Get user's read count for today
+export async function getUserReadCount(userId) {
+    const userRef = doc(db, "users", userId);
+    const user_read_count = (await getDoc(userRef)).data()["read_count"];
+    const today = getCurrentDate();
+
+    if (!user_read_count || !user_read_count[today]) {
+        return 0;
+    } else {
+        return user_read_count[today];
+    }
 }
 
 // Add user to user collection with empty chat list
