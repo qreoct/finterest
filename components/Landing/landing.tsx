@@ -141,9 +141,13 @@ const Landing = () => {
                  <div id="header-element" className='bg-white flex flex-row sm:flex-col justify-between sm:justify-center items-center py-4 px-6 sm:p-2 sm:pb-8'>
                     <div className="flex justify-center items-center">
                         {/* Image */}
-                        <img src="/assets/finterest-logo-black.png" alt="Finterest Logo" className="w-8 h-12 xl:w-10 xl:h-16 m-4" />
+                        <NextLink href='/'>
+                            <img src="/assets/finterest-logo-black.png" alt="Finterest Logo" className="w-8 h-12 xl:w-10 xl:h-16 m-4" />
+                        </NextLink>
                         {/* Title */}
-                        <h2 className="font-gupter text-finterest-solid font-bold text-3xl sm:text-4xl xl:text-5xl ml-2">Finterest</h2>
+                        <NextLink href='/'>
+                            <h2 className="font-gupter text-finterest-solid font-bold text-3xl sm:text-4xl xl:text-5xl ml-2">Finterest</h2>
+                        </NextLink>
                     </div>
                     <div className='hidden sm:flex sm:justify-center sm:space-x-12'>
                         {/* Home */}
@@ -161,9 +165,11 @@ const Landing = () => {
                             </button>
                         </NextLink>
                         {/* Get Started */}
-                        <button className="bg-finterest-solid hover:bg-slate-200 text-finterest-white hover:text-finterest-solid font-bold font-dmsans py-3 px-6 rounded-full flex items-center duration-300">
-                            <span>Get started</span>
-                        </button> 
+                        <NextLink href='/register'>
+                            <button className="bg-finterest-solid hover:bg-slate-200 text-finterest-white hover:text-finterest-solid font-bold font-dmsans py-3 px-6 rounded-full flex items-center duration-300">
+                                <span>Get started</span>
+                            </button>
+                        </NextLink> 
 
                     </div>
                     <div className="sm:hidden">
@@ -184,9 +190,11 @@ const Landing = () => {
                             <h2 className='font-gupter font-bold text-3xl sm:text-4xl 2xl:text-5xl text-finterest-solid'>Turning Wisdom<br/>Into Wealth</h2>
                             <h5 className='text-finterest-solid'>Finterest makes gaining financial knowledge easy, with AI explanation and summarisation.</h5>
                         
-                            <button className="bg-gold-900 hover:bg-gold-500 text-finterest-white font-bold font-dmsans py-3 px-4 w-2/3 sm:w-1/2 xl:w-2/5 rounded-full duration-300">
-                            <span>Get started</span>
-                            </button> 
+                            <NextLink href='/register'>
+                                <button className="bg-gold-900 hover:bg-gold-500 text-finterest-white font-bold font-dmsans py-3 px-4 w-2/3 mt-5 sm:mt-0 sm:w-1/2 xl:w-2/5 rounded-full duration-300">
+                                    <span>Get started</span>
+                                </button>
+                            </NextLink> 
                         
                         </div>
                         <div className="flex justify-start sm:justify-center sm:w-2/5 sm:h-full">
@@ -290,7 +298,7 @@ const Landing = () => {
                                 </span></h2>
                         </div>
                         <div className='flex flex-col sm:flex-row justify-center items-center mt-8 space-y-5 sm:space-y-0 sm:space-x-5'>
-                            <NextLink href={'/'}>
+                            <NextLink href={'/register'}>
                                 <button className="bg-gold-900 hover:bg-gold-500 text-finterest-white font-bold font-dmsans py-4 px-6 rounded-full flex items-center duration-300">
                                     <span>Get started</span>
                                 </button>
