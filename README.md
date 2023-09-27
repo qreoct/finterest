@@ -27,6 +27,7 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET={storagebucket}
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID={senderid}
 NEXT_PUBLIC_FIREBASE_APP_ID={appid}
 NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID={measurementid}
+NEXT_PUBLIC_NEWS_KEY={newsapiKey}
 ```
 6. Run Finterest on your local server
 ```

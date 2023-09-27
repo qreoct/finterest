@@ -6,7 +6,7 @@ import { ArticleList } from '@/components/Article/ArticleList';
 import { TopArticleList } from '@/components/Article/TopArticleList';
 import { getArticleIdList } from '@/config/firestore';
 import { useEffect, useState } from 'react';
-import LeftNavigationBar  from '@/components/common/LeftNavigationBar'
+import LeftNavigationBar from '@/components/common/LeftNavigationBar'
 import GeneralConvo from '@/components/ChatStuff/GeneralConvo';
 
 
@@ -27,26 +27,21 @@ const ChatWithAi = () => {
                     content="width=device-width, initial-scale=1"
                 />
                 <link rel="icon" href="/favicon.ico" />
-                @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Gupter:wght@400;500;700&display=swap');
-                
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Gupter:wght@400;500;700&display=swap"/>
 
             </Head>
 
             <div className="flex">
                 {/* Navigation Bar */}
                 <LeftNavigationBar tabIndex={1} />
-                                    
 
                 {/* Right Content */}
-                <div className="bg-white w-full overflow-y-auto" style={{ marginLeft: '25%', height: '100vh' }}>
+                <div className="bg-white w-full overflow-y-auto" style={{ height: '100vh' }}>
                     <GeneralConvo />
-                   
                 </div>
 
             </div>
 
-
-            
         </ProtectedRoute>
     );
 };
