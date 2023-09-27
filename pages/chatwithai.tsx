@@ -1,13 +1,8 @@
 import ProtectedRoute from '@/components/ProtectedRoute';
-import { useAuth } from '@/context/AuthContext';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { ArticleList } from '@/components/Article/ArticleList';
-import { TopArticleList } from '@/components/Article/TopArticleList';
-import { getArticleIdList } from '@/config/firestore';
-import { useEffect, useState } from 'react';
 import LeftNavigationBar from '@/components/common/LeftNavigationBar'
 import GeneralConvo from '@/components/ChatStuff/GeneralConvo';
+import Script from 'next/script';
 
 
 /*
@@ -29,6 +24,20 @@ const ChatWithAi = () => {
                 <link rel="icon" href="/favicon.ico" />
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Gupter:wght@400;500;700&display=swap"/>
 
+                <Script strategy="lazyOnload"
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+                />
+
+                <Script strategy="lazyOnload">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+                        page_path: window.location.pathname,
+                        });
+                    `}
+                </Script>    
             </Head>
 
             <div className="flex">

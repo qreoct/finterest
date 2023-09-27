@@ -10,6 +10,7 @@ import { TopArticleList } from '@/components/Article/TopArticleList';
 import { getArticleIdList } from '@/config/firestore';
 import { useEffect, useState } from 'react';
 import LeftNavigationBar  from '@/components/common/LeftNavigationBar'
+import Script from 'next/script';
 
 /*
     The page where the user first enters after he logs in
@@ -49,6 +50,20 @@ const Dashboard = () => {
                 <link rel="icon" href="/favicon.ico" />
                 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Gupter:wght@400;500;700&display=swap');
                 
+                <Script strategy="lazyOnload"
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+                />
+
+                <Script strategy="lazyOnload">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+                        page_path: window.location.pathname,
+                        });
+                    `}
+                </Script>
 
             </Head>
 

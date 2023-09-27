@@ -5,6 +5,7 @@ import { useState } from 'react';
 import chatboxStyles from '@/styles/chatbox.module.css';
 import { PageWrapper } from '@/components/PageWrapper';
 import { BsList, BsXLg } from 'react-icons/bs';
+import Script from 'next/script';
 
 const register = () => {
     const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
@@ -112,6 +113,22 @@ const register = () => {
                 />
                 <link rel="icon" href="/favicon.ico" />
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Gupter:wght@400;500;700&display=swap"/>
+            
+                <Script strategy="lazyOnload"
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+                />
+
+                <Script strategy="lazyOnload">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+                        page_path: window.location.pathname,
+                        });
+                    `}
+                </Script>
+                
             </Head>
             <main>
                 <PageWrapper>
