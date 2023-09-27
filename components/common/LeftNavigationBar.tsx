@@ -1,4 +1,3 @@
-import ProtectedRoute from '@/components/ProtectedRoute';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
@@ -18,7 +17,7 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
 
 
     return (
-        <div id='left-navigation-element' className="max-w-sm min-w-fit w-100 md:h-screen flex justify-center md:flex-col md:justify-between bg-neutral-color-300 p-4 md:p-16 md:py-8 top-0 left-0 bottom-0">
+        <div id='left-navigation-element' className="flex-grow w-screen md:max-w-sm min-w-fit w-100 md:h-screen flex justify-center md:flex-col md:justify-between bg-neutral-color-300 p-4 md:p-16 md:py-8 top-0 left-0 bottom-0">
             {/* Logo Bar */}
             <div className="flex-none flex flex-col justify-center items-center text-center">
                 {/* First Row */}
@@ -37,7 +36,7 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
             </div>
 
             {/* Options */}
-            <div className="flex-grow flex justify-center items-center">
+            <div className="md:ml-0 flex-grow flex justify-center items-center">
                 <div className="md:flex-col flex justify-center items-start space-x-16 md:space-x-8 md:space-y-4">
 
                     <NextLink href={'/dashboard'} className="flex items-center md:ml-8 hover:text-gold-500">

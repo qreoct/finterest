@@ -279,23 +279,46 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
         if (event.matches) {
             const summaryItem = document.getElementById('article-summary');
             // 'md' breakpoint has been reached
-            if (summaryItem?.classList.contains('hidden') && !isChatOpen) {
+            if (summaryItem?.classList.contains('hidden') && isChatOpen) {
                 summaryItem?.classList.add('flex');
                 summaryItem?.classList.remove('hidden');
                 summaryItem?.classList.remove(chatboxStyles['hiddenelement']);
-            }
-             else {
-                // 'md' breakpoint is not met
+            } else if (summaryItem?.classList.contains('flex') && !isChatOpen) {
                 const summaryItem = document.getElementById('article-summary');
                 summaryItem?.classList.remove(chatboxStyles['animateshow']);
                 summaryItem?.classList.remove('flex');
                 summaryItem?.classList.add('hidden');
             }
+
+        }
     }
-}
+
 
     // Add an event listener to the media query
     mdBreakpoint.addEventListener('change', handleMdBreakpointChange);
+
+    const mdMaxBreakpoint = window.matchMedia('(max-width: 768px)');
+
+    function handleMdMaxBreakpointChange(event: MediaQueryListEvent) {
+        if (event.matches) {
+            const summaryItem = document.getElementById('article-summary');
+            summaryItem?.classList.remove(chatboxStyles['animateshow']);
+            summaryItem?.classList.remove('flex');
+            summaryItem?.classList.add('hidden');
+        }
+    }
+
+
+
+
+    mdMaxBreakpoint.addEventListener('change', handleMdMaxBreakpointChange);
+
+
+
+
+
+
+
 
 ;
 
