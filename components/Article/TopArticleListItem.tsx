@@ -1,7 +1,7 @@
 import { ArticleType } from "@/types/ArticleTypes"
 import { DocumentData } from "firebase/firestore"
+import Link from "next/link"
 import { generateColorFromTitle } from '../../utils/colors';
-import NextLink from "next/link"
 import { useEffect, useState } from "react";
 
 //Represents an item in the top article list shown in the dashboard
@@ -29,7 +29,7 @@ export const TopArticleListItem = ({ article }: { article: DocumentData }) => {
 
     return (
         <div className={`w-1/5 flex-shrink-0 pb-4`}>
-            <NextLink href={`/articles/${currArticle.article_id}`}
+            <Link href="/articles/[id]" as={`/articles/${currArticle.article_id}`}
                 className={`text-xl font-extra-bold text-stone-900 flex flex-col rounded-lg items-start justify-center space-y-2 bg-${bgColor}`}>
                 <img src={currArticle.image_url} alt={currArticle.title} className='rounded-lg w-full h-1/16' />
                 <div className="content px-4 py-2">
@@ -39,7 +39,7 @@ export const TopArticleListItem = ({ article }: { article: DocumentData }) => {
                     <div className='h-5'></div>
                     <h5 className='font-dmsans text-stone-600 text-sm tracking-widest'>{currArticle.pubDate}</h5>
                 </div>
-            </NextLink>
+            </Link>
         </div>
     );
 }

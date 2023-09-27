@@ -7,7 +7,7 @@ import utilStyles from '@/styles/utils.module.css';
 import runGetNews from '@/lib/NewsController';
 import { ArticleList } from '@/components/Article/ArticleList';
 import { TopArticleList } from '@/components/Article/TopArticleList';
-import { getArticleIdList } from '@/config/firestore';
+import { getPersonalisedArticleIdList, getTrendingArticleIdList } from '@/config/firestore';
 import { useEffect, useState } from 'react';
 import LeftNavigationBar  from '@/components/common/LeftNavigationBar'
 
@@ -15,25 +15,39 @@ import LeftNavigationBar  from '@/components/common/LeftNavigationBar'
     The page where the user first enters after he logs in
 */
 const Dashboard = () => {
+    const { logOut, user } = useAuth();
+    const router = useRouter();
 
     // Instead of const articleIdList = getArticleIdList()
     // For react need to use this state management thing so that the the Promise will be awaited
-    const [articleIdList, setArticleIdList] = useState<string[]>([]);
-
+    // For personalised articles
+    const [personalisedArticleIdList, setPersonalisedArticleIdList] = useState<string[]>([]);
+    
     useEffect(() => {
-        const fetchArticleIdList = async () => {
-            const idList = await getArticleIdList();
-            setArticleIdList(idList);
+        const fetchPersonalisedArticleIdList = async () => {
+            const NUMBER_OF_PERSONALISED_ARTICLES_TO_RECOMMEND = 10
+            const idList = await getPersonalisedArticleIdList(user.uid, NUMBER_OF_PERSONALISED_ARTICLES_TO_RECOMMEND);
+            setPersonalisedArticleIdList(idList);
         };
 
-        fetchArticleIdList();
+        fetchPersonalisedArticleIdList();
     }, []);
 
-    const articleIdListRandom = articleIdList.sort(() => Math.random() - Math.random()).slice(0, 10);
-    //const articleIdListRandom = ['FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u'];
-    const topArticleIdListRandom = ['FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', 'FTxPhS9YXs3DlrTANB3u', ];
+    // For trending articles
+    const [trendingArticleIdList, setTrendingArticleIdList] = useState<string[]>([]);
+    useEffect(() => {
+        const fetchTrendingArticleIdList = async () => {
+            const NUMBER_OF_TRENDING_ARTICLES_TO_RECOMMEND = 6
+            const idList = await getTrendingArticleIdList(user.uid, NUMBER_OF_TRENDING_ARTICLES_TO_RECOMMEND);
+            setTrendingArticleIdList(idList);
+        };
 
-    
+        fetchTrendingArticleIdList();
+    }, []);
+
+    const articleIdListPersonalised = personalisedArticleIdList; 
+    const articleIdListTrending = trendingArticleIdList;
+
     return (
         <ProtectedRoute>
             <Head>
@@ -61,11 +75,11 @@ const Dashboard = () => {
                 <div className="width-3/4 bg-white overflow-y-auto" style={{ height: '100vh' }}>
                     {/* Top articles */}
                     <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Today's Top Stories</h2>
-                    <TopArticleList articleIdList={topArticleIdListRandom} />
+                    <TopArticleList articleIdList={articleIdListTrending} />
 
                     {/* Other articles, as recommended by the algorithm */}
                     <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Stories For You</h2>
-                    <ArticleList articleIdList={articleIdListRandom} />
+                    <ArticleList articleIdList={articleIdListPersonalised} />
                 </div>
 
     

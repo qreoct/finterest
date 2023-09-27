@@ -1,11 +1,12 @@
 import { ArticleType } from "@/types/ArticleTypes"
 import { useEffect, useState } from "react";
-import { getArticle } from "@/config/firestore";
+import { getArticle, updateUserHistory } from "@/config/firestore";
 import { convertToArticleType } from "@/types/ArticleTypes";
 import Head from 'next/head';
 import { BiArrowBack, BiSolidMagicWand } from "react-icons/bi";
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/context/AuthContext';
 import ArticleConvo from "../ChatStuff/ArticleConvo";
 import { HighlightMenu, MenuButton } from "react-highlight-menu";
 import LeftNavigationBar from '@/components/common/LeftNavigationBar';
@@ -17,6 +18,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
     const router = useRouter();
 
     /* State variables */
+    const { user } = useAuth();
 
     //To pass highlighted text information to article convo, which is a child component
     let [highlightedText, setHighlightedText] = useState('');
@@ -73,6 +75,8 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
         </div>;
     }
 
+    // Update user history on clicking into article
+    updateUserHistory(user.uid, currArticle.article_id);
 
     /* Helper Functions */
 
@@ -151,8 +155,8 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                 {/* Middle Content */}
                 <div className="w-full bg-white overflow-y-auto flex items-start" style={{ height: '100vh' }}>
                     {/* Back navigation button */}
-                    <button onClick={() => { router.push('/'); }} className="bg-transparent text-neutral-headings-black hover:text-gold-500 ml-12 mr-2 mt-12">
-                        <BiArrowBack className='text-3xl cursor-pointer m-2' />
+                    <button onClick={() => { router.push('/'); }} className="bg-transparent text-neutral-headings-black hover:text-neutral-text-gray ml-16 mr-16 mt-16">
+                        <BiArrowBack className='text-3xl cursor-pointer m-2' />        
                     </button>
 
                     <div className="flex flex-col justify-start mt-8 ml-8 mr-16 space-y-2">
