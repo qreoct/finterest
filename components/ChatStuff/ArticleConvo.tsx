@@ -211,8 +211,8 @@ export default function ArticleConvo({ textFromArticle, chatError }: IArticleCon
 
 
         //Send message to OpenAI to get response
-        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages);
-        // const response = "Sample response 1";
+        //const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages);
+        const response = "Sample response 1";
 
         console.log("Response" + response);
 
@@ -275,7 +275,7 @@ export default function ArticleConvo({ textFromArticle, chatError }: IArticleCon
     }
 
     return (
-        <div>
+        <div className='flex-grow'>
             <div>
                 <div className="flex flex-col justify-between h-screen overflow-y-hidden">
                     <div id="chatboxMessageList" className="ml-4 mr-4 mt-4 overflow-y-auto pr-0">
