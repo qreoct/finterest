@@ -1,12 +1,10 @@
-import NextLink from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { RegistrationType } from '@/types/AuthTypes';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { PageWrapper } from './PageWrapper';
-import { FiChevronLeft } from 'react-icons/fi';
 import React, { useEffect } from 'react';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
+import Link from 'next/link';
 
 
 /*
@@ -149,7 +147,7 @@ const RegistrationForm = () => {
                     </button>
 
                     <div className="text-md text-finterest-solid flex text-center text-lg justify-center items-center mb-3 w-full">
-                        <p>Have an account? Login <span><a href='/login' className='text-finterest-solid hover:text-gold-500 font-dmsans text-lg font-bold hover:underline'>here</a>.</span></p>
+                        <p>Have an account? Login <span><Link href='/login' className='text-finterest-solid hover:text-gold-500 font-dmsans text-lg font-bold hover:underline'>here</Link>.</span></p>
                     </div>
 
                     

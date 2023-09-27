@@ -2,6 +2,7 @@ import { PageWrapper } from '@/components/PageWrapper';
 import Head from 'next/head';
 import Header from '@/components/Landing/header';
 import Footer from '@/components/Landing/footer';
+import Link from 'next/link';
 
 
 /*
@@ -39,7 +40,7 @@ const ComingSoon = () => {
                                     <h6 className='font-dmsans sm:text-xl text-gray-400 text-center bold'>Our team is working hard behind the scenes.</h6>
                                         <h4 className='font-dmsans text-2xl sm:text-3xl lg:text-4xl font-bold text-center'>Stay tuned for our payment system!</h4>
                                         <div className="text-md text-finterest-solid flex text-center sm:text-lg justify-center items-center mb-3 w-full">
-                                            <p>View <span><a href='/pricing' className='text-finterest-solid hover:text-gold-500 font-dmsans sm:text-lg font-bold hover:underline'>pricing plans</a> instead.</span></p>
+                                            <p>View <span><Link href='/pricing' className='text-finterest-solid hover:text-gold-500 font-dmsans sm:text-lg font-bold hover:underline'>pricing plans</Link> instead.</span></p>
                                         </div>
                                     </div>
                                 </div>

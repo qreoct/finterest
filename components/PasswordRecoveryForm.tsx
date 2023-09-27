@@ -1,11 +1,9 @@
-import NextLink from 'next/link';
 import { useState, useEffect } from 'react';
-import { PageWrapper } from './PageWrapper';
-import { FiChevronLeft } from 'react-icons/fi';
 import { auth } from '../config/firebase.config';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 /*
 A password recovery form component that allows users to recover their password via email.
@@ -61,7 +59,7 @@ const PasswordRecoveryForm = () => {
                 <form action="" onSubmit={handleSendPasswordRecoveryEmail} className="group">
                     <h3 className='font-dmsans text-3xl sm:text-4xl lg:text-5xl font-bold text-center'>Forgot your password?</h3>    
                     <p className="mt-5 text-center text-gray-400 text-md mb-8">
-                        Don't worry. We will send you a password recovery email.
+                        Don&apos;t worry. We will send you a password recovery email.
                     </p>
                     <div className="mb-5">
                         <label htmlFor="email" className="block mb-2 text-sm font-dmsans font-bold text-finterest-black">Your email</label>    
@@ -94,7 +92,7 @@ const PasswordRecoveryForm = () => {
                         Send Recovery Email
                     </button>
                     <div className="text-md text-finterest-solid flex text-center text-lg justify-center items-center mb-3 w-full">
-                        <p>Return to login <span><a href='/login' className='text-finterest-solid hover:text-gold-500 font-dmsans text-lg font-bold hover:underline'>here</a>.</span></p>
+                        <p>Return to login <span><Link href='/login' className='text-finterest-solid hover:text-gold-500 font-dmsans text-lg font-bold hover:underline'>here</Link>.</span></p>
                     </div>
                     
                     <h4 className="mt-5 text-rose-500 text-center">{ message }</h4>

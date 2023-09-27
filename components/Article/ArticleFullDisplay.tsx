@@ -279,7 +279,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
         if (event.matches) {
             const summaryItem = document.getElementById('article-summary');
             // 'md' breakpoint has been reached
-            if (isChatOpen) {
+            if (summaryItem?.classList.contains('hidden') && !isChatOpen) {
                 summaryItem?.classList.add('flex');
                 summaryItem?.classList.remove('hidden');
                 summaryItem?.classList.remove(chatboxStyles['hiddenelement']);
