@@ -1,13 +1,10 @@
 import { ArticleType } from "@/types/ArticleTypes"
-import { DocumentData } from "firebase/firestore"
 import Link from "next/link"
 import { generateColorFromTitle } from '../../utils/colors';
 import { useEffect, useState } from "react";
 
 //Represents an item in the top article list shown in the dashboard
-export const TopArticleListItem = ({ article }: { article: DocumentData }) => {
-
-    let currArticle: ArticleType;
+export const TopArticleListItem = ({ article }: { article: ArticleType }) => {
 
     /*
     possibilities: (comments needed for tailwind to compile dynamic class)
@@ -16,16 +13,9 @@ export const TopArticleListItem = ({ article }: { article: DocumentData }) => {
     */
     const [bgColor, setBgColor] = useState('gold-100');
 
-    try {
-        currArticle = article as ArticleType;
-    } catch (error) {
-        console.log(error);
-        return;
-    }
-
     useEffect(() => {
-        setBgColor(generateColorFromTitle(currArticle.title));
-    }, [currArticle]);
+        setBgColor(generateColorFromTitle(article.title));
+    }, [article]);
 
     return (
         <div className={`flex-shrink-0 pb-4`}>
@@ -39,7 +29,7 @@ export const TopArticleListItem = ({ article }: { article: DocumentData }) => {
                     <h3 className='font-dmsans font-bold text-neutral-headings-black text-xl lg:line-clamp-5'>{currArticle.title}</h3>
                     <p className={`font-dmsans text-stone-700 text-base line-clamp-5`}>{currArticle.description}</p>
                     <div className='h-5'></div>
-                    <h5 className='font-dmsans text-stone-600 text-sm tracking-widest'>{currArticle.pubDate}</h5>
+                    <h5 className='font-dmsans text-stone-600 text-sm tracking-widest'>{article.pubDate}</h5>
                 </div>
             </Link>
         </div>

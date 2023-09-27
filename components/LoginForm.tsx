@@ -8,6 +8,7 @@ import { LoginType } from '@/types/AuthTypes';
 import React, { useEffect } from 'react';
 import { BsGoogle, BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { addUserIfNotExist } from '@/config/firestore';
+import Link from 'next/link';
 
 /*
 A login form component that consists of the login options available
@@ -169,7 +170,7 @@ const LoginForm = () => {
                     </button>
 
                     <div className="text-md text-finterest-solid flex text-center text-lg justify-center items-center mb-3 w-full">
-                        <p>Don't have an account? Register <span><a href='/register' className='text-finterest-solid hover:text-gold-500 font-dmsans text-lg font-bold hover:underline'>here</a></span></p>
+                        <p>Don&apos;t have an account? Register <span><Link href='/register' className='text-finterest-solid hover:text-gold-500 font-dmsans text-lg font-bold hover:underline'>here</Link></span></p>
                     </div>
                 </form>
                 <div className='flex flex-col sm:flex-row justify-center items-center space-y-5 sm:space-y-0 sm:space-x-5 mt-8'>
