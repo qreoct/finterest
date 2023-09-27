@@ -76,23 +76,23 @@ const RegistrationForm = () => {
     return (
         <PageWrapper>
             <div className="flex items-center justify-center">
-                <div className="w-full max-w-sm rounded-lg border border-gray-200 bg-white p-4 py-8 shadow-md dark:border-gray-700 dark:bg-gray-800 sm:p-6 sm:py-10 md:p-8 md:py-14">
+                <div className="w-full max-w-sm rounded-lg border border-stone-200 bg-white p-4 py-8 shadow-md dark:border-stone-700 dark:bg-stone-800 sm:p-6 sm:py-10 md:p-8 md:py-14">
                     <form action="" onSubmit={handleRegistration} className="group">
-                        <h5 className="mb-2 text-center text-2xl font-medium text-gray-900 dark:text-white sm:text-3xl sm:font-semibold">
+                        <h5 className="mb-2 text-center text-2xl font-medium text-stone-900 dark:text-white sm:text-3xl sm:font-semibold">
                             Register
                         </h5>
-                        <p className="text-center text-gray-500 dark:text-gray-200 text-md mb-8">
+                        <p className="text-center text-stone-500 dark:text-stone-200 text-md mb-8">
                             Create a new Finterest account today!
                         </p>
                         <div className="mb-5">
-                            <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                            <label htmlFor="email" className="mb-2 block text-sm font-medium text-stone-900 dark:text-white">
                                 Your email
                             </label>
                             <input
                                 type="email"
                                 name="email"
                                 id="email"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white focus:outline-none placeholder-gray-300 valid:[&:not(:placeholder-shown)]:border-green-500 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-400"
+                                className="bg-stone-50 border border-stone-300 text-stone-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-stone-600 dark:border-stone-500 dark:placeholder-stone-400 dark:text-white focus:outline-none placeholder-stone-300 valid:[&:not(:placeholder-shown)]:border-pine-500 invalid:[&:not(:placeholder-shown):not(:focus)]:border-firecracker-500"
                                 autoComplete="off"
                                 required
                                 pattern="[a-z0-9._+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
@@ -109,12 +109,12 @@ const RegistrationForm = () => {
                                     };
                                 }}
                             />
-                            <span className="mt-1 text-sm text-red-400">
+                            <span className="mt-1 text-sm text-firecracker-500">
                                 {emailErrorMessage}
                             </span>
                         </div>
                         <div className="mb-5">
-                            <label htmlFor="password" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                            <label htmlFor="password" className="mb-2 block text-sm font-medium text-stone-900 dark:text-white">
                                 Your password
                             </label>
                             <div className=' flex relative'>
@@ -123,7 +123,7 @@ const RegistrationForm = () => {
                                     name="password"
                                     id="password"
                                     placeholder="••••••••"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white focus:outline-none placeholder-gray-300 valid:[&:not(:placeholder-shown)]:border-green-500 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-400"
+                                    className="bg-stone-50 border border-stone-300 text-stone-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-stone-600 dark:border-stone-500 dark:placeholder-stone-400 dark:text-white focus:outline-none placeholder-stone-300 valid:[&:not(:placeholder-shown)]:border-pine-500 invalid:[&:not(:placeholder-shown):not(:focus)]:border-firecracker-500"
                                     pattern=".{8,}"
                                     required
                                     onChange={(e: any) => {
@@ -140,25 +140,25 @@ const RegistrationForm = () => {
                                 />
                                 <span className='absolute inset-y-0 right-0 flex items-center pr-3 mr-3'>
                                     {!isPasswordVisible ? (
-                                        <BsFillEyeSlashFill className='text-lg cursor-pointer text-gray-300' onClick={togglePasswordVisibility} />
+                                        <BsFillEyeSlashFill className='text-lg cursor-pointer text-stone-300' onClick={togglePasswordVisibility} />
                                     ) : (
                                         <BsFillEyeFill className='text-lg cursor-pointer text-blue-500' onClick={togglePasswordVisibility} />
                                     )}
                                 </span>
                             </div>
-                            <span className="mt-1 text-sm text-red-400">
+                            <span className="mt-1 text-sm text-firecracker-500">
                                 {passwordErrorMessage}
                             </span>
                         </div>
 
-                        <button type="submit" disabled={!canSubmit} className="mb-8 mt-2 w-full rounded-lg bg-green-600 px-5 py-3 text-center text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:cursor-not-allowed disabled:bg-gradient-to-br disabled:from-gray-100 disabled:to-gray-300 disabled:text-gray-400 group-invalid:pointer-events-none group-invalid:bg-gradient-to-br group-invalid:from-gray-100 group-invalid:to-gray-300 group-invalid:text-gray-400 group-invalid:opacity-70">
+                        <button type="submit" disabled={!canSubmit} className="mb-8 mt-2 w-full rounded-lg bg-pine-500 px-5 py-3 text-center text-sm font-medium text-white hover:bg-pine-900 focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:cursor-not-allowed disabled:bg-gradient-to-br disabled:from-stone-100 disabled:to-stone-300 disabled:text-stone-400 group-invalid:pointer-events-none group-invalid:bg-gradient-to-br group-invalid:from-stone-100 group-invalid:to-stone-300 group-invalid:text-stone-400 group-invalid:opacity-70">
                             Create account
                         </button>
 
-                        <div className="text-md flex items-center justify-center text-center font-medium text-gray-500 dark:text-gray-300">
+                        <div className="text-md flex items-center justify-center text-center font-medium text-stone-500 dark:text-stone-300">
                             <NextLink
                                 href="/"
-                                className="flex w-32 items-center justify-between text-gray-500 hover:text-gray-800 hover:underline dark:text-gray-200 dark:hover:text-white"
+                                className="flex w-32 items-center justify-between text-stone-500 hover:text-stone-800 hover:underline dark:text-stone-200 dark:hover:text-white"
                             >
                                 <FiChevronLeft className="text-xl" /> Login Instead
                             </NextLink>

@@ -13,20 +13,70 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
-      backgroundColor: {
-        'neutral-color-300': '#F9F9FF',
-        'neutral-headings-black': '#5D5A88',
-        'neutral-text-gray': '#9795B5',
-      },
       fontFamily: {
         gupter: ['Gupter', 'serif'],
         dmsans: ['DM Sans', 'sans-serif']
+      },
+      colors: {
+        'firecracker': {
+          100: '#ffbaba',
+          500: '#dd4126',
+          900: '#a41703',
+        },
+        'pine': {
+          100: '#dee387',
+          500: '#50a020',
+          900: '#24564b',
+        },
+        'gold': {
+          100: '#ffeba4',
+          500: '#f0ae00',
+          900: '#bd7100',
+        },
+        'sapphire': {
+          100: '#d8edff',
+          500: '#829bde',
+          900: '#5666b7',
+        },
+        'rose': {
+          100: '#ffd6ee',
+          500: '#eb9cc2',
+          900: '#af3b65',
+        },
+        'finterest-solid': '#0F172A',
+        'finterest-white': '#FFFFFF',
+        'custom-gold-top': '#CD9500',
+        'custom-gold-bottom': '#FBD85C'
+
+
 
       },
-      textColor: {
-
-        'neutral-headings-black': '#5D5A88',
-        'neutral-text-gray': '#9795B5',
+      backgroundColor: {
+        'firecracker': {
+          100: '#ffbaba',
+          500: '#dd4126',
+          900: '#a41703',
+        },
+        'pine': {
+          100: '#dee387',
+          500: '#50a020',
+          900: '#24564b',
+        },
+        'gold': {
+          100: '#ffeba4',
+          500: '#f0ae00',
+          900: '#bd7100',
+        },
+        'sapphire': {
+          100: '#d8edff',
+          500: '#829bde',
+          900: '#5666b7',
+        },
+        'rose': {
+          100: '#ffd6ee',
+          500: '#eb9cc2',
+          900: '#af3b65',
+        },
       },
       height: {
         '1/8': '12.5%',
@@ -51,34 +101,12 @@ const config: Config = {
         'minus-80': '-80%',
         'minus-120': '-120%'
       },
-      colors: {
-        'neutral-headings-black': '#5D5A88',
-        'finance-firecracker-100': '#FFBABA',
-        'finance-firecracker-500': '#DD4126',
-        'finance-firecracker-900': '#A41703',
-        'prosperity-pine-100': '#DEE387',
-        'prosperity-pine-500': '#50A020',
-        'prosperity-pine-900': '#24564B',
-        'growth-gold-100': '#FFEBA4',
-        'growth-gold-500': '#F0AE00',
-        'growth-gold-900': '#BD7100',
-        'steady-sapphire-100': '#D8EDFF',
-        'steady-sapphire-500': '#829BDE',
-        'steady-sapphire-900': '#5666B7',
-        'rising-rose-100': '#FFD6EE',
-        'rising-rose-500': '#EB9CC2',
-        'rising-rose-900': '#AF3B65',
-        'finterest-solid': '#0F172A',
-        'finterest-white': '#FFFFFF',
-        'custom-gold-top': '#CD9500',
-        'custom-gold-bottom': '#FBD85C'
-      },
       screens: {
         xs: "480px",
       },
-
     },
   },
   plugins: [],
 }
-export default config
+
+export default config;

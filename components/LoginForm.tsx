@@ -106,7 +106,7 @@ const LoginForm = () => {
                             type="email"
                             name="email"
                             id="email"
-                            className="bg-gray-50 border border-gray-300 font-dmsans text-finterest-solid text-sm rounded-lg focus:growth-gold-500 focus:border-growth-gold-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white focus:outline-none placeholder-gray-300 valid:[&:not(:placeholder-shown)]:border-prosperity-pine-500 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-400"
+                            className="bg-gray-50 border border-gray-300 font-dmsans text-finterest-solid text-sm rounded-lg focus:gold-500 focus:border-gold-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white focus:outline-none placeholder-gray-300 valid:[&:not(:placeholder-shown)]:border-pine-500 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-400"
                             autoComplete="off"
                             required
                             pattern="[a-z0-9._+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
@@ -123,7 +123,7 @@ const LoginForm = () => {
                                 };
                             }}
                         />
-                        <span className="mt-1 text-sm font-dmsans font-bold text-finance-firecracker-500">
+                        <span className="mt-1 text-sm font-dmsans font-bold text-firecracker-500">
                             {emailErrorMessage}
                         </span>
                     </div>
@@ -135,7 +135,7 @@ const LoginForm = () => {
                                 name="password"
                                 id="password"
                                 placeholder="••••••••"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-growth-gold-500 focus:border-growth-gold-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white focus:outline-none placeholder-gray-300 valid:[&:not(:placeholder-shown)]:border-prosperity-pine-500 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-400"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gold-500 focus:border-gold-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white focus:outline-none placeholder-gray-300 valid:[&:not(:placeholder-shown)]:border-pine-500 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-400"
                                 pattern=".{8,}"
                                 required
                                 onChange={(e: any) => {
@@ -154,39 +154,38 @@ const LoginForm = () => {
                                 {!isPasswordVisible ? (
                                     <BsFillEyeSlashFill className='text-lg cursor-pointer text-gray-300' onClick={togglePasswordVisibility} />
                                 ) : (
-                                    <BsFillEyeFill className='text-lg cursor-pointer text-growth-gold-900' onClick={togglePasswordVisibility} />
+                                    <BsFillEyeFill className='text-lg cursor-pointer text-gold-900' onClick={togglePasswordVisibility} />
                                 )}
                             </span>
-
                         </div>
-                        <span className="mt-1 text-sm font-dmsans font-bold text-finance-firecracker-500">
+                        <span className="mt-1 text-sm font-dmsans font-bold text-firecracker-500">
                             {passwordErrorMessage}
                         </span>
                     </div>
 
                     <button type="submit" disabled={!canSubmit}
-                        className="w-full text-white bg-prosperity-pine-500 hover:bg-prosperity-pine-900 focus:ring-4 focus:outline-none focus:growth-gold-500 rounded-lg text-lg font-bold font-dmsans px-5 py-3 text-center mb-8 mt-2 disabled:bg-gradient-to-br disabled:gray-100disabled:cursor-not-allowed group-invalid:bg-gradient-to-br group-invalid:from-gray-100 group-invalid:to-gray-300 group-invalid:text-gray-400 group-invalid:pointer-events-none group-invalid:opacity-70">
+                        className="w-full text-white bg-pine-500 hover:bg-pine-900 focus:ring-4 focus:outline-none focus:gold-500 rounded-lg text-lg font-bold font-dmsans px-5 py-3 text-center mb-8 mt-2 disabled:bg-gradient-to-br disabled:gray-100disabled:cursor-not-allowed group-invalid:bg-gradient-to-br group-invalid:from-gray-100 group-invalid:to-gray-300 group-invalid:text-gray-400 group-invalid:pointer-events-none group-invalid:opacity-70">
                         Login
                     </button>
 
                     <div className="text-md text-finterest-solid flex text-center text-lg justify-center items-center mb-3 w-full">
-                        <p>Don't have an account? Register <span><a href='/register' className='text-finterest-solid hover:text-growth-gold-500 font-dmsans text-lg font-bold hover:underline'>here</a></span></p>
+                        <p>Don't have an account? Register <span><a href='/register' className='text-finterest-solid hover:text-gold-500 font-dmsans text-lg font-bold hover:underline'>here</a></span></p>
                     </div>
                 </form>
                 <div className='flex flex-col sm:flex-row justify-center items-center space-y-5 sm:space-y-0 sm:space-x-5 mt-8'>
                     <div className='sm:w-1/2'>
-                        <button onClick={handleGoogleLogin} className="flex justify-center content-center w-48 sm:w-full text-white font-dmsans font-bold  bg-steady-sapphire-500 p-3 rounded-md hover:bg-steady-sapphire-900">
+                        <button onClick={handleGoogleLogin} className="flex justify-center content-center w-48 sm:w-full text-white font-dmsans font-bold  bg-sapphire-500 p-3 rounded-md hover:bg-sapphire-900">
                             <BsGoogle className="text-lg mr-3 mt-auto mb-auto" />
                             Google Sign In
                         </button>
                     </div>
                     <NextLink href='/passwordrecovery' className='sm:w-1/2 flex justify-center'>
-                        <button onClick={passwordResetButtonClick} className="flex justify-center content-center w-48 sm:w-full text-white font-dmsans font-bold bg-finance-firecracker-500 p-3 rounded-md hover:bg-finance-firecracker-900">
+                        <button onClick={passwordResetButtonClick} className="flex justify-center content-center w-48 sm:w-full text-white font-dmsans font-bold bg-firecracker-500 p-3 rounded-md hover:bg-firecracker-900">
                             Forgot Password
                         </button>
                     </NextLink>
                 </div>
-                <h4 className="mt-5 text-lg font-dmsans font-bold text-finance-firecracker-500 text-center">{errorMessage}</h4>
+                <h4 className="mt-5 text-lg font-dmsans font-bold text-firecracker-500 text-center">{errorMessage}</h4>
             </div>
         </div>
 

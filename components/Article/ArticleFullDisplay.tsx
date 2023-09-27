@@ -8,7 +8,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import { useRouter } from 'next/router';
 import ArticleConvo from "../ChatStuff/ArticleConvo";
 import { HighlightMenu, MenuButton } from "react-highlight-menu";
-import LeftNavigationBar  from '@/components/common/LeftNavigationBar'
+import LeftNavigationBar from '@/components/common/LeftNavigationBar';
 
 //Represents a component that shows the full information of an article when the user clicks into it
 export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
@@ -16,17 +16,19 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
     /* Routing */
     const router = useRouter();
 
-
     /* State variables */
 
     //To pass highlighted text information to article convo, which is a child component
     let [highlightedText, setHighlightedText] = useState('');
-    
+
+    let [highlighterLoading, setHighlighterLoading] = useState(false);
+    let [highlighterError, setHighlighterError] = useState('');
+
     //JSX elements that contain the currently displayed content
     let [articleContent, setArticleContent] = useState<JSX.Element[] | undefined>([
         <div key={1}>Placeholder element</div>,
     ]);
-    
+
     //Retrieved article from the database
     let [currArticle, setConvertedArticle] = useState<ArticleType | null>(null);
 
@@ -38,7 +40,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
 
 
     /* Effects */
-    
+
     //Runs when component first gets mounted to fetch the article from the database
     useEffect(() => {
         const fetchArticle = async () => {
@@ -48,8 +50,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                 console.log("Article not found");
                 return;
             }
-
-            setConvertedArticle(convertedArticle);   
+            setConvertedArticle(convertedArticle);
         };
 
         fetchArticle();
@@ -66,7 +67,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
     /* Miscelleanous */
 
     //Displays loading indicator if article has not been retrieved
-    if (! currArticle) {
+    if (!currArticle) {
         return <div className="flex justify-center items-center font-dmsans text-neutral-headings-black font-bold text-4xl h-screen w-screen bg-neutral-color-300">
             <h3>Loading article...</h3>
         </div>;
@@ -103,12 +104,27 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
             //Display original text
             setArticleContent(processedContent);
         } else {
-            const summarisedText = [<p key={1} className="text-neutral-text-gray font-dmsans mt-4">{ currArticle?.content_summary}</p>];
+            const summarisedText = [<p key={1} className="text-neutral-text-gray font-dmsans mt-4">{currArticle?.content_summary}</p>];
             setArticleContent(summarisedText);
         }
+        setIsTextSummarised(!isTextSummarised);
+    }
 
-        setIsTextSummarised(! isTextSummarised);
-
+    //Checks if text is explainable before sending to OpenAI
+    function explainText(text: string, callback: Function) {
+        setHighlighterLoading(true);
+        if (text.trim().length <= 3) {
+            setHighlighterLoading(false);
+            setHighlighterError("Please select longer text.");
+        } else if (text.length > 300) {
+            setHighlighterLoading(false);
+            setHighlighterError("Your selected text is too long. Please select shorter text.");
+        } else {
+            setHighlighterLoading(false);
+            setHighlightedText(text);
+        }
+        setTimeout(() => setHighlighterError(""), 500);
+        callback();
     }
 
 
@@ -131,52 +147,65 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
             <div className="flex">
                 {/* Navigation Bar */}
                 <LeftNavigationBar tabIndex={0} />
-                                    
+
                 {/* Middle Content */}
-                <div className="w-1/2 bg-white overflow-y-auto p-4" style={{ marginLeft: '25%', height: '100vh' }}>
+                <div className="w-full bg-white overflow-y-auto flex items-start" style={{ height: '100vh' }}>
                     {/* Back navigation button */}
-                    <button onClick={() => { router.push('/'); }} className="bg-transparent text-neutral-headings-black hover:text-neutral-text-gray ml-16 mr-16 mt-16">
-                        <BiArrowBack className='text-3xl cursor-pointer m-2' />        
+                    <button onClick={() => { router.push('/'); }} className="bg-transparent text-neutral-headings-black hover:text-gold-500 ml-12 mr-2 mt-12">
+                        <BiArrowBack className='text-3xl cursor-pointer m-2' />
                     </button>
 
-                    <div className="flex flex-col justify-start mt-8 ml-16 mr-16 space-y-2">
-                        <h3 className='font-dmsans font-bold text-neutral-headings-black text-2xl'>{currArticle.title}</h3>
-                        <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>{currArticle.source_id}</h5>
-                        <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>Written by: {currArticle.creator}</h5>
+                    <div className="flex flex-col justify-start mt-8 ml-8 mr-16 space-y-2">
+                        <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase tracking-widest'>{currArticle.source_id}</h5>
+                        <h1 className='font-dmsans font-bold text-neutral-headings-black text-2xl'>{currArticle.title}</h1>
+                        <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>{currArticle.creator}</h5>
                         <p className='font-dmsans text-neutral-text-gray text-base'>{currArticle.pubDate}</p>
-                        
-                        <img src={currArticle.image_url} alt={ currArticle.title } className='w-1/2 h-1/2 self-center' />
 
-                        {! isTextSummarised ? (
-                            <button className="bg-neutral-color-300 hover:bg-neutral-text-gray text-neutral-headings-black hover:text-white p-2 w-1/4 font-semibold rounded-md flex justify-center items-center mt-5 self-center duration-200" style={{ marginTop: '5%', marginBottom: '5%'  }} onClick={ toggleBetweenOriginalAndSummary }>
+                        <img src={currArticle.image_url} alt={currArticle.title} className='w-1/2 h-1/2 self-center' />
+
+                        {!isTextSummarised ? (
+                            <button className="bg-neutral-color-300 hover:bg-neutral-text-gray text-neutral-headings-black hover:text-white p-2 w-1/4 font-semibold rounded-md flex justify-center items-center mt-5 self-center duration-200" style={{ marginTop: '5%', marginBottom: '5%' }} onClick={toggleBetweenOriginalAndSummary}>
                                 <BiSolidMagicWand className='text-3xl cursor-pointer' />
                                 <span className="ml-2">AI Summary</span>
-                            </button> 
+                            </button>
                         ) : (
-                            <button className="bg-neutral-text-gray hover:bg-neutral-color-300 text-white hover:text-neutral-headings-black p-2 w-1/4 font-semibold rounded-md flex justify-center items-center mt-5 self-center duration-200" style={{ marginTop: '5%', marginBottom: '5%' }} onClick={ toggleBetweenOriginalAndSummary }>
+                            <button className="bg-neutral-text-gray hover:bg-neutral-color-300 text-white hover:text-neutral-headings-black
+                            p-2 w-1/4 font-semibold rounded-md flex justify-center items-center mt-5 self-center duration-200"
+                                style={{ marginTop: '5%', marginBottom: '5%' }}
+                                onClick={toggleBetweenOriginalAndSummary}>
                                 <BiSolidMagicWand className='text-3xl cursor-pointer' />
                                 <span className="ml-2">AI Summary</span>
-                            </button> 
-             
+                            </button>
+
                         )}
 
-                        <div id='article-content' className='article-content-div'>
+                        <div id='article-content' className='article-content-div max-w-prose'>
                             {/* Highlighting feature */}
                             <HighlightMenu
                                 target=".article-content-div"
                                 allowedPlacements={["top", "bottom"]}
-                                styles = {{ backgroundColor: "#5D5A88" }}
-                                menu={({ selectedText = ""}) => (
-                                <>
-                                    <MenuButton
-                                    title="Search Term"
-                                    onClick={() => {
-                                       setHighlightedText(selectedText);
-                                    }}
-                                    icon="magnifying-glass"
-                                    style = {{ backgroundColor: "#5D5A88" }}
-                                    />
-                                </>
+                                styles={{ backgroundColor: "#FFFFFF" }}
+                                menu={({ selectedText = "", setMenuOpen }) => (
+                                    <>
+                                        {highlighterLoading ?
+                                                <div className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid
+                                            border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                                    role="status">
+                                                    <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+                                                </div>
+                                                :
+                                                <MenuButton
+                                                    title="Explain with AI"
+                                                    onClick={() => {
+                                                        explainText(selectedText, setMenuOpen);
+                                                    }}
+                                                    icon="magnifying-glass"
+                                                    style={{ backgroundColor: "#FFFFFF", color: "#1C1917" }}
+                                                >
+                                                    Explain
+                                                </MenuButton>
+                                        }
+                                    </>
                                 )}
                             />
 
@@ -188,9 +217,9 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
 
                 </div>
 
-                 {/* Right Content */}
-                 <div className="w-1/4 bg-neutral-color-300 overflow-y-auto">
-                   <ArticleConvo textFromArticle={highlightedText} />
+                {/* Right Content */}
+                <div className="w-1/2 max-w-lg bg-neutral-color-300 overflow-y-auto">
+                    <ArticleConvo textFromArticle={highlightedText} chatError={highlighterError} />
                 </div>
             </div>
 

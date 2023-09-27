@@ -135,19 +135,19 @@ const Pricing = () => {
                             <div className='flex flex-col self-center flex-grow justify-center items-center space-y-16'>
                                 {/* Home */}
                                 <NextLink href={'/'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans text-growth-gold-900 text-xl ml-2 font-bold">Home</h5> 
+                                        <h5 className="font-dmsans text-gold-900 text-xl ml-2 font-bold">Home</h5> 
                                 </NextLink> 
                                 {/* Pricing */}
                                 <NextLink href={'/pricing'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Pricing</h5> 
+                                        <h5 className="font-dmsans text-finterest-solid hover:text-gold-900 text-xl ml-2">Pricing</h5> 
                                 </NextLink> 
                                 {/* Login */}
                                 <NextLink href={'/login'}>
-                                    <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Login</h5> 
+                                    <h5 className="font-dmsans text-finterest-solid hover:text-gold-900 text-xl ml-2">Login</h5> 
                                 </NextLink>
                                 {/* Get Started */}
                                 <NextLink href={'/register'}>
-                                    <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Register</h5> 
+                                    <h5 className="font-dmsans text-finterest-solid hover:text-gold-900 text-xl ml-2">Register</h5> 
                                 </NextLink>
 
                             </div>
@@ -165,11 +165,11 @@ const Pricing = () => {
                             <div className='hidden sm:flex sm:justify-center sm:space-x-12'>
                                 {/* Home */}
                                 <NextLink href={'/'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans  text-finterest-solid hover:text-growth-gold-900 text-lg ml-2">Home</h5> 
+                                        <h5 className="font-dmsans  text-finterest-solid hover:text-gold-900 text-lg ml-2">Home</h5> 
                                 </NextLink> 
                                 {/* Pricing */}
                                 <NextLink href={'/pricing'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans text-growth-gold-900 text-lg ml-2 font-bold">Pricing</h5> 
+                                        <h5 className="font-dmsans text-gold-900 text-lg ml-2 font-bold">Pricing</h5> 
                                 </NextLink> 
                                 {/* Login */}
                                 <NextLink href='/login'>
@@ -203,10 +203,10 @@ const Pricing = () => {
                             {/* Pricing Information */}
                             <div className='flex flex-col md:flex-row justify-content items-center space-y-8 w-full sm:w-auto md:space-y-auto md:space-x-8 lg:space-x-16'>
                                 {/* Basic plan */}
-                                <div className='border-2 border-growth-gold-500 flex flex-col rounded-lg md:w-2/5 sm:p-4 md:p-8'>
+                                <div className='border-2 border-gold-500 flex flex-col rounded-lg md:w-2/5 sm:p-4 md:p-8'>
                                     <div className='flex justify-between items-center mx-5 my-3'>
                                         <img src="/assets/basic-plan.png" alt="Logo for Finterest Basic Plan" className="w-8 h-12 xl:w-10 xl:h-16 m-4" />
-                                        <div className='border-2 border-growth-gold-500 font-bold rounded-full w-2/5 xl:w-1/5 text-dmsans text-center py-2 px-5'>Free</div>
+                                        <div className='border-2 border-gold-500 font-bold rounded-full w-2/5 xl:w-1/4 text-dmsans text-center py-2 px-5'>Free</div>
                                     </div>
 
                                     <h4 className='font-dmsans text-3xl sm:text-4xl font-bold mx-5 my-3'>Basic Plan</h4>
@@ -242,7 +242,7 @@ const Pricing = () => {
                                         
                                     </ul>
                                     <NextLink href={'/'} className='mx-5 my-3'>
-                                        <button className="bg-growth-gold-500 hover:bg-growth-gold-900 text-finterest-white hover:text-finterest-white font-dmsans font-bold py-4 px-6 rounded-full flex items-center duration-300 mt-5">
+                                        <button className="bg-gold-500 hover:bg-gold-900 text-finterest-white hover:text-finterest-white font-dmsans font-bold py-4 px-6 rounded-full flex items-center duration-300 mt-5">
                                             <span>Get started</span>
                                         </button>
                                     </NextLink>
@@ -252,7 +252,7 @@ const Pricing = () => {
                                 <div className='bg-gradient-to-br from-custom-gold-top to-custom-gold-bottom flex flex-col rounded-lg w-full sm:w-auto md:w-3/5 p-4 sm:p-8 md:p-12 xl:p-16'>
                                     <div className='flex justify-between items-center mx-5 my-3'>
                                             <img src="/assets/finterest-plus.png" alt="Logo for Finterest PLUS Plan" className="w-20 h-20 m-4" />
-                                            <div className='bg-white rounded-full w-1/2 lg:w-1/3 xl:w-1/5 text-dmsans text-center py-4 px-5 text-black font-bold'>$399/mo</div>
+                                            <div className='bg-white rounded-full w-1/2 lg:w-2/3 xl:w-1/4 text-dmsans text-center py-4 px-5 text-black font-bold'>$399/mo</div>
                                     </div>
 
                                     <h4 className='font-dmsans text-4xl font-bold mx-5 my-3 text-white'>Finterest PLUS</h4>
@@ -316,7 +316,7 @@ const Pricing = () => {
 
                                     </div>
                                     <NextLink href={'/'} className='mx-5 my-3'>
-                                        <button className="bg-white hover:bg-growth-gold-900 text-finterest-black hover:text-finterest-white text-bold font-dmsans font-bold py-4 px-6 rounded-full flex items-center duration-300 mt-5">
+                                        <button className="bg-white hover:bg-gold-900 text-finterest-black hover:text-finterest-white text-bold font-dmsans font-bold py-4 px-6 rounded-full flex items-center duration-300 mt-5">
                                             <span>Purchase</span>
                                         </button>
                                     </NextLink>

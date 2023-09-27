@@ -127,19 +127,19 @@ const login = () => {
                             <div className='flex flex-col self-center flex-grow justify-center items-center space-y-16'>
                                 {/* Home */}
                                 <NextLink href={'/'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Home</h5> 
+                                        <h5 className="font-dmsans text-finterest-solid hover:text-gold-900 text-xl ml-2">Home</h5> 
                                 </NextLink> 
                                 {/* Pricing */}
                                 <NextLink href={'/pricing'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900  text-xl ml-2">Pricing</h5> 
+                                        <h5 className="font-dmsans text-finterest-solid hover:text-gold-900  text-xl ml-2">Pricing</h5> 
                                 </NextLink> 
                                 {/* Login */}
                                 <NextLink href={'/login'}>
-                                    <h5 className="font-dmsans text-growth-gold-900 text-xl ml-2 font-bold">Login</h5> 
+                                    <h5 className="font-dmsans text-gold-900 text-xl ml-2 font-bold">Login</h5> 
                                 </NextLink>
                                 {/* Get Started */}
                                 <NextLink href={'/register'}>
-                                    <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 text-xl ml-2">Register</h5> 
+                                    <h5 className="font-dmsans text-finterest-solid hover:text-gold-900 text-xl ml-2">Register</h5> 
                                 </NextLink>
                             </div>
                         </div>
@@ -156,15 +156,15 @@ const login = () => {
                             <div className='hidden sm:flex sm:justify-center sm:space-x-12'>
                                 {/* Home */}
                                 <NextLink href={'/'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans  text-finterest-solid hover:text-growth-gold-900 text-lg ml-2">Home</h5> 
+                                        <h5 className="font-dmsans  text-finterest-solid hover:text-gold-900 text-lg ml-2">Home</h5> 
                                 </NextLink> 
                                 {/* Pricing */}
                                 <NextLink href={'/pricing'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans text-finterest-solid hover:text-growth-gold-900 ml-2">Pricing</h5> 
+                                        <h5 className="font-dmsans text-finterest-solid hover:text-gold-900 ml-2">Pricing</h5> 
                                 </NextLink> 
                                 {/* Pricing */}
                                 <NextLink href={'/pricing'} className="flex justify-center items-center">
-                                        <h5 className="font-dmsans text-growth-gold-900 text-lg ml-2 font-bold">Login</h5> 
+                                        <h5 className="font-dmsans text-gold-900 text-lg ml-2 font-bold">Login</h5> 
                                 </NextLink> 
 
                                 {/* Get Started */}
