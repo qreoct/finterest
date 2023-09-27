@@ -26,7 +26,7 @@ export const PageWrapper = ({ children }: { children: any }) => {
 				>
 					<div>
 						{children}
-						<Footer children={false} showBackButton={false} />
+						{/* <Footer children={false} showBackButton={false} /> */}
 					</div>
 				</motion.div>
 			</AnimatePresence>

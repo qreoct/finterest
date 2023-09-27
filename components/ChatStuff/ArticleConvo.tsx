@@ -9,6 +9,8 @@ import { useAuth } from '@/context/AuthContext';
 import { BiSend } from "react-icons/bi";
 import { createNewArticleChat } from '@/config/firestore';
 import BouncingDots from './BouncingDots';
+import { time } from 'console';
+import ChatMessageTextArea from './ChatMessageTextArea';
 
 //Helper interface
 interface OpenAIMessage {
@@ -16,9 +18,14 @@ interface OpenAIMessage {
     content: string;
 }
 
+interface IArticleConvo {
+    textFromArticle: string;
+    chatError: string;
+}
+
 
 //Represents the chatbot interface for an article conversation
-export default function ArticleConvo({ textFromArticle }: { textFromArticle: string }) {
+export default function ArticleConvo({ textFromArticle, chatError }: IArticleConvo) {
     /* Preparation variables */
 
     //Article id
@@ -41,6 +48,9 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
     const [messages, setMessages] = useState<OpenAIMessage[]>([]);
     const [messageJsxElements, setMessageJsxElements] = useState<JSX.Element[] | undefined>([]);
 
+    //State to track prompts
+    const [chatPrompts, setChatPrompts] = useState<string[]>([]);
+
     //State to track if we are waiting a response from OpenAI
     const [isAwaitingMessageFromOpenAi, setIsAwaitingMessageFromOpenAI] = useState(false);
 
@@ -57,6 +67,13 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
         }
     }, [textFromArticle])
 
+    useEffect(() => {
+        if (chatError != '') {
+            addMessagesToInterface('system', chatError);
+            setNewMessageSubmitted(true);
+        }
+    }, [chatError])
+
 
     //Enable auto-scrolling to the bottom of the chat
     //Adapted from https://reacthustle.com/blog/react-auto-scroll-to-bottom-tutorial and ChatGPT
@@ -64,16 +81,16 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
     const [newMessageSubmitted, setNewMessageSubmitted] = useState(false);
     useEffect(() => {
         if (newMessageSubmitted && ref.current) {
-          // Scroll to the bottom of the chat
-          ref.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "end",
-        })
-          
-          // Reset the flag to false
-          setNewMessageSubmitted(false);
+            // Scroll to the bottom of the chat
+            ref.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "end",
+            })
+
+            // Reset the flag to false
+            setNewMessageSubmitted(false);
         }
-      }, [newMessageSubmitted]);
+    }, [newMessageSubmitted]);
 
 
     //Runs initially to fetch article from database
@@ -86,6 +103,11 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
                 return;
             }
 
+            // process prompts
+            let p1 = convertedArticle.prompt_one ? convertedArticle.prompt_one : "How is this article relevant to my life?";
+            let p2 = convertedArticle.prompt_two ? convertedArticle.prompt_two : "What are three takeaways of this article for me?";
+            setChatPrompts([p1, p2]);
+
             setCurrArticle(convertedArticle);
         };
 
@@ -97,8 +119,8 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
     useEffect(() => {
         const messageJsxElements = messages.map((openAiMessage, index) => (
             (openAiMessage.role == 'user')
-            ? <p key={index} className="text-white font-dmsans mt-4 self-end w-3/4 bg-neutral-headings-black rounded-2xl p-5 mr-4">{ openAiMessage.content }</p>
-            : <p key={index} className="text-neutral-headings-black font-dmsans mt-4 self-start w-3/4 bg-white rounded-2xl p-5">{ openAiMessage.content }</p>
+                ? <p key={index} className="text-white font-dmsans mt-4 self-end w-3/4 bg-gold-900 rounded-2xl p-5 mr-4">{openAiMessage.content}</p>
+                : <p key={index} className="text-neutral-headings-black font-dmsans mt-4 self-start w-3/4 bg-white rounded-2xl p-5">{openAiMessage.content}</p>
         ));
         setMessageJsxElements(messageJsxElements);
     }, [messages])
@@ -107,21 +129,19 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
     useEffect(() => {
         // Check if there is an existing chat
         checkUserChatHistory();
-     
+
     }, [currArticle]);
 
 
 
     //Loading indicator
-    if (! currArticle) {
+    if (!currArticle) {
         return <div className="flex justify-center items-center font-dmsans text-neutral-headings-black font-bold text-4xl h-screen w-screen bg-neutral-color-300">
             <h3>Loading chat...</h3>
         </div>;
     }
 
 
-
-   
     /* Helper functions */
 
     //Checks if user has a past chat history
@@ -139,10 +159,10 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
             await createNewArticleChat(userId, currArticle.article_id, newChatId);
         } else {
             //Chat exists already. Check if there is any message
-            if (! chatInformation.hasMessage) {
+            if (!chatInformation.hasMessage) {
                 //No message history. No action required.
             } else {
-                setDoesUserHaveChatHistory(true); 
+                setDoesUserHaveChatHistory(true);
 
                 //Fetch original messages
                 const messageHistory = await fetchArticleChatHistory(newChatId);
@@ -158,23 +178,16 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
 
     //Helper function to add messages into the UI
     const addMessagesToInterface = (role: string, message: string) => {
-        setMessages((prevMessages) => [...prevMessages, {role: role, content: message}]);
+        setMessages((prevMessages) => [...prevMessages, { role: role, content: message }]);
     }
 
     //Process prompt selected by the user and feed into OpenAI
-    const processPrompt = async (promptIndex: number) =>  {
+    const processPrompt = async (prompt: string) => {
         //Show loading indicator
         setIsAwaitingMessageFromOpenAI(true);
 
-        //Get respective prompt
-        const promptContent = (promptIndex == 1)
-                              ? currArticle.prompt_one
-                              : currArticle.prompt_two;
-        
         //Process prompt accordingly
-        await processUserMessage(promptContent);
-
-        
+        await processUserMessage(prompt);
     }
 
     //Processes a message given by the user
@@ -185,10 +198,10 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
 
         // Make other prompts disappear
         setDoesUserHaveChatHistory(true);
-        
+
         // Add the message into the UI
         addMessagesToInterface('user', userMessage);
-       
+
 
         //Store the prompt in MESSAGES and in message_history of the current article chat
         const newMessageHistory = await storeArticleChatMessage(userId + currArticle.article_id, userMessage, 'user');
@@ -199,29 +212,23 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
 
         //Send message to OpenAI to get response
         const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages);
-        //const response = "Sample response 1";
+        // const response = "Sample response 1";
 
-        
-     
         console.log("Response" + response);
 
         //Show new response on the UI
         if (response != null) {
-                //Add the response to the MESSAGES database
-                await storeArticleChatMessage(userId + currArticle.article_id, response, 'system'); 
+            //Add the response to the MESSAGES database
+            await storeArticleChatMessage(userId + currArticle.article_id, response, 'system');
 
-                //Show new response on the UI
-                addMessagesToInterface('system', response != null ? response : '');
+            //Show new response on the UI
+            addMessagesToInterface('system', response != null ? response : '');
         }
 
         setNewMessageSubmitted(true);
-        
-
 
         //Hide loading indicator
         setIsAwaitingMessageFromOpenAI(false);
-
-
     }
 
     //Function that handles changes in text area field
@@ -263,66 +270,49 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
     }
 
     //Function that passes in text as prompt from article highlighting
-    const handleArticleHighlighting = async (articleText : string) => {
+    const handleArticleHighlighting = async (articleText: string) => {
         processUserMessage('Can you explain "' + articleText + '" in the context of this article?');
     }
-
-    
 
     return (
         <div>
             <div>
-                <div className="flex flex-col justify-between h-screen overflow-y-hidden">  
-                    <div id="chatboxMessageList" className="ml-4 mr-4 mt-16 overflow-y-auto pr-0 h-70">
-                            <p className='font-dmsans text-neutral-headings-black font-bold text-center'>Hey there! Finterest AI can help you understand this article better.</p>
-                            {/* Provide prompts */}
-                            {
-                                (doesUserHaveChatHistory)
+                <div className="flex flex-col justify-between h-screen overflow-y-hidden">
+                    <div id="chatboxMessageList" className="ml-4 mr-4 mt-4 overflow-y-auto pr-0">
+                        <p className='font-dmsans text-neutral-headings-black font-bold text-center'>Hey there! Finterest AI can help you understand this article better.</p>
+                        {/* Provide prompts */}
+                        {
+                            (doesUserHaveChatHistory)
                                 ? null
                                 :
-                                    <div className='flex flex-col justify-center items-center mt-5 space-y-4'>
-                                        <h6 className='text-neutral-text-gray uppercase'>Try these prompts</h6>
-                                        <button id='prompt-one'
-                                        className={'rounded-lg bg-white hover:bg-neutral-text-gray w-3/4 h-1/6 p-5 font-dmsans text-neutral-text-gray hover:text-white duration-200'}
-                                        onClick= {() => processPrompt(1)}>
-                                            <p>{currArticle.prompt_one}</p>
-                                        </button>
-                                        <button id='prompt-two'
-                                        className={'rounded-lg bg-white hover:bg-neutral-text-gray w-3/4 h-1/6 p-5 font-dmsans text-neutral-text-gray hover:text-white duration-200'}
-                                        onClick= {() => processPrompt(2)}>
-                                            <p>{currArticle.prompt_two}</p>
-                                        </button>
-
-                                    </div>
-                            }
-                            {/* Messages from the user and the system */}
-                            <div className='flex flex-col justify-start'>
-                                { messageJsxElements }
-                            </div>
-                            <div className='h-20' ref={ref} />
-
-                    </div>
-                    
-                    {/* Input area */}
-                    <div className='flex flex-col h-1/3 lg:h-1/4 xl:h-1/5 items-center w-full'>
-                        { isAwaitingMessageFromOpenAi ? <BouncingDots /> : <div style={{ height: '22px' }}></div> }
-                        <div className='bg-neutral-text-gray flex items-center flex-1 w-full mt-5 leading-8'>
-                            {/* Input field  */}
-                            <textarea id="chatboxTextInput"
-                                className={'bg-neutral-color-300 w-4/5 h-auto m-5 font-dmsans text-neutral-text-gray pl-5 pt-3 pr-5 pb-3 focus:outline-neutral-headings-black outline-none align-middle leading-6' }
-                                style={{ verticalAlign: 'middle', overflowY: 'auto', resize: 'none' }}
-                                placeholder="Ask your question here"
-                                value={textInTextArea}
-                                onChange={handleChangesInTextArea}
-                                onKeyDown={handleEnterSubmission}
-                                disabled={isAwaitingMessageFromOpenAi}
-                            ></textarea>
-                            {/* Send button */}
-                            <button className={'w-1/5 ml-2'} onClick={ handleSubmitIconClick }>
-                                <BiSend className='text-3xl cursor-pointer text-white m-2 hover:text-neutral-headings-black' />
-                            </button>
+                                <div className='flex flex-col justify-center items-center mt-5 space-y-4'>
+                                    <h6 className='text-neutral-text-gray uppercase tracking-widest'>Try these prompts</h6>
+                                    {
+                                        chatPrompts.map((prompt, idx) => (
+                                            <button id={`prompt-${idx}`}
+                                                className={'rounded-lg bg-white hover:bg-stone-100 w-3/4 h-1/6 p-5 font-dmsans text-stone-600 hover:text-stone-800 duration-200'}
+                                                onClick={() => processPrompt(prompt)}>
+                                                <p>{prompt}</p>
+                                            </button>
+                                        ))
+                                    }
+                                </div>
+                        }
+                        {/* Messages from the user and the system */}
+                        <div className='flex flex-col justify-start'>
+                            {messageJsxElements}
                         </div>
+                        <div className='h-20' ref={ref} />
+
                     </div>
+
+                    {/* Input area */}
+                    <ChatMessageTextArea isAwaitingMessageFromOpenAi={isAwaitingMessageFromOpenAi}
+                        textInTextArea={textInTextArea}
+                        handleChangesInTextArea={handleChangesInTextArea}
+                        handleEnterSubmission={handleEnterSubmission}
+                        handleSubmitIconClick={handleSubmitIconClick}
+                    />
                 </div>
             </div>
 
