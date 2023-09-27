@@ -5,7 +5,7 @@ import { NextRequest } from 'next/server';
 //This is the API end point of Finterest for fetching news from NewsData.
 //When we host it on Vercel, we can configure a scheduled function to call this API every midnight, updating our database
 
-const getNews = async (req: NextApiRequest, res: NextApiResponse) => {
+const getNews = async (req: NextRequest, res: NextApiResponse) => {
   try {
     const news = await runGetNewsAndStoreInDb();
     res.status(200).json({ message: 'News data fetched successfully', articles: news});
