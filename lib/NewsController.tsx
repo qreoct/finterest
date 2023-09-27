@@ -3,14 +3,16 @@ import { getArticleIdList, addNewArticle } from "@/config/firestore";
 import { ArticleType } from '@/types/ArticleTypes';
 import { NewsDataIoResponseType } from '@/types/ApiTypes';
 import schedule from 'node-schedule';
+import { refinedarticlefetch } from "../utils/langchain.js";
+import * as fs from 'fs';
 import { generatePrompts } from "../utils/openai";
 import finterestPrompts from "../utils/prompt.json";
 
 // This runs everyday at midnight - DISABLED NOW
 // The scheduling can be done on Vercel instead, calling our getNews API
-// schedule.scheduleJob('0 0 * * *', () => {
-//     runGetNews();
-// });
+schedule.scheduleJob('0 0 * * *', () => {
+    runGetNews();
+});
 
 export default async function runGetNews() {
     // List of existing article IDs in db
@@ -67,7 +69,7 @@ export default async function runGetNews() {
             // Article not inside database yet so we store it
 
             const articleData: ArticleType = await convertArticleJSONToArticleType(article);
-            // console.log(articleData);
+            console.log('article data: ', articleData);
             // fixNewsArticleContentWithAI(articleData);
             addNewArticle(articleId, articleData);
         }
@@ -81,47 +83,47 @@ export default async function runGetNews() {
     //Each page consists of 10 articles.
     //Search for pagination under https://newsdata.io/documentation/#latest-news
 
-    /*
+    
     // TODO: Increase to 10 or 15 next time
-    for (let i = 0; i < 1; i++) {
-        // Wait 10 seconds before sending next API request otherwise we will get "Too Many Requests please try again later"
-        await wait(10000);
+    // for (let i = 0; i < 1; i++) {
+    //     // Wait 10 seconds before sending next API request otherwise we will get "Too Many Requests please try again later"
+    //     await wait(10000);
 
-        const apiResponse = await fetch(
-            `https://newsdata.io/api/1/news?apikey=${process.env.NEXT_PUBLIC_NEWS_KEY}&q=${financeKeywords}&full_content=1&category=business,world,top,technology&language=en&page=${currNextPageToken}`,
-            {
-                headers: {
-                    // Add any headers here if we need next time
-                },
-            },
-        );
+    //     const apiResponse = await fetch(
+    //         `https://newsdata.io/api/1/news?apikey=${process.env.NEXT_PUBLIC_NEWS_KEY}&q=${financeKeywords}&full_content=1&category=business,world,top,technology&language=en&page=${currNextPageToken}`,
+    //         {
+    //             headers: {
+    //                 // Add any headers here if we need next time
+    //             },
+    //         },
+    //     );
 
-        const json = await apiResponse.json();
-        const { status, results, nextPage } = json as NewsDataIoResponseType;
-        console.log(results);
+    //     const json = await apiResponse.json();
+    //     const { status, results, nextPage } = json as NewsDataIoResponseType;
+    //     console.log(results);
 
-        if (status !== "success") {
-            console.log("API Request Failed");
-            return;
-        }
+    //     if (status !== "success") {
+    //         console.log("API Request Failed");
+    //         return;
+    //     }
 
-        currNextPageToken = nextPage;
+    //     currNextPageToken = nextPage;
 
-        // Extract article data and store in database
-        for (const article of results) {
-            // Check if article already exists in the database by checking article id
-            const articleId = article.article_id;
+    //     // Extract article data and store in database
+    //     for (const article of results) {
+    //         // Check if article already exists in the database by checking article id
+    //         const articleId = article.article_id;
 
-            if (!articleIdList.includes(articleId)) {
-                // Article not inside database yet so we store it
+    //         if (!articleIdList.includes(articleId)) {
+    //             // Article not inside database yet so we store it
 
-                const articleData: ArticleType = convertArticleJSONToArticleType(article);
-                // console.log(articleData);
-                // fixNewsArticleContentWithAI(articleData);
-                addNewArticle(articleId, articleData);
-            }
-        }
-    } */
+    //             const articleData: ArticleType = await convertArticleJSONToArticleType(article);
+    //             // console.log(articleData);
+    //             // fixNewsArticleContentWithAI(articleData);
+    //             addNewArticle(articleId, articleData);
+    //         }
+    //     }
+    // } 
 
 }
 
@@ -141,6 +143,17 @@ export default async function runGetNews() {
 
 
 async function convertArticleJSONToArticleType(article: any): Promise<ArticleType>  {
+    const articleContent = article.content;
+    const filePath = "./lib/articlefile.txt"
+
+    try {
+        fs.writeFileSync(filePath, articleContent, 'utf-8');
+        console.log('Text file saved successfully.');
+    } catch(error){
+        console.error('Error saving text file.');
+    }
+
+
     const promptString = `
         I am going to give you content for a news article. The content not only contains the news article, but it also contains also some random gibberish that corresponds to web UI elements found on websites. There is also advertisement content in the news article. I need you to give me the output in a specified format as shown:
 
@@ -165,11 +178,11 @@ async function convertArticleJSONToArticleType(article: any): Promise<ArticleTyp
 
     //Make an API call to OpenAI to process the content, generate 1-line description,
     //generate 1-paragraph summary and 2 different prompts to ask.
-    const response = await generatePrompts('gpt-3.5-turbo', article.content.toString(), promptString);
+    //const response = await generatePrompts('gpt-3.5-turbo', article.content.toString(), promptString);
+    const response = await refinedarticlefetch(filePath);
     console.log("Obtained response: " + response);
     const responseJSON = JSON.parse(
-        response != null
-        ? response
+        response != null ? response
         : `{
             "content": No content,
             "description": No description,
@@ -198,6 +211,7 @@ async function convertArticleJSONToArticleType(article: any): Promise<ArticleTyp
 
     return articleData;
 }
+export {convertArticleJSONToArticleType};
 
 
 

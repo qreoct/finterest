@@ -1,16 +1,23 @@
 import Script from 'next/script';
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { BiSend } from "react-icons/bi";
 import { checkOtherwiseCreateGeneralChat, fetchGeneralChatHistory, storeGeneralChatMessage } from '@/config/firestore';
 import BouncingDots from './BouncingDots';
 import finterestGenerateArticlePrompt from '../../utils/prompt.json';
+import { BiSend } from "react-icons/bi";
 import { generatePrompts } from '../../utils/openai';
+import { convertArticleJSONToArticleType } from '../../lib/NewsController';
+import { getArticle } from '../../config/firestore'
+
 
 interface OpenAIMessage {
     role: string;
     content: string;
 }
+
+const testarticle = getArticle("aac637db7f5f4387cce3a32e3d6c4075")
+
+
 //The UI component for a chatbot with general AI
 export default function GeneralConvo() {
     /* Preparation Variables */
@@ -93,6 +100,7 @@ export default function GeneralConvo() {
         const generalChatIdNew = await checkOtherwiseCreateGeneralChat(userId)
         if (generalChatIdNew != null) {
             setGeneralChatId(generalChatIdNew);
+            const test = await convertArticleJSONToArticleType(testarticle);
         }
     };
 
