@@ -93,7 +93,7 @@ const LoginForm = () => {
  
     return (
         <div className="flex justify-center items-center w-screen">
-            <div className="w-4/5 md:w-3/5 lg:w-2/5 xl:w-1/3 h-full p-4 py-8 sm:p-6 sm:py-10 md:p-8 md:py-14">
+            <div className="w-4/5 md:w-3/5 lg:w-2/5 xl:w-1/3 p-4 py-8 sm:p-6 sm:py-10 md:p-8 md:py-14">
 
                 <form action="" onSubmit={handleEmailLogin} className="group">
                     <h3 className='font-dmsans text-3xl sm:text-4xl lg:text-5xl font-bold text-center'>Welcome back.</h3>
@@ -122,7 +122,7 @@ const LoginForm = () => {
                             }}
                         />
                         <span className="mt-1 text-sm font-dmsans text-firecracker-500">
-                            {emailErrorMessage}
+                            { emailErrorMessage }
                         </span>
                     </div>
                     <div className="mb-5">
@@ -167,7 +167,7 @@ const LoginForm = () => {
                     </button>
 
                     <div className="text-md text-finterest-solid flex text-center text-lg justify-center items-center mb-3 w-full">
-                        <p>Don't have an account? Register <span><a href='/register' className='text-finterest-solid hover:text-gold-500 font-dmsans text-lg font-bold hover:underline'>here</a></span></p>
+                        <p>Don't have an account? Register <span><a href='/register' className='text-finterest-solid hover:text-gold-500 font-dmsans text-lg font-bold hover:underline'>here</a>.</span></p>
                     </div>
                 </form>
                 <div className='flex flex-col sm:flex-row justify-center items-center space-y-5 sm:space-y-0 sm:space-x-5 mt-8'>

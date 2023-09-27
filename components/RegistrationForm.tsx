@@ -149,7 +149,7 @@ const RegistrationForm = () => {
                     </button>
 
                     <div className="text-md text-finterest-solid flex text-center text-lg justify-center items-center mb-3 w-full">
-                        <p>Have an account? Login <span><a href='/login' className='text-finterest-solid hover:text-gold-500 font-dmsans text-lg font-bold hover:underline'>here</a></span></p>
+                        <p>Have an account? Login <span><a href='/login' className='text-finterest-solid hover:text-gold-500 font-dmsans text-lg font-bold hover:underline'>here</a>.</span></p>
                     </div>
 
                     
