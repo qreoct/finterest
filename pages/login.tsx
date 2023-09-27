@@ -6,9 +6,8 @@ import chatboxStyles from '@/styles/chatbox.module.css';
 import { PageWrapper } from '@/components/PageWrapper';
 import { BsList, BsXLg } from 'react-icons/bs';
 
-const login = () => {
+const Login = () => {
     const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = useState(false);
-
 
     //Function that handles toggling of hamburger menu
     const handleHamburgerMenuOnClick = async () => {
@@ -45,18 +44,8 @@ const login = () => {
                 footerItem?.classList.add(chatboxStyles['animateshow']);
                 footerItem?.classList.remove(chatboxStyles['hiddenelement']);
             }, 40);
-
-
-
-
-                //Update state and cause page to re-render
-                setIsHamburgerMenuOpen(false);
-            
-        
-
-    
-
-
+            //Update state and cause page to re-render
+            setIsHamburgerMenuOpen(false);
         } else {
             //Menu is closed. Need to open it.
             const hamburgerMenuItem = document.getElementById('hamburger-menu-element');
@@ -72,8 +61,6 @@ const login = () => {
             headerItem?.classList.remove(chatboxStyles['animateshow']);
             bodyItem?.classList.remove(chatboxStyles['animateshow']);
             footerItem?.classList.remove(chatboxStyles['animateshow']);
-
-
 
             setTimeout(function () {
                 hamburgerMenuItem?.classList.add(chatboxStyles['animateshow']);
@@ -111,7 +98,7 @@ const login = () => {
                     content="width=device-width, initial-scale=1"
                 />
                 <link rel="icon" href="/favicon.ico" />
-                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Gupter:wght@400;500;700&display=swap"/>
+                {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Gupter:wght@400;500;700&display=swap"/> */}
             </Head>
             <main>
                 <PageWrapper>
@@ -221,11 +208,6 @@ const login = () => {
             </main>
         </>
     );
-
-
-
-
-
 };
 
-export default login;
+export default Login;
