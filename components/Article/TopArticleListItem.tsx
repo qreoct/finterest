@@ -2,6 +2,7 @@ import { ArticleType } from "@/types/ArticleTypes"
 import Link from "next/link"
 import { generateColorFromTitle } from '../../utils/colors';
 import { useEffect, useState } from "react";
+import { convertTimestampToString } from "@/utils/convertTimeStampToString";
 
 //Represents an item in the top article list shown in the dashboard
 export const TopArticleListItem = ({ article }: { article: ArticleType }) => {
@@ -29,7 +30,7 @@ export const TopArticleListItem = ({ article }: { article: ArticleType }) => {
                     <h3 className='font-dmsans font-bold text-neutral-headings-black text-xl lg:line-clamp-5'>{currArticle.title}</h3>
                     <p className={`font-dmsans text-stone-700 text-base line-clamp-5`}>{currArticle.description}</p>
                     <div className='h-5'></div>
-                    <h5 className='font-dmsans text-stone-600 text-sm tracking-widest'>{article.pubDate}</h5>
+                    <h5 className='font-dmsans text-stone-600 text-sm tracking-widest'>{convertTimestampToString(currArticle.pubDate)}</h5>
                 </div>
             </Link>
         </div>
