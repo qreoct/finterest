@@ -1,4 +1,5 @@
 import { ArticleType } from "@/types/ArticleTypes"
+import { convertTimestampToString } from "@/utils/convertTimeStampToString";
 import { DocumentData } from "firebase/firestore"
 import Link from "next/link"
 
@@ -26,7 +27,7 @@ export const ArticleListItem = ({ article }: { article: DocumentData }) => {
                         <h5 className='font-dmsans text-stone-700 text-sm uppercase tracking-widest'>{currArticle.source_id}</h5>
                         <h3 className='font-dmsans font-bold text-stone-900 text-2xl'>{currArticle.title}</h3>
                         <p className='font-dmsans text-stone-700 text-base'>{currArticle.description}</p>
-                        <h5 className='font-dmsans text-stone-700 text-sm tracking-widest'>{currArticle.pubDate}</h5>
+                        <h5 className='font-dmsans text-stone-700 text-sm tracking-widest'>{convertTimestampToString(currArticle.pubDate)}</h5>
                     </div>
 
                     {/* Right Column (25% width) */}

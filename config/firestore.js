@@ -17,7 +17,7 @@ import { db } from "@/config/firebase.config.js";
 
 import { getCurrentDate, convertDateToString, convertDateToDDMM } from "@/utils/convertTimeStampToString";
 
-export async function addNewArticle(
+export async function addNewArticleToDB(
     articleId,
     article
 ) {

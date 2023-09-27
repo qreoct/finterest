@@ -5,7 +5,6 @@ import chatboxStyles from '@/styles/chatbox.module.css';
 import React from 'react'
 import { PageWrapper } from '../PageWrapper';
 
-
 /*
 Landing page
 */
@@ -213,7 +212,7 @@ const Landing = () => {
                     <div className="row-start-3 sm:row-start-2 col-span-1 sm:col-span-3 lg:col-span-2 bg-stone-200 rounded-md flex flex-col justify-center items-center px-4  py-4">
                         <img src="/assets/complex-ideas.png" alt="Search up a term and get Finterest AI to explain it" className="h-3/5 sm:w-2/3 sm:h-2/5 lg:w-4/5 lg:h-2/3 xl:w-3/4 xl:h-1/2"/>
                         <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5 2xl:mt-10'>Decode complex ideas</h2>
-                        <h5 className='text-finterest-solid text-center mt-5 text-sm xl:text-base'>See a financial term you don't understand? AI-powered definitions to the rescue!</h5>
+                        <h5 className='text-finterest-solid text-center mt-5 text-sm xl:text-base'>See a financial term you don&apos;t understand? AI-powered definitions to the rescue!</h5>
                         
                     </div>
 
@@ -298,7 +297,7 @@ const Landing = () => {
                             <div className="relative">
                                 <NextLink href={'/pricing'}>
                                 <button className="bg-finterest-white hover:bg-gold-900 text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-gold-900 font-dmsans py-4 px-6 rounded-full flex items-center duration-300">
-                                    <span>Pricing (psst, it's free!)</span>
+                                    <span>Pricing <em>(psst, it&apos;s free!)</em></span>
                                 </button>
                                 </NextLink>
                                 {/* Image positioned relative to the second button */}
@@ -331,13 +330,6 @@ const Landing = () => {
                     <img src="/assets/green-arrow.png" alt="Green Arrow" className="lg:w-1/3 lg:h-1/3 sm:mb-minus-2"/>
                     </div>
                 </div>
-
-               
-                
-
-
-
-              
             </div>
         </PageWrapper>
     );

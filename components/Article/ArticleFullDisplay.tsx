@@ -95,7 +95,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
 
         // Need to manually add paragraph tags to each paragraph otherwise the text will be one big block
         const paragraphs = parsedContent?.split('\n').map((paragraph, index) => (
-            <p key={index} className="text-neutral-text-gray font-dmsans mt-4">{paragraph}</p>
+            <p key={index} className="text-stone-600 font-dmsans mt-4">{paragraph}</p>
         ));
 
         setArticleContent(paragraphs);
@@ -108,7 +108,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
             //Display original text
             setArticleContent(processedContent);
         } else {
-            const summarisedText = [<p key={1} className="text-neutral-text-gray font-dmsans mt-4">{currArticle?.content_summary}</p>];
+            const summarisedText = [<p key={1} className="text-stone-600 font-dmsans mt-4">{currArticle?.content_summary}</p>];
             setArticleContent(summarisedText);
         }
         setIsTextSummarised(!isTextSummarised);
@@ -145,7 +145,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                     content="width=device-width, initial-scale=1"
                 />
                 <link rel="icon" href="/favicon.ico" />
-                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Gupter:wght@400;500;700&display=swap"/>
+                {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Gupter:wght@400;500;700&display=swap"/> */}
             </Head>
 
             <div className="flex">
@@ -160,10 +160,10 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                     </button>
 
                     <div className="flex flex-col justify-start mt-8 ml-8 mr-16 space-y-2">
-                        <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase tracking-widest'>{currArticle.source_id}</h5>
+                        <h5 className='font-dmsans text-stone-600 text-sm uppercase tracking-widest'>{currArticle.source_id}</h5>
                         <h1 className='font-dmsans font-bold text-neutral-headings-black text-2xl'>{currArticle.title}</h1>
-                        <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>{currArticle.creator}</h5>
-                        <p className='font-dmsans text-neutral-text-gray text-base'>{currArticle.pubDate}</p>
+                        <h5 className='font-dmsans text-stone-600 text-sm uppercase tracking-widest'>{currArticle.creator}</h5>
+                        <p className='font-dmsans text-stone-600 text-sm tracking-widest'>{currArticle.pubDate}</p>
 
                         <img src={currArticle.image_url} alt={currArticle.title} className='w-1/2 h-1/2 self-center' />
 
