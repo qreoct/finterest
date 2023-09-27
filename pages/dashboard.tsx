@@ -31,7 +31,7 @@ const Dashboard = () => {
         };
 
         fetchPersonalisedArticleIdList();
-    }, []);
+    }, [user.uid]);
 
     // For trending articles
     const [trendingArticleIdList, setTrendingArticleIdList] = useState<string[]>([]);
@@ -43,7 +43,7 @@ const Dashboard = () => {
         };
 
         fetchTrendingArticleIdList();
-    }, []);
+    }, [user.uid]);
 
     const articleIdListPersonalised = personalisedArticleIdList; 
     const articleIdListTrending = trendingArticleIdList;
@@ -61,7 +61,7 @@ const Dashboard = () => {
                     content="width=device-width, initial-scale=1"
                 />
                 <link rel="icon" href="/favicon.ico" />
-                @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Gupter:wght@400;500;700&display=swap');
+                @import url(`https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Gupter:wght@400;500;700&display=swap`);
                 
 
             </Head>
@@ -74,7 +74,7 @@ const Dashboard = () => {
                 {/* Right Content */}
                 <div className="width-3/4 bg-white overflow-y-auto" style={{ height: '100vh' }}>
                     {/* Top articles */}
-                    <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Today's Top Stories</h2>
+                    <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Today&apos;s Top Stories</h2>
                     <TopArticleList articleIdList={articleIdListTrending} />
 
                     {/* Other articles, as recommended by the algorithm */}
