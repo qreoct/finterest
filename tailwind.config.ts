@@ -101,6 +101,9 @@ const config: Config = {
         'minus-80': '-80%',
         'minus-120': '-120%'
       },
+      spacing: {
+        '350p': '350px',
+      },
       screens: {
         xs: "480px",
       },
