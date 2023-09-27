@@ -1,12 +1,10 @@
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { BsList, BsXLg } from 'react-icons/bs';
 import chatboxStyles from '@/styles/chatbox.module.css';
 import React, { useEffect } from 'react'
 import { PageWrapper } from '@/components/PageWrapper';
 import Head from 'next/head';
-
 
 /*
 Pricing page
@@ -119,7 +117,7 @@ const Pricing = () => {
                     content="width=device-width, initial-scale=1"
                 />
                 <link rel="icon" href="/favicon.ico" />
-                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Gupter:wght@400;500;700&display=swap"/>
+                {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Gupter:wght@400;500;700&display=swap"/> */}
             </Head>
             <main>
                 <PageWrapper>
@@ -198,7 +196,7 @@ const Pricing = () => {
                         <div id="body-element" className='bg-white flex flex-col justify-center items-center space-y-5 px-12 md:px-16 lg:px-20'>
                             <h6 className='font-dmsans uppercase text-xl text-gray-400 bold'>Pricing</h6>
                             <h3 className='font-dmsans text-4xl sm:text-5xl font-bold text-center'>Affordable Pricing Plans</h3>
-                            <p className='font-dmsans text-gray-400 text-center'>Discover our range of affordable pricing plans, where there's a perfect option for everyone.</p>
+                            <p className='font-dmsans text-gray-400 text-center'>Discover our range of affordable pricing plans, where there&apos;s a perfect option for everyone.</p>
 
                             {/* Pricing Information */}
                             <div className='flex flex-col md:flex-row justify-content items-center space-y-8 w-full sm:w-auto md:space-y-auto md:space-x-8 lg:space-x-16'>
