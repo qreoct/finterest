@@ -21,3 +21,21 @@ export function getCurrentDate(): string {
 
   return `${year}-${month}-${day}`;
 }
+
+// Convert date to YYYY-MM-DD format
+export function convertDateToString(date: Date): string {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  return `${year}-${month}-${day}`;
+}
+
+// Convert date to DD/MM format
+export function convertDateToDDMM(date: Date): string {
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const dayInWeek = date.toLocaleString('default', { weekday: 'short' });
+
+  return `${dayInWeek} ${day}/${month}`;
+}

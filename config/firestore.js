@@ -15,7 +15,7 @@ import {
 
 import { db } from "@/config/firebase.config.js";
 
-import { getCurrentDate } from "@/utils/convertTimeStampToString";
+import { getCurrentDate, convertDateToString, convertDateToDDMM } from "@/utils/convertTimeStampToString";
 
 export async function addNewArticle(
     articleId,
@@ -271,7 +271,7 @@ export async function updateUserHistory(userId, articleId) {
 }
 
 // Get user's read count for today
-export async function getUserReadCount(userId) {
+export async function getUserReadCountToday(userId) {
     const userRef = doc(db, "users", userId);
     const user_read_count = (await getDoc(userRef)).data()["read_count"];
     const today = getCurrentDate();
@@ -281,6 +281,48 @@ export async function getUserReadCount(userId) {
     } else {
         return user_read_count[today];
     }
+}
+
+// Get user's read counts for n days (starting from today)
+// Returns list of (date, read_count) pairs
+export async function getUserReadCountNDays(userId, n) {
+    const userRef = doc(db, "users", userId);
+    const user_read_count = (await getDoc(userRef)).data()["read_count"];
+    const read_count_n_days = [];
+
+    for (let i = 0; i < n; i++) {
+        const currDate = new Date();
+        currDate.setDate(currDate.getDate() - i);
+        const currDateString = convertDateToString(currDate);
+        const currDateDDMM = convertDateToDDMM(currDate);
+        if (!user_read_count || !user_read_count[currDateString]) {
+            read_count_n_days.push([currDateDDMM, 0]);
+        } else {
+            read_count_n_days.push([currDateDDMM, user_read_count[currDateString]]);
+        }
+    }
+
+    return read_count_n_days;
+}
+
+// Get user's read total for n days (starting from today)
+export async function getUserReadTotalNDays(userId, n) {
+    const userRef = doc(db, "users", userId);
+    const user_read_count = (await getDoc(userRef)).data()["read_count"];
+    let read_total_n_days = 0;
+
+    for (let i = 0; i < n; i++) {
+        const currDate = new Date();
+        currDate.setDate(currDate.getDate() - i);
+        const currDateString = convertDateToString(currDate);
+        if (!user_read_count || !user_read_count[currDateString]) {
+            read_total_n_days += 0;
+        } else {
+            read_total_n_days += user_read_count[currDateString];
+        }
+    }
+
+    return read_total_n_days;
 }
 
 // Add user to user collection with empty chat list

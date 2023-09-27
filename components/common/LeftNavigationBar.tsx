@@ -40,7 +40,7 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
             <div className="flex-grow flex justify-center items-center">
                 <div className="flex-col flex justify-center items-start space-y-8">
 
-                    <NextLink href={'/'} className="flex items-center ml-8 hover:text-gold-500">
+                    <NextLink href={'/dashboard'} className="flex items-center ml-8 hover:text-gold-500">
                         <BiNews className='text-3xl cursor-pointer text-neutral-headings-black m-2' />
                         <h5 className={`font-dmsans text-neutral-headings-black text-xl ml-2 ${tabIndex.tabIndex === 0 ? 'font-bold' : ''}`}>News</h5>
                     </NextLink>
@@ -50,7 +50,7 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
                         <h5 className={`font-dmsans text-neutral-headings-black text-xl ml-2 ${tabIndex.tabIndex === 1 ? 'font-bold' : ''}`}>AI Chat</h5>
                     </NextLink>
 
-                    <NextLink href={'/'} className="flex items-center ml-8 hover:text-gold-500">
+                    <NextLink href={'/profile'} className="flex items-center ml-8 hover:text-gold-500">
                         <BiSmile className='text-3xl cursor-pointer text-neutral-headings-black m-2' />
                         <h5 className={`font-dmsans text-neutral-headings-black text-xl ml-2 ${tabIndex.tabIndex === 2 ? 'font-bold' : ''}`}>Profile</h5>
                     </NextLink>
