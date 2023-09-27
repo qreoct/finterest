@@ -83,9 +83,8 @@ const Profile = () => {
                         </div>
                     </div>
 
-                    {/* 7 cards vertically stacked that show your read counts for each day of the week */}
+                    {/* 7 vertically stacked cards that show your read counts for the past week */}
                     <div className="flex flex-col justify-center items-center space-y-5">
-                        {/* For each element in readCounts, show card with date and count */}
                         {readCounts.map((count, index) => (
                             <div className={`flex justify-center items-center bg-yellow-${count[1] >= 5 ? 100 : 50} rounded-lg w-1/2 h-1/4 space-x-20`}>
                                 <h3 className="font-gupter text-neutral-headings-black font-bold text-4xl">{count[1]}</h3>

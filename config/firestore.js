@@ -284,7 +284,7 @@ export async function getUserReadCountToday(userId) {
 }
 
 // Get user's read counts for n days (starting from today)
-// Returns list of (date, read_count) pairs
+// Returns list of [date, read_count] pairs
 export async function getUserReadCountNDays(userId, n) {
     const userRef = doc(db, "users", userId);
     const user_read_count = (await getDoc(userRef)).data()["read_count"];
