@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import LoginForm from '@/components/LoginForm';
+import Landing from '@/components/Landing/landing';
 
 //Entry point of the application
 export default function Home() {
@@ -9,16 +10,17 @@ export default function Home() {
                 <title>Finterest</title>
                 <meta
                     name="description"
-                    content="Turning learning into earning for youths"
+                    content="Turning Wisdom Into Wealth"
                 />
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
-                <link rel="icon" href="/icon.ico" />
+                <link rel="icon" href="/favicon.ico" />
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Gupter:wght@400;500;700&display=swap"/>
             </Head>
-            <main className="m-0 bg-gradient-to-br from-primary-color to-blue-400 px-4">
-                <LoginForm />
+            <main>
+                <Landing />
             </main>
         </>
     );

@@ -88,3 +88,20 @@
     animation-delay: 0.4s;
   }
 
+
+/* CSS Transition Class */
+.animateshow {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+/* Initial Hidden State */
+.hiddenelement {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.animateshow-fade-out {
+    opacity: 0 ! important;
+    transition: opacity 0.5s ease-in-out;
+}
