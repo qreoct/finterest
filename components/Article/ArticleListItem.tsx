@@ -1,6 +1,6 @@
 import { ArticleType } from "@/types/ArticleTypes"
 import { DocumentData } from "firebase/firestore"
-import NextLink from "next/link"
+import Link from "next/link"
 
 //A component that shows an article list item in the dashboard
 export const ArticleListItem = ({ article }: { article: DocumentData }) => {
@@ -19,7 +19,7 @@ export const ArticleListItem = ({ article }: { article: DocumentData }) => {
 
     return (
         <div className="mt-8 ml-16 mr-16">
-            <NextLink href={`/articles/${currArticle.article_id}`} className="text-xl font-extra-bold text-blue-600">
+            <Link href="articles/[id]" as={`articles/${currArticle.article_id}`} className="text-xl font-extra-bold text-blue-600">
                 <div className="flex">
                     {/* Left Column (75% width) */}
                     <div className="w-3/4 space-y-2">
@@ -34,7 +34,7 @@ export const ArticleListItem = ({ article }: { article: DocumentData }) => {
                         <img src={currArticle.image_url} alt={ currArticle.title } className='rounded-lg' />
                     </div>
                 </div>
-            </NextLink>
+            </Link>
         </div>
 
     );

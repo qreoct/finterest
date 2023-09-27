@@ -22,7 +22,7 @@ const Dashboard = () => {
     // For react need to use this state management thing so that the the Promise will be awaited
     // For personalised articles
     const [personalisedArticleIdList, setPersonalisedArticleIdList] = useState<string[]>([]);
-
+    
     useEffect(() => {
         const fetchPersonalisedArticleIdList = async () => {
             const NUMBER_OF_PERSONALISED_ARTICLES_TO_RECOMMEND = 10

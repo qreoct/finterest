@@ -1,4 +1,3 @@
-
 import {
     collection,
     query,
@@ -15,6 +14,8 @@ import {
 } from "firebase/firestore";
 
 import { db } from "@/config/firebase.config.js";
+
+import { getCurrentDate } from "@/utils/convertTimeStampToString";
 
 export async function addNewArticle(
     articleId,
@@ -235,37 +236,51 @@ export async function updateUserHistory(userId, articleId) {
     const userRef = doc(db, "users", userId);
     const category = (await getArticle(articleId)).category[0];
     const user_category_count = (await getDoc(userRef)).data()["category_history"];
+    const user_read_count = (await getDoc(userRef)).data()["read_count"];
+    const today = getCurrentDate();
+
+    let new_read_count = 0;
+    let new_category_count = 0;
+
+    // Check if user has read_count, if not, create one
+    if (!user_read_count || !user_read_count[today]) {
+        new_read_count = 1;
+    } else {
+        new_read_count = user_read_count[today] + 1;
+    }
+
     // Check if user has category_history, if not, create one
-    if (!user_category_count) {
-        await updateDoc(userRef, {
-            article_history: arrayUnion(articleId),
-            category_history: {
-                [category]: 1
-            }
-        });
-        return;
+    if (!user_category_count || !user_category_count[category]) {
+        new_category_count = 1; 
+    } else {
+        new_category_count = user_category_count[category] + 1;
     }
-    // Else, update the category_history
-    if (!user_category_count[category]) {
-        await updateDoc(userRef, {
-            chats: arrayUnion(articleId),
-            article_history: arrayUnion(articleId),
-            // Add new category to user's category_history
-            category_history: {
-                ...user_category_count,
-                [category]: 1
-            }
-        });
-        return;
-    }
+
+    // Else, update the article_history, category_history and read_count
     await updateDoc(userRef, {
-        chats: arrayUnion(articleId),
         article_history: arrayUnion(articleId),
         category_history: {
             ...user_category_count,
-            [category]: user_category_count[category] + 1
+            [category]: new_category_count
+        },
+        read_count: {
+            ...user_read_count,
+            [today]: new_read_count
         }
     });
+}
+
+// Get user's read count for today
+export async function getUserReadCount(userId) {
+    const userRef = doc(db, "users", userId);
+    const user_read_count = (await getDoc(userRef)).data()["read_count"];
+    const today = getCurrentDate();
+
+    if (!user_read_count || !user_read_count[today]) {
+        return 0;
+    } else {
+        return user_read_count[today];
+    }
 }
 
 // Add user to user collection with empty chat list
