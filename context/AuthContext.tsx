@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth, googleProvider } from '../config/firebase.config';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider, updatePassword, getAuth  } from 'firebase/auth';
+import { addUserIfNotExist } from '@/config/firestore';
 
 
 /* 
@@ -31,6 +32,7 @@ export const AuthContextProvider = (
         const [user, setUser] = useState<UserType>({ email: null, uid: null });
         const [loading, setLoading] = useState<Boolean>(true);
 
+
         // Whenever auth state from Firebase changes, it will set the new user accordingly
         useEffect(() => {
             const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -44,17 +46,23 @@ export const AuthContextProvider = (
                     //No user is signed in
                     setUser({ email: null, uid: null });
                 }
+                setLoading(false);
+
+
             });
 
-            setLoading(false);
+            // setLoading(false);
 
             return () => unsubscribe();
         }, []);
 
  
     //Register new account via email and password
-    const signUpViaEmail = (email: string, password: string) => {
-        return createUserWithEmailAndPassword(auth, email, password);
+    const signUpViaEmail = async (email: string, password: string) => {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        const uid = user.uid;
+        await addUserIfNotExist(uid);
     };
 
     //Logins via email and password
@@ -63,21 +71,11 @@ export const AuthContextProvider = (
     };
 
     //Sign in via Google
-    const googleSignIn = () => {
-        return new Promise((resolve, reject) => {
-            signInWithPopup(auth, googleProvider)
-                .then((result) => {
-                    const credential = GoogleAuthProvider.credentialFromResult(result);
-                    const token = credential?.accessToken;
-                    const user = result.user;
-                }).catch((error) => {
-                    // Handle Errors here.
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    const email = error.customData.email;
-                    const credential = GoogleAuthProvider.credentialFromError(error);
-                });
-    })};
+    const googleSignIn = async ()  => {
+            const result = await signInWithPopup(auth, googleProvider);
+            const uid = result.user.uid;
+            await addUserIfNotExist(uid); 
+    }
 
     //Log out from the app
     const logOut = async () => {
@@ -88,7 +86,7 @@ export const AuthContextProvider = (
     //Wrap the children components with the context provider to access the user information
     //and authentication functionalities
     return (
-        <AuthContext.Provider value={{ user, signUpViaEmail: signUpViaEmail, loginViaEmail: loginViaEmail, googleSignIn: googleSignIn, logOut: logOut }}>
+        <AuthContext.Provider value={{ user, loading, signUpViaEmail: signUpViaEmail, loginViaEmail: loginViaEmail, googleSignIn: googleSignIn, logOut: logOut}}>
             { loading ? null : children }
         </AuthContext.Provider>
     )

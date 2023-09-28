@@ -82,6 +82,8 @@ const config: Config = {
         '1/8': '12.5%',
         '1/16': '6.25%',
         '70': '70%',
+        '30': '30%',
+        '200p': '200px',
       },
       width: {
         '1/8': '12.5%',
@@ -110,6 +112,7 @@ const config: Config = {
     },
   },
   plugins: [],
+  darkMode: 'class',
 }
 
 export default config;

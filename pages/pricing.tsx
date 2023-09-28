@@ -41,7 +41,7 @@ const Pricing = () => {
                                 {/* Basic plan */}
                                 <div className='border-2 border-gold-500 flex flex-col rounded-lg md:w-2/5 sm:p-4 md:p-8'>
                                     <div className='flex justify-between items-center mx-5 my-3'>
-                                        <img src="/assets/basic-plan.png" alt="Logo for Finterest Basic Plan" className="w-8 h-12 xl:w-10 xl:h-16 m-4" />
+                                        <img src="/assets/basic-plan-svg.svg" alt="Logo for Finterest Basic Plan" className="w-8 h-12 xl:w-10 xl:h-16 m-4" />
                                         <div className='border-2 border-gold-500 font-bold rounded-full w-2/5 xl:w-1/4 text-dmsans text-center py-2 px-5'>Free</div>
                                     </div>
 
@@ -87,7 +87,7 @@ const Pricing = () => {
                                 {/* Finterest Plus */}
                                 <div className='bg-gradient-to-br from-custom-gold-top to-custom-gold-bottom flex flex-col rounded-lg w-full sm:w-auto md:w-3/5 p-4 sm:p-8 md:p-12 xl:p-16'>
                                     <div className='flex justify-between items-center mx-5 my-3'>
-                                            <img src="/assets/finterest-plus.png" alt="Logo for Finterest PLUS Plan" className="w-20 h-20 m-4" />
+                                            <img src="/assets/finterest-plus-svg.svg" alt="Logo for Finterest PLUS Plan" className="w-20 h-20 m-4" />
                                             <div className='bg-white rounded-full w-1/2 lg:w-2/3 xl:w-1/4 text-dmsans text-center py-4 px-5 text-black font-bold'>$399/mo</div>
                                     </div>
 

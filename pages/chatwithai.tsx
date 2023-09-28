@@ -23,14 +23,14 @@ const ChatWithAi = () => {
                 />
                
             </Head>
-
-            <div className="flex">
+      
+            <div className="flex items-center flex-col-reverse overflow-y-hidden h-screen md:flex-row">
                 {/* Navigation Bar */}
                 <LeftNavigationBar tabIndex={1} />
 
                 {/* Right Content */}
-                <div className="bg-white w-full overflow-y-auto" style={{ height: '100vh' }}>
-                    <GeneralConvo />
+                <div className="bg-white w-full overflow-y-hidden h-screen">
+                    <GeneralConvo tabIndex={0} />
                 </div>
 
             </div>

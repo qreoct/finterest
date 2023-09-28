@@ -17,7 +17,7 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
 
 
     return (
-        <div id='left-navigation-element' className="flex-grow w-screen md:max-w-sm min-w-fit w-100 md:h-screen flex justify-center md:flex-col md:justify-between bg-neutral-color-300 p-4 md:p-16 md:py-8 top-0 left-0 bottom-0">
+        <div id='left-navigation-element' className="flex-grow w-3/4 md:max-w-sm min-w-fit w-100 md:h-screen flex justify-center md:flex-col md:justify-between bg-neutral-color-300 p-4 md:p-16 md:py-8 top-0 left-0 bottom-0">
             {/* Logo Bar */}
             <div className="flex-none flex flex-col justify-center items-center text-center">
                 {/* First Row */}
@@ -66,7 +66,7 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
 
                     <div className="hidden md:flex justify-center items-center">
                         <NextLink href='/pricing'>
-                            <button className="bg-gold-500 hover:bg-gold-900 text-white font-semibold xl:py-2 px-8 rounded-full flex items-center mt-5">
+                            <button className="bg-gold-500 hover:bg-gold-900 text-white font-semibold xl:py-2 px-8 rounded-full flex items-center mt-5 duration-300">
                                 <BiStar className='text-3xl cursor-pointer text-white m-2' />
                                 <span className="mr-2">Upgrade</span>
                             </button>
