@@ -118,43 +118,45 @@ const Profile = () => {
 
             </Head>
 
-            <div className="flex">
+            <div className="flex items-center flex-col-reverse md:flex-row md:items-start h-screen overflow-y-hidden">
                 {/* Navigation Bar */}
                 <LeftNavigationBar tabIndex={2} />
 
                 {/* Right Content */}
-                <div className="flex flex-col bg-white w-full h-screen overflow-y-auto space-y-5">
-                    <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl mx-16 mt-16">Your Article Stats</h2>
+                <div className="flex flex-col bg-white w-full h-screen overflow-y-auto space-y-8 md:space-y-5">
+                    <h2 className="text-center md:text-start font-gupter text-neutral-headings-black font-bold text-4xl mx-16 mt-16">Your Article Stats</h2>
 
                     {/* Yellow cards with rounded corners that show your read counts this week / month / year */}
-                    <div className="flex flex-row justify-start items-center space-x-8 mx-16">
+                    <div className="flex flex-row justify-center md:justify-start items-center xs:space-x-8 mx-4 lg:mx-16">
                         <div className="flex flex-col justify-center items-center rounded-lg px-8 py-4 space-y-2">
                             <h3 className="font-gupter text-gold-500 font-bold text-6xl">{readWeeklyTotal}</h3>
-                            <h5 className="font-dmsans text-neutral-headings-black text-xl">This Week</h5>
+                            <h5 className="font-dmsans text-center text-neutral-headings-black text-xl">This Week</h5>
                         </div>
                         <div className="flex flex-col justify-center items-center rounded-lg px-8 py-4 space-y-2">
                             <h3 className="font-gupter text-gold-500 font-bold text-6xl">{readMonthlyTotal}</h3>
-                            <h5 className="font-dmsans text-neutral-headings-black text-xl">This Month</h5>
+                            <h5 className="font-dmsans text-center text-neutral-headings-black text-xl">This Month</h5>
                         </div>
                         <div className="flex flex-col justify-center items-center rounded-lg px-8 py-4 space-y-2">
                             <h3 className="font-gupter text-gold-500 font-bold text-6xl">{readYearlyTotal}</h3>
-                            <h5 className="font-dmsans text-neutral-headings-black text-xl">This Year</h5>
+                            <h5 className="font-dmsans text-center text-neutral-headings-black text-xl">This Year</h5>
                         </div>
                     </div>
 
                     {/* 7 horizontally stacked cards that show your read counts for the past week */}
-                    <div className="flex justify-start items-center space-x-5 mx-16 mt-16">
-                        {readCounts.map((count, index) => (
-                            <div key={index} className={`flex-col justify-center items-center ${count[1] >= 5 ? 'bg-gold-500' : 'bg-bg-slate-200'} ${count[1] >= 5 ? 'border-0' : 'border-2' } rounded-lg h-36 w-28 px-2 py-8`}>
-                                <h3 className={`font-gupter text-center self-center text-neutral-headings-black font-bold text-4xl ${count[1] >= 5 ? 'text-white' : 'text-finterest-solid' }`}>{count[1]}</h3>
-                                <h5 className={`font-dmsans text-neutral-headings-black text-xl text-center ${count[1] >= 5 ? 'text-white' : 'text-finterest-solid'} `}>{count[0]}</h5>
-                            </div>
-                        ))}
+                    <div className='h-64'>
+                        <div className="flex justify-start items-center space-x-5 mx-16 mt-4 md:mt-8 lg:mt-16 overflow-x-auto overflow-y-hidden py-4">
+                            {readCounts.map((count, index) => (
+                                <div key={index} className={`flex-col justify-center items-center ${count[1] >= 5 ? 'bg-gold-500' : 'bg-bg-slate-200'} ${count[1] >= 5 ? 'border-0' : 'border-2' } rounded-lg h-28 lg:h-36 w-28 px-2 py-2 lg:py-8`}>
+                                    <h3 className={`font-gupter text-center self-center text-neutral-headings-black font-bold text-3xl xl:text-4xl ${count[1] >= 5 ? 'text-white' : 'text-finterest-solid' }`}>{count[1]}</h3>
+                                    <h5 className={`font-dmsans text-neutral-headings-black text-lg xl:text-xl text-center ${count[1] >= 5 ? 'text-white' : 'text-finterest-solid'} `}>{count[0]}</h5>
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
 
-                    <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl mx-16 pt-8">Change Password</h2>
-                    <div className="mb-5 w-1/4 mx-16">
+                    <h2 className="text-center md:text-start font-gupter text-neutral-headings-black font-bold text-4xl mx-8 md:mx-16 pt-8">Change Password</h2>
+                    <div className="self-center md:self-start mb-5 w-3/5 md:w-2/5 xl:w-1/4 mx-16">
                         <label htmlFor="password" className="block mb-2 font-dmsans font-bold text-finterest-black">New Password</label>
                         <div className='flex relative'>
                             <input
@@ -194,16 +196,12 @@ const Profile = () => {
 
                         <h4 className="mt-5 text-firecracker-500 text-center">{ message }</h4>
 
-                       
-
-
                     </div>
-
 
 
                     {/* Logout Button */}
                     <div className="flex justify-center items-center md:hidden">
-                        <button className="bg-gold-500 hover:bg-gold-900 text-white font-semibold py-2 px-8 rounded-full flex items-center mt-5"
+                        <button className="bg-gold-500 hover:bg-gold-900 text-white font-semibold py-2 px-8 rounded-full flex items-center mb-5"
                         onClick={
                             () => {
                                 logOut();
