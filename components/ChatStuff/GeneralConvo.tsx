@@ -5,6 +5,7 @@ import { checkOtherwiseCreateGeneralChat, fetchGeneralChatHistory, storeGeneralC
 import finterestGenerateArticlePrompt from '../../utils/prompt.json';
 import { generatePrompts } from '../../utils/openai';
 import ChatMessageTextArea from './ChatMessageTextArea';
+import { BiMessageAltDetail, BiNews } from 'react-icons/bi';
 
 interface OpenAIMessage {
     role: string;
@@ -60,8 +61,9 @@ export default function GeneralConvo() {
     useEffect(() => {
         const messageJsxElements = messages.map((openAiMessage, index) => (
             (openAiMessage.role == 'user')
-                ? <p key={index} className="text-white font-dmsans mt-4 self-end w-2/5 bg-neutral-headings-black rounded-2xl p-5 mr-4">{openAiMessage.content}</p>
-                : <p key={index} className="text-neutral-headings-black font-dmsans mt-4 self-start w-2/5 bg-neutral-color-300 rounded-2xl p-5">{openAiMessage.content}</p>
+                ? <p key={index} className="text-white font-dmsans mt-4 self-end w-3/4 md:w-1/2 bg-gold-900 rounded-2xl p-5 mr-4">{openAiMessage.content}</p>
+                : <p key={index} className="text-neutral-headings-black font-dmsans mt-4 self-start w-1/2 bg-stone-100 rounded-2xl p-5 ml-4">{openAiMessage.content}</p>
+            
         ));
         setMessageJsxElements(messageJsxElements);
     }, [messages]);
@@ -119,8 +121,8 @@ export default function GeneralConvo() {
 
 
         //Send message to OpenAI to get response
-        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt, previousMessages);
-        //const response = "Sample response 1";
+        // const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt, previousMessages);
+        const response = "Sample response 1";
 
 
 
@@ -180,15 +182,35 @@ export default function GeneralConvo() {
     }
 
     return (
-        <div>
+        <div className='flex-grow'>
             <div>
                 <div className="flex flex-col justify-between h-screen overflow-y-hidden">
-                    <div id="chatboxMessageList" className="ml-4 mr-4 mt-16 overflow-y-auto pr-0 h-70">
+                    {/* Toggle tab between general and article chats */}
+                    <div className='flex self-center justify-center rounded-lg space-x-8 mt-5 w-4/5 xl:w-2/5'>
+                        <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" >
+                                <BiMessageAltDetail className='text-2xl cursor-pointer' />
+                                <span className="ml-2">General Chat</span>
+                        </button>
+                        <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" >
+                                <BiNews className='text-2xl cursor-pointer' />
+                                <span className="ml-2">Article Chat</span>
+                        </button>
+                       
+
+                    </div>
+
+                    <div id="chatboxMessageList" className="ml-4 mr-4 mt-4 md:mt-8 overflow-y-auto pr-0 h-70">
                         <p className='font-dmsans text-neutral-headings-black font-bold text-center'>Hey there! Finterest AI helps you learn financial concepts through the news.</p>
 
                         {/* Messages from the user and the system */}
                         <div className='flex flex-col justify-start'>
-                            {messageJsxElements}
+                            {/* {messageJsxElements} */}
+                            <p className="text-white font-dmsans mt-4 self-end w-3/4 md:w-1/2 bg-gold-900 rounded-2xl p-5 mr-4">User Message says hello and this is just a message</p>
+                            <p className="text-neutral-headings-black font-dmsans mt-4 self-start w-3/4 md:w-1/2 bg-stone-100 rounded-2xl p-5 ml-4">Long response from the system ai to reply to the user message</p>
+                            <p className="text-white font-dmsans mt-4 self-end w-3/4 md:w-1/2 bg-gold-900 rounded-2xl p-5 mr-4">User Message says hello and this is just a message</p>
+                            <p className="text-neutral-headings-black font-dmsans mt-4 self-start w-3/4 md:w-1/2 bg-stone-100 rounded-2xl p-5 ml-4">Long response from the system ai to reply to the user message</p>
+                            <p className="text-white font-dmsans mt-4 self-end w-3/4 md:w-1/2 bg-gold-900 rounded-2xl p-5 mr-4">User Message says hello and this is just a message</p>
+                            <p className="text-neutral-headings-black font-dmsans mt-4 self-start w-3/4 md:w-1/2 bg-stone-100 rounded-2xl p-5 ml-4">Long response from the system ai to reply to the user message</p>
                         </div>
                         <div className='h-20' ref={ref} />
                     </div>

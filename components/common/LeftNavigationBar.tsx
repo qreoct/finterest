@@ -17,7 +17,7 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
 
 
     return (
-        <div id='left-navigation-element' className="flex-grow w-screen md:max-w-sm min-w-fit w-100 md:h-screen flex justify-center md:flex-col md:justify-between bg-neutral-color-300 p-4 md:p-16 md:py-8 top-0 left-0 bottom-0">
+        <div id='left-navigation-element' className="flex-grow w-3/4 md:max-w-sm min-w-fit w-100 md:h-screen flex justify-center md:flex-col md:justify-between bg-neutral-color-300 p-4 md:p-16 md:py-8 top-0 left-0 bottom-0">
             {/* Logo Bar */}
             <div className="flex-none flex flex-col justify-center items-center text-center">
                 {/* First Row */}
