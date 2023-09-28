@@ -20,7 +20,7 @@ class MyDocument extends Document {
               page_path: window.location.pathname,
               });
               `}
-            </Script>
+          </Script>
           
         </Head>
         <body>

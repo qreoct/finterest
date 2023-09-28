@@ -20,7 +20,8 @@ export const ArticleListItem = ({ article }: { article: DocumentData }) => {
 
     return (
         <div className="mt-8 ml-16 mr-16">
-            <Link href="articles/[id]" as={`articles/${currArticle.article_id}`} className="text-xl font-extra-bold text-blue-600">
+            <Link href="articles/[id]" as={`articles/${currArticle.article_id}`}
+                className="text-xl font-extra-bold text-blue-600">
                 <div className="flex">
                     {/* Left Column (75% width) */}
                     <div className="w-3/4 max-w-prose space-y-2">
@@ -32,11 +33,11 @@ export const ArticleListItem = ({ article }: { article: DocumentData }) => {
 
                     {/* Right Column (25% width) */}
                     <div className="w-1/4 pl-4">
-                        <img src={currArticle.image_url} alt={ currArticle.title } className='rounded-lg' />
+                        <img src={currArticle.image_url} alt={currArticle.title} className='rounded-lg' />
                     </div>
                 </div>
             </Link>
-        </div>
+        </div >
 
     );
 }

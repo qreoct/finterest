@@ -1,8 +1,8 @@
 export function convertTimestampToString(timestamp: string): string {
   const date: Date = new Date(timestamp);
 
-  // Format the date as a string (e.g., "MM/DD/YYYY")
-  const dateString: string = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  // Format the date as a string (e.g., "DD/MM/YYYY")
+  const dateString: string = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   // ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
   return dateString;
