@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth, googleProvider } from '../config/firebase.config';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider, updatePassword, getAuth  } from 'firebase/auth';
 
 
 /* 
@@ -92,7 +92,7 @@ export const AuthContextProvider = (
     //Wrap the children components with the context provider to access the user information
     //and authentication functionalities
     return (
-        <AuthContext.Provider value={{ user, loading, signUpViaEmail: signUpViaEmail, loginViaEmail: loginViaEmail, googleSignIn: googleSignIn, logOut: logOut }}>
+        <AuthContext.Provider value={{ user, loading, signUpViaEmail: signUpViaEmail, loginViaEmail: loginViaEmail, googleSignIn: googleSignIn, logOut: logOut}}>
             { loading ? null : children }
         </AuthContext.Provider>
     )

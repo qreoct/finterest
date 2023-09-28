@@ -95,7 +95,7 @@ const PasswordRecoveryForm = () => {
                         <p>Return to login <span><Link href='/login' className='text-finterest-solid hover:text-gold-500 font-dmsans text-lg font-bold hover:underline'>here</Link>.</span></p>
                     </div>
                     
-                    <h4 className="mt-5 text-rose-500 text-center">{ message }</h4>
+                    <h4 className="mt-5 text-firecracker-500 text-center">{ message }</h4>
                 </form>
             </div>
         </div> 

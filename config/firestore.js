@@ -304,7 +304,8 @@ export async function getUserReadCountNDays(userId, n) {
         }
     }
 
-    return read_count_n_days;
+    const output = read_count_n_days.reverse();
+    return output;
 }
 
 // Get user's read total for n days (starting from today)
