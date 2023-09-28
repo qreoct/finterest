@@ -160,46 +160,25 @@ export async function getTrendingArticleIdList(userId, numArticles) {
         return !user_article_history_set.has(currDoc.id);
     });
 
-    // Count the number of times each article has been read by all users
-    const article_count = {};
-    const all_users = await getDocs(collection(db, "users"));
-    all_users.docs.forEach(currUser => {
-        // Skip if the user is the current user or if the user has no article history
-        if (currUser.id === userId || !currUser.data()["article_history"]) {
-            return;
-        }
-
-        const currUserArticleHistory = currUser.data()["article_history"];
-        currUserArticleHistory.forEach(currArticle => {
-            // Skip if the user has read the article
-            if (user_article_history_set.has(currArticle)) {
-                return;
-            }
-            if (!article_count[currArticle]) {
-                article_count[currArticle] = 1; 
-            } else {
-                article_count[currArticle] += 1;
-            }
-        });
-    });
-
-    // Sort the articles by the number of times they have been read (descending)
+    // Sort the articles by their view_count (descending)
     // If two articles have the same number of reads, sort by dateStored
     filtered_articles.sort((a, b) => {
-        let a_count = article_count[a.data().article_id];
-        let b_count = article_count[b.data().article_id];
-        // Articles not in article_count are given a count of 0
-        if (!a_count) {
-            a_count = 0;
-        }
-        if (!b_count) {
-            b_count = 0;
-        } 
+        let a_view_count = a.data()["view_count"];
+        let b_view_count = b.data()["view_count"];
 
-        if (a_count === b_count) {
-            return b.data().dateStored - a.data().dateStored;
+        if (!a_view_count) {
+            a_view_count = 0; 
+        }
+        if (!b_view_count) {
+            b_view_count = 0;
+        }
+
+        const a_date_stored = a.data()["dateStored"];
+        const b_date_stored = b.data()["dateStored"];
+        if (a_view_count === b_view_count) {
+            return b_date_stored - a_date_stored;
         } else {
-            return b_count - a_count;
+            return b_view_count - a_view_count;
         }
     });
 
@@ -231,7 +210,7 @@ export async function addArticleIdToUser(userId, articleId) {
     // chatId = userId + articleId << In this way all chats still have unique Ids
 }
 
-// Update user's article history and category history
+// Update user's article history and category history and article read count on article click
 export async function updateUserHistory(userId, articleId) {
     const userRef = doc(db, "users", userId);
     const category = (await getArticle(articleId)).category[0];
@@ -267,6 +246,19 @@ export async function updateUserHistory(userId, articleId) {
             ...user_read_count,
             [today]: new_read_count
         }
+    });
+
+    // Update article's view_count
+    const articleRef = doc(db, "articles", articleId);
+    const article_view_count = (await getDoc(articleRef)).data()["view_count"];
+    let new_view_count = 1;
+
+    if (article_view_count) {
+        new_view_count = article_view_count + 1;
+    }
+
+    await updateDoc(articleRef, {
+        view_count: new_view_count
     });
 }
 
