@@ -9,6 +9,7 @@ import { TopArticleList } from '@/components/Article/TopArticleList';
 import { getPersonalisedArticleIdList, getTrendingArticleIdList } from '@/config/firestore';
 import { useEffect, useState } from 'react';
 import LeftNavigationBar  from '@/components/common/LeftNavigationBar'
+import Script from 'next/script';
 
 /*
     The page where the user first enters after he logs in
@@ -59,10 +60,7 @@ const Dashboard = () => {
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
-                <link rel="icon" href="/favicon.ico" />
-                @import url(`https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Gupter:wght@400;500;700&display=swap`);
-                
-
+               
             </Head>
 
             <div className="flex">
