@@ -25,7 +25,7 @@ const Dashboard = () => {
         }
 
         const fetchPersonalisedArticleIdList = async () => {
-            const NUMBER_OF_PERSONALISED_ARTICLES_TO_RECOMMEND = 10
+            const NUMBER_OF_PERSONALISED_ARTICLES_TO_RECOMMEND = 30
             const idList = await getPersonalisedArticleIdList(user.uid, NUMBER_OF_PERSONALISED_ARTICLES_TO_RECOMMEND);
             setPersonalisedArticleIdList(idList);
         };

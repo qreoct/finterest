@@ -32,15 +32,24 @@ export async function addNewArticleToDB(
         description: article.description,
         link: article.link,
         content: article.content,
-        content_summary:  article.content_summary,
+        content_summary: article.content_summary,
         prompt_one: article.prompt_one,
         prompt_two: article.prompt_two,
-
     }
 
     // Add article to database
-    await setDoc(doc(db, "articles", articleId), articleToStore);
+    await db.collection('articles').add(articleToStore);
+    // await setDoc(doc(db, "articles", articleId), articleToStore);
 }
+
+// Update summary content of an article
+export async function updateArticleSummary(articleId, summaryContent) {
+    const articleRef = doc(db, "articles", articleId);
+    await updateDoc(articleRef, {
+        content_summary: summaryContent
+    });
+}
+
 
 // Returns a list of article id strings
 export async function getArticleIdList() {
@@ -51,6 +60,7 @@ export async function getArticleIdList() {
         return currDoc.id;
     });
 }
+
 
 // Returns a personalised list of article id strings based on user's category history
 // Use naive bayes approach to recommend articles according to a probability distribution based on user's category history
@@ -230,7 +240,7 @@ export async function updateUserHistory(userId, articleId) {
 
     // Check if user has category_history, if not, create one
     if (!user_category_count || !user_category_count[category]) {
-        new_category_count = 1; 
+        new_category_count = 1;
     } else {
         new_category_count = user_category_count[category] + 1;
     }
@@ -456,14 +466,14 @@ export async function storeArticleChatMessage(articleChatId, message, givenRole)
         article_chat_id: articleChatId
     });
 
-   
+
     //Update article chat to indicate that there is at least a message in the history
-    if (! articleChatSnapData.hasMessage) {
+    if (!articleChatSnapData.hasMessage) {
         await updateDoc(articleChatRef, {
             hasMessage: true
         });
     }
-    
+
     return fetchArticleChatHistory(articleChatId);
 
 }
@@ -494,7 +504,7 @@ export async function checkOtherwiseCreateGeneralChat(uid) {
 
     if (isCreatingGeneralChat) {
         return null;
-    
+
     }
 
     try {
@@ -502,9 +512,9 @@ export async function checkOtherwiseCreateGeneralChat(uid) {
         const generalChatsCollection = collection(db, "general_chats")
         const queryMade = query(generalChatsCollection, where("uid", "==", uid));
         const querySnapshot = await getDocs(queryMade);
-       
 
-        if (! querySnapshot.empty) {
+
+        if (!querySnapshot.empty) {
             //General chat exists. Just return id.
             return querySnapshot.docs[0].id;
         } else {
@@ -559,14 +569,14 @@ export async function storeGeneralChatMessage(generalChatId, message, givenRole)
         general_chat_id: generalChatId
     });
 
-   
+
     //Update general chat to indicate that there is at least a message in the history
-    if (! generalChatSnapData.hasMessage) {
+    if (!generalChatSnapData.hasMessage) {
         await updateDoc(generalChatRef, {
             hasMessage: true
         });
     }
-    
+
     return fetchGeneralChatHistory(generalChatId);
 
 }

@@ -13,7 +13,7 @@ export async function getNewsFromNewsData(): Promise<NewsDataIoResponseType> {
     let pageParam = '';
     let count = 0;
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 2; i++) {
 
         if (page != '') {
             pageParam = `&page=${page}`
@@ -48,11 +48,9 @@ export async function getNewsFromNewsData(): Promise<NewsDataIoResponseType> {
         const { status, results, pageNumber } = json as NewsDataIoResponseType;
         console.log(results)
         for (const res of results) {
-            fetchedArticles.push(res);
-            count += 1;
+            count = fetchedArticles.push(res);
         }
         page = pageNumber ?? '';
-
     }
 
     return { status: "success", results: fetchedArticles, totalResults: count };

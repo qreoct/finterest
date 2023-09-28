@@ -1,6 +1,6 @@
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useRouter } from 'next/router';
-import { ArticleFullDisplay } from '@/components/Article/ArticleFullDisplay';
+import { ArticlePage } from '@/components/Article/ArticlePage';
 
 export default function ArticleMain() {
 
@@ -9,7 +9,7 @@ export default function ArticleMain() {
 
     return (
         <ProtectedRoute>
-            <ArticleFullDisplay articleId={String(id)} />
+            <ArticlePage articleId={String(id)} />
         </ProtectedRoute>
     );
 }
