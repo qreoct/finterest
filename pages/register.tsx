@@ -1,24 +1,43 @@
 import RegistrationForm from '@/components/RegistrationForm';
 import Head from 'next/head';
+import { PageWrapper } from '@/components/PageWrapper';
+import Header from '@/components/Landing/header';
+import Footer from '@/components/Landing/footer';
 
 const register = () => {
     return (
         <>
             <Head>
-                <title>Finterest</title>
+                <title>Finterest - Register</title>
                 <meta
-                    name="description"
-                    content="Register for a new Finterest account"
+                    name="Register with Finterest"
+                    content="Register an account with Finterest"
                 />
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
-                <link rel="icon" href="/favicon.ico" />
+               
             </Head>
+            <main>
+                <PageWrapper>
+                    <div className="flex flex-col justify-between h-screen w-full overflow-y-auto overflow-x-hidden">
+                        {/* Header */}
+                        <Header tabIndex={3} />    
 
-            <main className="m-0 min-h-screen bg-gradient-to-br from-primary-color to-blue-400 px-4">
-                <RegistrationForm />
+                        {/* Body */}
+                        <div id="body-element" className='-mt-0 sm:-mt-10 flex justify-center'>
+                            <div>
+                            <RegistrationForm />
+                            </div>
+                           
+                        </div>
+
+                        {/* Footer */}
+                        <Footer />
+                    
+                    </div>
+                </PageWrapper>
             </main>
         </>
     );
