@@ -1,8 +1,6 @@
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { PageWrapper } from './PageWrapper';
-import { FiChevronRight } from 'react-icons/fi';
 import { useAuth } from '@/context/AuthContext';
 import { LoginType } from '@/types/AuthTypes';
 import React, { useEffect } from 'react';
@@ -96,7 +94,7 @@ const LoginForm = () => {
  
     return (
         <div className="flex justify-center items-center w-screen">
-            <div className="w-4/5 md:w-3/5 lg:w-2/5 xl:w-1/3 h-full p-4 py-8 sm:p-6 sm:py-10 md:p-8 md:py-14 dark:bg-gray-800 dark:border-gray-700">
+            <div className="w-4/5 md:w-3/5 lg:w-2/5 xl:w-1/3 p-4 py-8 sm:p-6 sm:py-10 md:p-8 md:py-14">
 
                 <form action="" onSubmit={handleEmailLogin} className="group">
                     <h3 className='font-dmsans text-3xl sm:text-4xl lg:text-5xl font-bold text-center'>Welcome back.</h3>
@@ -124,8 +122,8 @@ const LoginForm = () => {
                                 };
                             }}
                         />
-                        <span className="mt-1 text-sm font-dmsans font-bold text-firecracker-500">
-                            {emailErrorMessage}
+                        <span className="mt-1 text-sm font-dmsans text-firecracker-500">
+                            { emailErrorMessage }
                         </span>
                     </div>
                     <div className="mb-5">
@@ -159,7 +157,7 @@ const LoginForm = () => {
                                 )}
                             </span>
                         </div>
-                        <span className="mt-1 text-sm font-dmsans font-bold text-firecracker-500">
+                        <span className="mt-1 text-sm font-dmsans text-firecracker-500">
                             {passwordErrorMessage}
                         </span>
                     </div>
