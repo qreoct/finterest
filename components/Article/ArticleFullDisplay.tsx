@@ -366,7 +366,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                 {/* Middle Content */}
                 <div id="article-element" className="w-full bg-white overflow-y-auto flex items-start h-screen">
                     {/* Back navigation button */}
-                    <button onClick={() => { router.push('/'); }} className="bg-transparent text-neutral-headings-black hover:text-gold-500 ml-4 lg:ml-6 xl:ml-8 2xl:ml-12 mr-2 mt-12">
+                    <button onClick={() => { router.back(); }} className="bg-transparent text-neutral-headings-black hover:text-gold-500 ml-4 lg:ml-6 xl:ml-8 2xl:ml-12 mr-2 mt-12">
                         <BiArrowBack className='text-3xl cursor-pointer m-2' />
                     </button>
 

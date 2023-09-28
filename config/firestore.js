@@ -587,3 +587,48 @@ export async function storeGeneralChatMessage(generalChatId, message, givenRole)
     return fetchGeneralChatHistory(generalChatId);
 
 }
+
+
+//Fetch
+export async function getListOfArticleChatHistory(userId) {
+    //Retrieve article chat collection
+    const articleChatsCollection = collection(db, "article_chats");
+
+    //Fetch all article chats of the user where there is at least one message sent in the chat
+    //Arrange them from latest to oldest chat
+    const querySnapshot = await getDocs(query(articleChatsCollection, where("uid", "==", userId), where("hasMessage", "==", true), orderBy("datetime", "desc")));
+    const matchingDocuments = querySnapshot.docs.map((doc) => doc.data());
+  
+
+
+    
+    //Get corresponding article IDs
+    const articleIds = [...new Set(matchingDocuments.map((doc) => doc.article_id))];
+
+    //Prepare for output
+    const output = [];
+
+    await Promise.all(articleIds.map(async (articleId) => {
+        const articleDocRef = doc(collection(db, "articles"), articleId);
+        const articleDocSnapshot = await getDoc(articleDocRef);
+        if (articleDocSnapshot.exists()) {
+            const articleData = articleDocSnapshot.data();
+       
+            //Get date time of chat associated with this article
+            const articleChatsForArticle = matchingDocuments.filter(
+                (doc) => doc.article_id === articleId
+            );
+
+            //Add to output
+            articleChatsForArticle.forEach((articleChat) => {
+                output.push({
+                  ...articleData,
+                  datetimeOfChat: articleChat.datetime.toDate(), // Combine datetime field
+                });
+            });
+        }
+    }));
+
+    return output;
+
+}

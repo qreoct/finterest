@@ -8,6 +8,10 @@ import ChatMessageTextArea from './ChatMessageTextArea';
 import { BiMessageAltDetail, BiNews } from 'react-icons/bi';
 import Link from 'next/link';
 import chatboxStyles from '@/styles/chatbox.module.css';
+import { getListOfArticleChatHistory } from '@/config/firestore';
+import { convertToChatHistoryArticleType } from '@/types/ChatHistoryArticleType';
+import { ChatHistoryArticleType } from '@/types/ChatHistoryArticleType';
+import { GeneralArticleList } from './GeneralArticleList';
 
 interface OpenAIMessage {
     role: string;
@@ -27,6 +31,55 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
     //User id
     const { user } = useAuth();
     const userId = user.uid;
+
+
+    //State to store list of chat history
+    let [listOfChatHistory, setListOfChatHistory] = useState<ChatHistoryArticleType[]>([]);
+
+    useEffect(() => {
+
+        const getHistory = async () => {
+            let output = await getListOfArticleChatHistory(user.uid);
+            let mappedArticles = output.map((rawArticle) => {
+                return convertToChatHistoryArticleType(rawArticle);
+            }) as ChatHistoryArticleType[];
+            if (mappedArticles != null){
+                setListOfChatHistory(mappedArticles);
+            }
+        }
+        
+        getHistory();
+     
+    }, []);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /* States */
@@ -198,10 +251,10 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
     const handleToggleTab = async (selectedTab: number) => {
         if (selectedTab == 0) {
             //Need to change to article chats tab
-            switchToGeneralChats();
+            switchToArticleChats();
         } else {
             //Need to change to general chats tab
-            switchToArticleChats();
+            switchToGeneralChats();
         }
     }
     
@@ -241,7 +294,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
         }, 40);
 
             //Update state and cause page to re-render
-            setCurrentSelectedTab(1);
+            setCurrentSelectedTab(0);
     }
 
     //Helper function
@@ -279,9 +332,8 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
         articleChatList?.classList.remove('flex');
         articleChatList?.classList.add('hidden');
 
-    
         //Update state and cause page to re-render
-        setCurrentSelectedTab(0);
+        setCurrentSelectedTab(1);
 
     }
 
@@ -290,31 +342,33 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
     return (
         <div className='flex-grow'>
             <div>
-                <div id='generalConvoContainer' className="flex flex-col justify-between h-screen overflow-y-hidden">
+                <div id='generalConvoContainer' className="flex flex-col justify-start h-screen overflow-y-hidden">
                     {/* Toggle tab between general and article chats */}
                     <div className='flex self-center justify-center rounded-lg space-x-8 mt-5 w-4/5 xl:w-2/5'>
-                        { (currentSelectedTab == 0)
-                          ? <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" onClick={ () => handleToggleTab(0) } >
+                        { (currentSelectedTab == 1)
+                          ?  <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick= { () => handleToggleTab(0) } >
+                                <BiNews className='text-2xl cursor-pointer' />
+                                <span className="ml-2">Article Chats</span>
+                             </button>
+                 
+                          : <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick= { () => handleToggleTab(0) } >
+                                <BiNews className='text-2xl cursor-pointer' />
+                                <span className="ml-2">Article Chats</span>
+                            </button>
+                        }
+
+                        { (currentSelectedTab == 1)
+                          ? <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" onClick={ () => handleToggleTab(1) } >
                                 <BiMessageAltDetail className='text-2xl cursor-pointer' />
                                 <span className="ml-2">General Chat</span>
                              </button>
-                          : <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" onClick={ () => handleToggleTab(0) } >
+                          : <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" onClick={ () => handleToggleTab(1) } >
                                 <BiMessageAltDetail className='text-2xl cursor-pointer' />
                                 <span className="ml-2">General Chat</span>
                             </button>
                         }
 
-                        { (currentSelectedTab == 0)
-                          ?  <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick= { () => handleToggleTab(1) } >
-                                <BiNews className='text-2xl cursor-pointer' />
-                                <span className="ml-2">Article Chats</span>
-                             </button>
-                 
-                          : <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick= { () => handleToggleTab(1) } >
-                                <BiNews className='text-2xl cursor-pointer' />
-                                <span className="ml-2">Article Chats</span>
-                            </button>
-                        }
+                       
 
 
                        
@@ -322,7 +376,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
                     </div>
 
                     {/* General Chat */}
-                    <div id="chatboxMessageList" className="ml-4 mr-4 mt-4 md:mt-8 overflow-y-auto pr-0 h-70">
+                    <div id="chatboxMessageList" className="ml-4 mr-4 mt-4 md:mt-8 overflow-y-auto pr-0 h-70 hidden">
                         <p className='font-dmsans text-neutral-headings-black font-bold text-center'>Hey there! Finterest AI helps you learn financial concepts through the news.</p>
 
                         {/* Messages from the user and the system */}
@@ -339,7 +393,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
                     </div>
 
                     {/* Input area */}
-                    <div id='chatboxInput'>
+                    <div id='chatboxInput' className='hidden'>
                         <ChatMessageTextArea isAwaitingMessageFromOpenAi={isAwaitingMessageFromOpenAi}
                             textInTextArea={textInTextArea}
                             handleChangesInTextArea={handleChangesInTextArea}
@@ -350,23 +404,10 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
 
 
                     {/* List of history articles */}
-                    <div id='article-chats-list' className="mt-8 ml-16 mr-16 hidden">
-                        <Link href="articles/[id]" as={`articles/123`} className="text-xl font-extra-bold text-blue-600">
-                            <div className="flex">
-                                {/* Left Column (75% width) */}
-                                <div className="w-full flex-grow xs:flex-grow-0 xs:w-3/4 max-w-prose space-y-2">
-                                    <h5 className='font-dmsans text-stone-700 text-sm uppercase tracking-widest'>The New York Times</h5>
-                                    <h3 className='font-dmsans font-bold text-stone-900 text-2xl'>An Example of an Article Title</h3>
-                                    <p className='font-dmsans text-stone-700 text-base'>An article that describes what is happening in the area lately due to the changes in interest rates.</p>
-                                    <h5 className='font-dmsans text-stone-700 text-sm tracking-widest'>2023-09-26</h5>
-                                </div>
-
-                                {/* Right Column (25% width) */}
-                                <div className="hidden xs:flex w-1/4 pl-4 2xl:ml-72">
-                                    <img src='https://www.investopedia.com/thmb/W2u8B017D-GDqZxH-ddc8BLS8qo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/top_6_apps_for_financial_news-5bfc3459c9e77c0026b6a2bf.jpg' alt='Image title' className='rounded-lg' />
-                                </div>
-                            </div>
-                        </Link>
+                    <div id='article-chats-list' className='flex'>
+                        <GeneralArticleList listOfChatHistory={ listOfChatHistory } />
+                        
+                        
                     </div>
 
 

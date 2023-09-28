@@ -61,7 +61,7 @@ const Profile = () => {
 
             <div className="flex">
                 {/* Navigation Bar */}
-                <LeftNavigationBar tabIndex={1} />
+                <LeftNavigationBar tabIndex={2} />
 
                 {/* Right Content */}
                 <div className="bg-white w-full overflow-y-auto space-y-5" style={{ height: '100vh' }}>

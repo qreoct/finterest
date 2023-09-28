@@ -1,5 +1,4 @@
 import { ArticleType } from "@/types/ArticleTypes"
-import { DocumentData } from "firebase/firestore"
 import NextLink from "next/link"
 import { useAuth } from "@/context/AuthContext"
 
