@@ -7,9 +7,9 @@ import { NewsDataIoArticleType } from "@/types/ApiTypes";
 
 // This runs everyday at midnight - DISABLED NOW
 // The scheduling can be done on Vercel instead, calling our getNews API
-schedule.scheduleJob('0 0 * * *', () => {
-    runGetNews();
-});
+// schedule.scheduleJob('0 0 * * *', () => {
+//     runGetNews();
+// });
 
 
 export default async function runGetNewsAndStoreInDb() {
@@ -116,4 +116,4 @@ function convertProcessedArticleToJSON(processedArticle: string, initialArticle:
     };
 
     return articleData;
-
+}
