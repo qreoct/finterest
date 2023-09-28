@@ -398,7 +398,8 @@ export async function createNewArticleChat(uid, articleId, articleChatId) {
     await setDoc(doc(db, "article_chats", articleChatId), {
         uid: uid,
         article_id: articleId,
-        message_history: []
+        message_history: [],
+        timestamp: serverTimestamp(),
     });
 }
 
@@ -427,6 +428,14 @@ export async function storeArticleChatMessage(articleChatId, message, givenRole)
             hasMessage: true
         });
     }
+    
+
+    //Update article chat timestamp
+    await updateDoc(articleChatRef, {
+        datetime: serverTimestamp(),
+    });
+    
+
     
     return fetchArticleChatHistory(articleChatId);
 
