@@ -278,7 +278,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
 
 
         //Make article chat list appear
-        articleChatList?.classList.add('flex');
+        articleChatList?.classList.add('flex-col');
         articleChatList?.classList.remove('hidden');
         articleChatList?.classList.add(chatboxStyles['hiddenelement']);
 
@@ -329,7 +329,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
         }, 40);
 
         //Make the rest of the content disappear
-        articleChatList?.classList.remove('flex');
+        articleChatList?.classList.remove('flex-col');
         articleChatList?.classList.add('hidden');
 
         //Update state and cause page to re-render
@@ -381,13 +381,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
 
                         {/* Messages from the user and the system */}
                         <div className='flex flex-col justify-start'>
-                            {/* {messageJsxElements} */}
-                            <p className="text-white font-dmsans mt-4 self-end w-3/4 md:w-1/2 bg-gold-900 rounded-2xl p-5 mr-4">User Message says hello and this is just a message</p>
-                            <p className="text-neutral-headings-black font-dmsans mt-4 self-start w-3/4 md:w-1/2 bg-stone-100 rounded-2xl p-5 ml-4">Long response from the system ai to reply to the user message</p>
-                            <p className="text-white font-dmsans mt-4 self-end w-3/4 md:w-1/2 bg-gold-900 rounded-2xl p-5 mr-4">User Message says hello and this is just a message</p>
-                            <p className="text-neutral-headings-black font-dmsans mt-4 self-start w-3/4 md:w-1/2 bg-stone-100 rounded-2xl p-5 ml-4">Long response from the system ai to reply to the user message</p>
-                            <p className="text-white font-dmsans mt-4 self-end w-3/4 md:w-1/2 bg-gold-900 rounded-2xl p-5 mr-4">User Message says hello and this is just a message</p>
-                            <p className="text-neutral-headings-black font-dmsans mt-4 self-start w-3/4 md:w-1/2 bg-stone-100 rounded-2xl p-5 ml-4">Long response from the system ai to reply to the user message</p>
+                            {messageJsxElements}
                         </div>
                         <div className='h-20' ref={ref} />
                     </div>
@@ -404,8 +398,9 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
 
 
                     {/* List of history articles */}
-                    <div id='article-chats-list' className='flex'>
+                    <div id='article-chats-list' className='flex-col overflow-y-auto'>
                         <GeneralArticleList listOfChatHistory={ listOfChatHistory } />
+                        <div className='h-28'></div>
                         
                         
                     </div>

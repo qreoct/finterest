@@ -31,6 +31,7 @@ export const AuthContextProvider = (
         const [user, setUser] = useState<UserType>({ email: null, uid: null });
         const [loading, setLoading] = useState<Boolean>(true);
 
+
         // Whenever auth state from Firebase changes, it will set the new user accordingly
         useEffect(() => {
             const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -44,9 +45,12 @@ export const AuthContextProvider = (
                     //No user is signed in
                     setUser({ email: null, uid: null });
                 }
+                setLoading(false);
+
+
             });
 
-            setLoading(false);
+            // setLoading(false);
 
             return () => unsubscribe();
         }, []);
@@ -88,7 +92,7 @@ export const AuthContextProvider = (
     //Wrap the children components with the context provider to access the user information
     //and authentication functionalities
     return (
-        <AuthContext.Provider value={{ user, signUpViaEmail: signUpViaEmail, loginViaEmail: loginViaEmail, googleSignIn: googleSignIn, logOut: logOut }}>
+        <AuthContext.Provider value={{ user, loading, signUpViaEmail: signUpViaEmail, loginViaEmail: loginViaEmail, googleSignIn: googleSignIn, logOut: logOut }}>
             { loading ? null : children }
         </AuthContext.Provider>
     )
