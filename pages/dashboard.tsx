@@ -1,23 +1,18 @@
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useAuth } from '@/context/AuthContext';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import NextLink from 'next/link';
-import utilStyles from '@/styles/utils.module.css';
 import { ArticleList } from '@/components/Article/ArticleList';
 import { TopArticleList } from '@/components/Article/TopArticleList';
 import { getPersonalisedArticleIdList, getTrendingArticleIdList } from '@/config/firestore';
 import { useEffect, useState } from 'react';
 import LeftNavigationBar  from '@/components/common/LeftNavigationBar'
-import Script from 'next/script';
 
 /*
     The page where the user first enters after he logs in
 */
 const Dashboard = () => {
-    const { logOut, user } = useAuth();
-    const router = useRouter();
-
+    const { user } = useAuth();
+    
     // Instead of const articleIdList = getArticleIdList()
     // For react need to use this state management thing so that the the Promise will be awaited
     // For personalised articles
@@ -34,7 +29,7 @@ const Dashboard = () => {
             const idList = await getPersonalisedArticleIdList(user.uid, NUMBER_OF_PERSONALISED_ARTICLES_TO_RECOMMEND);
             setPersonalisedArticleIdList(idList);
         };
-        console.warn("LETTER");
+        
         fetchPersonalisedArticleIdList();
     }, [user.uid]);
 
@@ -69,14 +64,12 @@ const Dashboard = () => {
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
-               
             </Head>
 
             <div className="flex">
                 {/* Navigation Bar */}
                 <LeftNavigationBar tabIndex={0} />
                                     
-
                 {/* Right Content */}
                 <div className="width-3/4 bg-white overflow-y-auto" style={{ height: '100vh' }}>
                     {/* Top articles */}
@@ -87,12 +80,7 @@ const Dashboard = () => {
                     <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Stories For You</h2>
                     <ArticleList articleIdList={articleIdListPersonalised} />
                 </div>
-
-    
             </div>
-
-
-            
         </ProtectedRoute>
     );
 };

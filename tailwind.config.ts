@@ -109,7 +109,6 @@ const config: Config = {
       },
     },
   },
-  darkMode: 'class',
   plugins: [],
 }
 

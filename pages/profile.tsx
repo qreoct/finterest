@@ -24,6 +24,10 @@ const Profile = () => {
     const [readYearlyTotal, setReadYearlyTotal] = useState<number>(0);
 
     useEffect(() => {
+        if (!userId) {
+            return;
+        }
+
         const fetchUserReadCounts = async () => {
             const res = await getUserReadCountNDays(userId, 7);
             setReadCounts(res);
@@ -40,7 +44,7 @@ const Profile = () => {
 
         fetchUserReadCounts();
         fetchUserReadTotals();
-    }, []);
+    }, [userId]);
 
     return (
         <ProtectedRoute>
@@ -60,7 +64,7 @@ const Profile = () => {
 
             <div className="flex">
                 {/* Navigation Bar */}
-                <LeftNavigationBar tabIndex={1} />
+                <LeftNavigationBar tabIndex={2} />
 
                 {/* Right Content */}
                 <div className="bg-white w-full overflow-y-auto space-y-5" style={{ height: '100vh' }}>
