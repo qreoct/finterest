@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Landing from '@/components/Landing/landing';
-import Script from "next/script";
 
 //Entry point of the application
 export default function Home() {

@@ -11,6 +11,7 @@ import ArticleConvo from "../ChatStuff/ArticleConvo";
 import { HighlightMenu, MenuButton } from "react-highlight-menu";
 import LeftNavigationBar from '@/components/common/LeftNavigationBar';
 import chatboxStyles from '@/styles/chatbox.module.css';
+import { convertTimestampToString } from "@/utils/convertTimeStampToString";
 
 //Represents a component that shows the full information of an article when the user clicks into it
 export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
@@ -358,7 +359,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                         <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase tracking-widest'>{currArticle.source_id}</h5>
                         <h1 className='font-dmsans font-bold text-neutral-headings-black text-2xl'>{currArticle.title}</h1>
                         <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>{currArticle.creator}</h5>
-                        <p className='font-dmsans text-neutral-text-gray text-base' style={{ marginBottom: '30px' }}>{currArticle.pubDate}</p>
+                        <p className='font-dmsans text-neutral-text-gray text-base' style={{ marginBottom: '30px' }}>{convertTimestampToString(currArticle.pubDate)}</p>
                         <p className='font-dmsans text-neutral-text-gray text-base' style={{ marginBottom: '30px' }}>{currArticle.description}</p>
                 </div>
 
@@ -374,7 +375,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                         <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase tracking-widest'>{currArticle.source_id}</h5>
                         <h1 className='font-dmsans font-bold text-neutral-headings-black text-2xl'>{currArticle.title}</h1>
                         <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>{currArticle.creator}</h5>
-                        <p className='font-dmsans text-neutral-text-gray text-base' style={{ marginBottom: '30px' }}>{currArticle.pubDate}</p>
+                        <p className='font-dmsans text-neutral-text-gray text-base' style={{ marginBottom: '30px' }}>{convertTimestampToString(currArticle.pubDate)}</p>
 
                         <img src={currArticle.image_url} alt={currArticle.title} className='w-2/3 h-2/3 md:w-2/3 md:h-2/3 xl:w-3/4 xl:h-3/4 2xl:w-1/2 2xl:h-1/2 self-center'/>
 
