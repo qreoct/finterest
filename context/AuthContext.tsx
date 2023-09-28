@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth, googleProvider } from '../config/firebase.config';
 import { signInWithPopup, GoogleAuthProvider, updatePassword, getAuth  } from 'firebase/auth';
+import { addUserIfNotExist } from '@/config/firestore';
 
 
 /* 
@@ -57,8 +58,11 @@ export const AuthContextProvider = (
 
  
     //Register new account via email and password
-    const signUpViaEmail = (email: string, password: string) => {
-        return createUserWithEmailAndPassword(auth, email, password);
+    const signUpViaEmail = async (email: string, password: string) => {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        const uid = user.uid;
+        await addUserIfNotExist(uid);
     };
 
     //Logins via email and password
@@ -67,21 +71,11 @@ export const AuthContextProvider = (
     };
 
     //Sign in via Google
-    const googleSignIn = () => {
-        return new Promise((resolve, reject) => {
-            signInWithPopup(auth, googleProvider)
-                .then((result) => {
-                    const credential = GoogleAuthProvider.credentialFromResult(result);
-                    const token = credential?.accessToken;
-                    const user = result.user;
-                }).catch((error) => {
-                    // Handle Errors here.
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    const email = error.customData.email;
-                    const credential = GoogleAuthProvider.credentialFromError(error);
-                });
-    })};
+    const googleSignIn = async ()  => {
+            const result = await signInWithPopup(auth, googleProvider);
+            const uid = result.user.uid;
+            await addUserIfNotExist(uid); 
+    }
 
     //Log out from the app
     const logOut = async () => {

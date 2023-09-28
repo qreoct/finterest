@@ -330,14 +330,13 @@ export async function getUserReadTotalNDays(userId, n) {
 
 // Add user to user collection with empty chat list
 export async function addUserIfNotExist(userId) {
-    console.log("ADDING USER");
     const userRef = doc(db, "users", userId);
 
     const docSnap = await getDoc(userRef);
 
     if (!docSnap.exists()) {
         await setDoc(userRef, {
-            chats: []
+            articleHistory: []
         });
     }
 }
