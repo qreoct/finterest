@@ -164,10 +164,6 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
         const generalChatIdNew = await checkOtherwiseCreateGeneralChat(userId)
         if (generalChatIdNew != null) {
             setGeneralChatId(generalChatIdNew);
-            const testarticleref = await getArticle("aac637db7f5f4387cce3a32e3d6c4075");
-            const testArticle = convertToArticleType(testarticleref);
-            const articleContent = testArticle ? testArticle.content : null;
-            console.log("content:", articleContent);
         }
     };
 
