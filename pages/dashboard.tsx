@@ -66,7 +66,7 @@ const Dashboard = () => {
                 />
             </Head>
 
-            <div className="flex">
+            <div className="flex flex-col-reverse md:flex-row md:items-start h-screen overflow-y-hidden">
                 {/* Navigation Bar */}
                 <LeftNavigationBar tabIndex={0} />
                                     
