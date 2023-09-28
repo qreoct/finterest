@@ -11,6 +11,7 @@ import ArticleConvo from "../ChatStuff/ArticleConvo";
 import { HighlightMenu, MenuButton } from "react-highlight-menu";
 import LeftNavigationBar from '@/components/common/LeftNavigationBar';
 import chatboxStyles from '@/styles/chatbox.module.css';
+import { convertTimestampToString } from "@/utils/convertTimeStampToString";
 
 //Represents a component that shows the full information of an article when the user clicks into it
 export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
@@ -358,7 +359,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                         <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase tracking-widest'>{currArticle.source_id}</h5>
                         <h1 className='font-dmsans font-bold text-neutral-headings-black text-2xl'>{currArticle.title}</h1>
                         <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>{currArticle.creator}</h5>
-                        <p className='font-dmsans text-neutral-text-gray text-base' style={{ marginBottom: '30px' }}>{currArticle.pubDate}</p>
+                        <p className='font-dmsans text-neutral-text-gray text-base' style={{ marginBottom: '30px' }}>{convertTimestampToString(currArticle.pubDate)}</p>
                         <p className='font-dmsans text-neutral-text-gray text-base' style={{ marginBottom: '30px' }}>{currArticle.description}</p>
                 </div>
 
@@ -366,7 +367,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                 {/* Middle Content */}
                 <div id="article-element" className="w-full bg-white overflow-y-auto flex items-start h-screen">
                     {/* Back navigation button */}
-                    <button onClick={() => { router.push('/'); }} className="bg-transparent text-neutral-headings-black hover:text-gold-500 ml-4 lg:ml-6 xl:ml-8 2xl:ml-12 mr-2 mt-12">
+                    <button onClick={() => { router.back(); }} className="bg-transparent text-neutral-headings-black hover:text-gold-500 ml-4 lg:ml-6 xl:ml-8 2xl:ml-12 mr-2 mt-12">
                         <BiArrowBack className='text-3xl cursor-pointer m-2' />
                     </button>
 
@@ -374,7 +375,7 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
                         <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase tracking-widest'>{currArticle.source_id}</h5>
                         <h1 className='font-dmsans font-bold text-neutral-headings-black text-2xl'>{currArticle.title}</h1>
                         <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>{currArticle.creator}</h5>
-                        <p className='font-dmsans text-neutral-text-gray text-base' style={{ marginBottom: '30px' }}>{currArticle.pubDate}</p>
+                        <p className='font-dmsans text-neutral-text-gray text-base' style={{ marginBottom: '30px' }}>{convertTimestampToString(currArticle.pubDate)}</p>
 
                         <img src={currArticle.image_url} alt={currArticle.title} className='w-2/3 h-2/3 md:w-2/3 md:h-2/3 xl:w-3/4 xl:h-3/4 2xl:w-1/2 2xl:h-1/2 self-center'/>
 

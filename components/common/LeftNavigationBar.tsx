@@ -49,7 +49,7 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
                         <h5 className={`hidden md:block font-dmsans text-neutral-headings-black text-lg ml-2 ${tabIndex.tabIndex === 1 ? 'font-bold' : ''}`}>AI Chat</h5>
                     </NextLink>
 
-                    <NextLink href={'/'} className="flex items-center md:ml-8 hover:text-gold-500">
+                    <NextLink href={'/profile'} className="flex items-center md:ml-8 hover:text-gold-500">
                         <BiSmile className='text-3xl cursor-pointer text-neutral-headings-black md:m-2' />
                         <h5 className={`hidden md:block font-dmsans text-neutral-headings-black text-lg ml-2 ${tabIndex.tabIndex === 2 ? 'font-bold' : ''}`}>Profile</h5>
                     </NextLink>
