@@ -40,9 +40,11 @@ export const AuthContextProvider = (
                         email: user.email,
                         uid: user.uid
                     });
+                    localStorage.setItem('localUser', JSON.stringify(user.uid));
                 } else {
                     //No user is signed in
                     setUser({ email: null, uid: null });
+                    localStorage.setItem('localUser', JSON.stringify(null));
                 }
             });
 

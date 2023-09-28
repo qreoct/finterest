@@ -15,6 +15,7 @@ import { convertTimestampToString } from "@/utils/convertTimeStampToString";
 
 //Represents a component that shows the full information of an article when the user clicks into it
 export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
+    console.warn(articleId);
 
     /* Routing */
     const router = useRouter();
@@ -61,27 +62,19 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
         };
 
         fetchArticle();
-    }, []);
+    }, [articleId]);
 
 
 
     //Runs when the article has been fetched from the database, to parse it into JSX paragraph elements
     useEffect(() => {
+        if (!currArticle) {
+            return;
+        }
         parseArticleContent()
+        // Update user history on clicking into article
+        updateUserHistory(user.uid, currArticle.article_id);
     }, [currArticle]);
-
-
-    /* Miscelleanous */
-
-    //Displays loading indicator if article has not been retrieved
-    if (!currArticle) {
-        return <div className="flex justify-center items-center font-dmsans text-neutral-headings-black font-bold text-4xl h-screen w-screen bg-neutral-color-300">
-            <h3>Loading article...</h3>
-        </div>;
-    }
-
-    // Update user history on clicking into article
-    updateUserHistory(user.uid, currArticle.article_id);
 
     /* Helper Functions */
 
@@ -294,7 +287,6 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
         }
     }
 
-
     // Add an event listener to the media query
     mdBreakpoint.addEventListener('change', handleMdBreakpointChange);
 
@@ -309,36 +301,12 @@ export const ArticleFullDisplay = ({ articleId }: { articleId: string }) => {
         }
     }
 
-
-
-
     mdMaxBreakpoint.addEventListener('change', handleMdMaxBreakpointChange);
 
-
-
-
-
-
-
-
-;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    return (
+    return (!currArticle ? 
+        <div className="flex justify-center items-center font-dmsans text-neutral-headings-black font-bold text-4xl h-screen w-screen bg-neutral-color-300">
+            <h3>Loading article...</h3>
+        </div> :
         <ProtectedRoute>
             <Head>
                 <title>View Article - Finterest</title>
