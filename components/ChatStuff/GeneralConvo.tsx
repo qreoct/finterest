@@ -307,12 +307,12 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
                         { (currentSelectedTab == 0)
                           ?  <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick= { () => handleToggleTab(1) } >
                                 <BiNews className='text-2xl cursor-pointer' />
-                                <span className="ml-2">Article Chat</span>
+                                <span className="ml-2">Article Chats</span>
                              </button>
                  
                           : <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick= { () => handleToggleTab(1) } >
                                 <BiNews className='text-2xl cursor-pointer' />
-                                <span className="ml-2">Article Chat</span>
+                                <span className="ml-2">Article Chats</span>
                             </button>
                         }
 
@@ -354,16 +354,16 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
                         <Link href="articles/[id]" as={`articles/123`} className="text-xl font-extra-bold text-blue-600">
                             <div className="flex">
                                 {/* Left Column (75% width) */}
-                                <div className="w-3/4 max-w-prose space-y-2">
-                                    <h5 className='font-dmsans text-stone-700 text-sm uppercase tracking-widest'>Source</h5>
-                                    <h3 className='font-dmsans font-bold text-stone-900 text-2xl'>Title</h3>
-                                    <p className='font-dmsans text-stone-700 text-base'>Description</p>
-                                    <h5 className='font-dmsans text-stone-700 text-sm tracking-widest'>Date</h5>
+                                <div className="w-full flex-grow xs:flex-grow-0 xs:w-3/4 max-w-prose space-y-2">
+                                    <h5 className='font-dmsans text-stone-700 text-sm uppercase tracking-widest'>The New York Times</h5>
+                                    <h3 className='font-dmsans font-bold text-stone-900 text-2xl'>An Example of an Article Title</h3>
+                                    <p className='font-dmsans text-stone-700 text-base'>An article that describes what is happening in the area lately due to the changes in interest rates.</p>
+                                    <h5 className='font-dmsans text-stone-700 text-sm tracking-widest'>2023-09-26</h5>
                                 </div>
 
                                 {/* Right Column (25% width) */}
-                                <div className="w-1/4 pl-4">
-                                    <img src='' alt='Image title' className='rounded-lg' />
+                                <div className="hidden xs:flex w-1/4 pl-4 2xl:ml-72">
+                                    <img src='https://www.investopedia.com/thmb/W2u8B017D-GDqZxH-ddc8BLS8qo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/top_6_apps_for_financial_news-5bfc3459c9e77c0026b6a2bf.jpg' alt='Image title' className='rounded-lg' />
                                 </div>
                             </div>
                         </Link>
