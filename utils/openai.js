@@ -42,6 +42,7 @@ async function generatePrompts(engine, prompt, recipe, previousMessages = [], st
     {role: "system", content: recipe});
   }
 
+
   // We want to reduce the size of the context so that the message list set to chatGPT dont just keep getting larger
   context = context.concat(previousMessages.slice(-9));
 
@@ -57,11 +58,9 @@ async function generatePrompts(engine, prompt, recipe, previousMessages = [], st
   const response = await openai.chat.completions.create({
     model: engine,
     messages: context,
-    max_tokens: 256,
+    max_tokens: 1024,
     temperature: 0.5
   });
-
-  console.log(response);
 
   return response.choices[0].message.content;
 }

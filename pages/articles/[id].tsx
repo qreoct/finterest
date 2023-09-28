@@ -1,13 +1,6 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import Script from 'next/script';
-import Footer from '@/components/common/Footer';
 import ProtectedRoute from '@/components/ProtectedRoute';
-import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
-import { getArticle } from '@/config/firestore';
-import { useEffect, useState } from 'react';
-import { ArticleFullDisplay } from '@/components/Article/ArticleFullDisplay';
+import { ArticlePage } from '@/components/Article/ArticlePage';
 
 export default function ArticleMain() {
 
@@ -16,7 +9,7 @@ export default function ArticleMain() {
 
     return (
         <ProtectedRoute>
-            <ArticleFullDisplay articleId={String(id)} />
+            <ArticlePage articleId={String(id)} />
         </ProtectedRoute>
     );
 }

@@ -1,7 +1,5 @@
-
 import {
     collection,
-    onSnapshot,
     query,
     getDocs,
     doc,
@@ -9,18 +7,17 @@ import {
     updateDoc,
     setDoc,
     orderBy,
-    Timestamp,
-    runTransaction,
     where,
     addDoc,
     arrayUnion,
     serverTimestamp,
-    documentId,
 } from "firebase/firestore";
 
 import { db } from "@/config/firebase.config.js";
 
-export async function addNewArticle(
+import { getCurrentDate, convertDateToString, convertDateToDDMM } from "@/utils/convertTimeStampToString";
+
+export async function addNewArticleToDB(
     articleId,
     article
 ) {
@@ -35,22 +32,168 @@ export async function addNewArticle(
         description: article.description,
         link: article.link,
         content: article.content,
-        content_summary:  article.content_summary,
+        content_summary: article.content_summary,
         prompt_one: article.prompt_one,
         prompt_two: article.prompt_two,
-
     }
 
     // Add article to database
-    await setDoc(doc(db, "articles", articleId), articleToStore);
+    await db.collection('articles').add(articleToStore);
+    // await setDoc(doc(db, "articles", articleId), articleToStore);
 }
+
+// Update summary content of an article
+export async function updateArticleSummary(articleId, summaryContent) {
+    const articleRef = doc(db, "articles", articleId);
+    await updateDoc(articleRef, {
+        content_summary: summaryContent
+    });
+}
+
 
 // Returns a list of article id strings
 export async function getArticleIdList() {
-    const q = query(collection(db, "articles"));
+    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
     const results = await getDocs(q);
 
     return results.docs.map(currDoc => {
+        return currDoc.id;
+    });
+}
+
+
+// Returns a personalised list of article id strings based on user's category history
+// Use naive bayes approach to recommend articles according to a probability distribution based on user's category history
+export async function getPersonalisedArticleIdList(userId, numArticles) {
+    const userRef = doc(db, "users", userId);
+
+    // Filter out all articles that the user has read
+    const user_article_history = (await getDoc(userRef)).data()["article_history"];
+    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
+    const results = await getDocs(q);
+    const user_article_history_set = new Set(user_article_history);
+    let filtered_articles = results.docs.filter(currDoc => {
+        return !user_article_history_set.has(currDoc.id);
+    });
+
+    // Calculate the probability of each category in the whole database (from results)
+    const category_prob = {};
+    results.docs.forEach(currDoc => {
+        const currArticle = currDoc.data();
+        const currArticleCategory = currArticle.category[0];
+        if (!category_prob[currArticleCategory]) {
+            category_prob[currArticleCategory] = 1 / results.docs.length;
+        } else {
+            category_prob[currArticleCategory] += 1 / results.docs.length;
+        }
+    });
+
+    const user_category_count = (await getDoc(userRef)).data()["category_history"];
+
+    if (!user_category_count) {
+        // No category history, return all articles
+        return getArticleIdList();
+    }
+
+    let user_article_count = 0;
+    // Add 1 to each category count to avoid 0 probability
+    for (const [key, value] of Object.entries(user_category_count)) {
+        user_category_count[key] = value + 1;
+        user_article_count += value + 1;
+    }
+
+    // Add 1 to all other categories not in user's category history
+    const all_categories = Object.keys(category_prob);
+    all_categories.forEach(currCategory => {
+        if (!user_category_count[currCategory]) {
+            user_category_count[currCategory] = 1;
+            user_article_count += 1;
+        }
+    });
+
+    // Calculate the probability of each category given the user's category history
+    const category_prior_prob = {};
+    for (const [key, value] of Object.entries(user_category_count)) {
+        category_prior_prob[key] = value / user_article_count;
+    }
+
+    // Calculate the posterior probability of the user clicking given each category
+    // P(user clicks | category) = [P(category | user clicks) * P(user clicks)] / P(category)
+    // P(user clicks) is the same for all categories, so we can ignore it
+    const category_posterior_prob = {};
+    let posterior_sum = 0;
+    for (const [key, value] of Object.entries(category_prob)) {
+        category_posterior_prob[key] = category_prior_prob[key] / category_prob[key];
+        posterior_sum += category_posterior_prob[key];
+    }
+
+    // Rescale the posterior probabilities so that they sum to 1
+    for (const [key, value] of Object.entries(category_posterior_prob)) {
+        category_posterior_prob[key] = value / posterior_sum;
+    }
+
+    // Iterate through all unread articles and add to articleIdList based on probability until numArticles is reached
+    const articleIdList = [];
+    filtered_articles.forEach(currDoc => {
+        const currArticle = currDoc.data();
+        const currArticleCategory = currArticle.category[0];
+        const currArticlePosteriorProb = category_posterior_prob[currArticleCategory];
+        const randNum = Math.random(); // Random number between 0 and 1
+        if (randNum <= currArticlePosteriorProb) {
+            articleIdList.push(currArticle.article_id);
+        }
+    });
+
+    // If not enough articles, add articles that the user has not read and are not in the list
+    if (articleIdList.length < numArticles) {
+        filtered_articles.forEach(currDoc => {
+            const currArticle = currDoc.data();
+            if (!articleIdList.includes(currArticle.article_id)) {
+                articleIdList.push(currArticle.article_id);
+            }
+        });
+    }
+
+    return articleIdList.slice(0, numArticles);
+}
+
+// Get trending article list based on the number of times each article has been read by all users
+export async function getTrendingArticleIdList(userId, numArticles) {
+    const userRef = doc(db, "users", userId);
+
+    // Filter out all articles that the user has read
+    const user_article_history = (await getDoc(userRef)).data()["article_history"];
+    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
+    const results = await getDocs(q);
+    const user_article_history_set = new Set(user_article_history);
+    let filtered_articles = results.docs.filter(currDoc => {
+        return !user_article_history_set.has(currDoc.id);
+    });
+
+    // Sort the articles by their view_count (descending)
+    // If two articles have the same number of reads, sort by dateStored
+    filtered_articles.sort((a, b) => {
+        let a_view_count = a.data()["view_count"];
+        let b_view_count = b.data()["view_count"];
+
+        if (!a_view_count) {
+            a_view_count = 0; 
+        }
+        if (!b_view_count) {
+            b_view_count = 0;
+        }
+
+        const a_date_stored = a.data()["dateStored"];
+        const b_date_stored = b.data()["dateStored"];
+        if (a_view_count === b_view_count) {
+            return b_date_stored - a_date_stored;
+        } else {
+            return b_view_count - a_view_count;
+        }
+    });
+
+    // Return the top numArticles articles
+    return filtered_articles.slice(0, numArticles).map(currDoc => {
         return currDoc.id;
     });
 }
@@ -77,16 +220,123 @@ export async function addArticleIdToUser(userId, articleId) {
     // chatId = userId + articleId << In this way all chats still have unique Ids
 }
 
+// Update user's article history and category history and article read count on article click
+export async function updateUserHistory(userId, articleId) {
+    const userRef = doc(db, "users", userId);
+    const category = (await getArticle(articleId)).category[0];
+    const user_category_count = (await getDoc(userRef)).data()["category_history"];
+    const user_read_count = (await getDoc(userRef)).data()["read_count"];
+    const today = getCurrentDate();
+
+    let new_read_count = 0;
+    let new_category_count = 0;
+
+    // Check if user has read_count, if not, create one
+    if (!user_read_count || !user_read_count[today]) {
+        new_read_count = 1;
+    } else {
+        new_read_count = user_read_count[today] + 1;
+    }
+
+    // Check if user has category_history, if not, create one
+    if (!user_category_count || !user_category_count[category]) {
+        new_category_count = 1;
+    } else {
+        new_category_count = user_category_count[category] + 1;
+    }
+
+    // Else, update the article_history, category_history and read_count
+    await updateDoc(userRef, {
+        article_history: arrayUnion(articleId),
+        category_history: {
+            ...user_category_count,
+            [category]: new_category_count
+        },
+        read_count: {
+            ...user_read_count,
+            [today]: new_read_count
+        }
+    });
+
+    // Update article's view_count
+    const articleRef = doc(db, "articles", articleId);
+    const article_view_count = (await getDoc(articleRef)).data()["view_count"];
+    let new_view_count = 1;
+
+    if (article_view_count) {
+        new_view_count = article_view_count + 1;
+    }
+
+    await updateDoc(articleRef, {
+        view_count: new_view_count
+    });
+}
+
+// Get user's read count for today
+export async function getUserReadCountToday(userId) {
+    const userRef = doc(db, "users", userId);
+    const user_read_count = (await getDoc(userRef)).data()["read_count"];
+    const today = getCurrentDate();
+
+    if (!user_read_count || !user_read_count[today]) {
+        return 0;
+    } else {
+        return user_read_count[today];
+    }
+}
+
+// Get user's read counts for n days (starting from today)
+// Returns list of [date, read_count] pairs
+export async function getUserReadCountNDays(userId, n) {
+    const userRef = doc(db, "users", userId);
+    const user_read_count = (await getDoc(userRef)).data()["read_count"];
+    const read_count_n_days = [];
+
+    for (let i = 0; i < n; i++) {
+        const currDate = new Date();
+        currDate.setDate(currDate.getDate() - i);
+        const currDateString = convertDateToString(currDate);
+        const currDateDDMM = convertDateToDDMM(currDate);
+        if (!user_read_count || !user_read_count[currDateString]) {
+            read_count_n_days.push([currDateDDMM, 0]);
+        } else {
+            read_count_n_days.push([currDateDDMM, user_read_count[currDateString]]);
+        }
+    }
+
+    const output = read_count_n_days.reverse();
+    return output;
+}
+
+// Get user's read total for n days (starting from today)
+export async function getUserReadTotalNDays(userId, n) {
+    const userRef = doc(db, "users", userId);
+    const user_read_count = (await getDoc(userRef)).data()["read_count"];
+    let read_total_n_days = 0;
+
+    for (let i = 0; i < n; i++) {
+        const currDate = new Date();
+        currDate.setDate(currDate.getDate() - i);
+        const currDateString = convertDateToString(currDate);
+        if (!user_read_count || !user_read_count[currDateString]) {
+            read_total_n_days += 0;
+        } else {
+            read_total_n_days += user_read_count[currDateString];
+        }
+    }
+
+    return read_total_n_days;
+}
+
 // Add user to user collection with empty chat list
 export async function addUserIfNotExist(userId) {
-    console.log("ADDING USER");
     const userRef = doc(db, "users", userId);
 
     const docSnap = await getDoc(userRef);
 
     if (!docSnap.exists()) {
         await setDoc(userRef, {
-            chats: []
+            articleHistory: []
         });
     }
 }
@@ -194,7 +444,8 @@ export async function createNewArticleChat(uid, articleId, articleChatId) {
     await setDoc(doc(db, "article_chats", articleChatId), {
         uid: uid,
         article_id: articleId,
-        message_history: []
+        message_history: [],
+        timestamp: serverTimestamp(),
     });
 }
 
@@ -216,13 +467,20 @@ export async function storeArticleChatMessage(articleChatId, message, givenRole)
         article_chat_id: articleChatId
     });
 
-   
+
     //Update article chat to indicate that there is at least a message in the history
-    if (! articleChatSnapData.hasMessage) {
+    if (!articleChatSnapData.hasMessage) {
         await updateDoc(articleChatRef, {
             hasMessage: true
         });
     }
+
+
+    //Update article chat timestamp
+    await updateDoc(articleChatRef, {
+        datetime: serverTimestamp(),
+    });
+    
     
     return fetchArticleChatHistory(articleChatId);
 
@@ -254,7 +512,7 @@ export async function checkOtherwiseCreateGeneralChat(uid) {
 
     if (isCreatingGeneralChat) {
         return null;
-    
+
     }
 
     try {
@@ -262,9 +520,9 @@ export async function checkOtherwiseCreateGeneralChat(uid) {
         const generalChatsCollection = collection(db, "general_chats")
         const queryMade = query(generalChatsCollection, where("uid", "==", uid));
         const querySnapshot = await getDocs(queryMade);
-       
 
-        if (! querySnapshot.empty) {
+
+        if (!querySnapshot.empty) {
             //General chat exists. Just return id.
             return querySnapshot.docs[0].id;
         } else {
@@ -319,14 +577,59 @@ export async function storeGeneralChatMessage(generalChatId, message, givenRole)
         general_chat_id: generalChatId
     });
 
-   
+
     //Update general chat to indicate that there is at least a message in the history
-    if (! generalChatSnapData.hasMessage) {
+    if (!generalChatSnapData.hasMessage) {
         await updateDoc(generalChatRef, {
             hasMessage: true
         });
     }
-    
+
     return fetchGeneralChatHistory(generalChatId);
+
+}
+
+
+//Fetch
+export async function getListOfArticleChatHistory(userId) {
+    //Retrieve article chat collection
+    const articleChatsCollection = collection(db, "article_chats");
+
+    //Fetch all article chats of the user where there is at least one message sent in the chat
+    //Arrange them from latest to oldest chat
+    const querySnapshot = await getDocs(query(articleChatsCollection, where("uid", "==", userId), where("hasMessage", "==", true), orderBy("datetime", "desc")));
+    const matchingDocuments = querySnapshot.docs.map((doc) => doc.data());
+  
+
+
+    
+    //Get corresponding article IDs
+    const articleIds = [...new Set(matchingDocuments.map((doc) => doc.article_id))];
+
+    //Prepare for output
+    const output = [];
+
+    await Promise.all(articleIds.map(async (articleId) => {
+        const articleDocRef = doc(collection(db, "articles"), articleId);
+        const articleDocSnapshot = await getDoc(articleDocRef);
+        if (articleDocSnapshot.exists()) {
+            const articleData = articleDocSnapshot.data();
+       
+            //Get date time of chat associated with this article
+            const articleChatsForArticle = matchingDocuments.filter(
+                (doc) => doc.article_id === articleId
+            );
+
+            //Add to output
+            articleChatsForArticle.forEach((articleChat) => {
+                output.push({
+                  ...articleData,
+                  datetimeOfChat: articleChat.datetime.toDate(), // Combine datetime field
+                });
+            });
+        }
+    }));
+
+    return output;
 
 }
