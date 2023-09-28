@@ -13,7 +13,7 @@ export default function ChatMessageTextArea({
     isAwaitingMessageFromOpenAi, textInTextArea, handleChangesInTextArea, handleEnterSubmission, handleSubmitIconClick
 }: IChatMessageTextArea) {
     return (
-        <div className='flex flex-col items-center w-auto pb-12 pt-4 h-30 md:h-auto'>
+        <div className='flex flex-col items-center w-auto pb-12 pt-2 h-200p md:h-auto'>
             {isAwaitingMessageFromOpenAi ? <BouncingDots /> : <></>}
             <div className='flex items-center flex-1 w-full leading-8 pr-8'>
                 {/* Input field  */}

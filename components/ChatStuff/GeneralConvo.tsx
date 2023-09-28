@@ -6,13 +6,22 @@ import finterestGenerateArticlePrompt from '../../utils/prompt.json';
 import { generatePrompts } from '../../utils/openai';
 import ChatMessageTextArea from './ChatMessageTextArea';
 import { BiMessageAltDetail, BiNews } from 'react-icons/bi';
+import Link from 'next/link';
+import chatboxStyles from '@/styles/chatbox.module.css';
 
 interface OpenAIMessage {
     role: string;
     content: string;
 }
+
+type GeneralConvoProps = {
+    tabIndex: number;
+};
+
+
+
 //The UI component for a chatbot with general AI
-export default function GeneralConvo() {
+export default function GeneralConvo(tabIndex : GeneralConvoProps) {
     /* Preparation Variables */
 
     //User id
@@ -35,6 +44,10 @@ export default function GeneralConvo() {
 
     //State to track general chat id
     const [generalChatId, setGeneralChatId] = useState('');
+
+    //State to track tab
+    //Tab 0 is general chat, tab 1 is article chat
+    const [currentSelectedTab, setCurrentSelectedTab] = useState(tabIndex.tabIndex);
 
 
     /* Effects */
@@ -181,17 +194,101 @@ export default function GeneralConvo() {
         setTextInTextArea('');
     }
 
+    //Function that toggles tab
+    const handleToggleTab = async () => {
+        if (currentSelectedTab == 0) {
+            //Need to change to article chats tab
+            switchToArticleChats();
+
+        } else {
+            //Need to change to general chat tab
+            switchToGeneralChats();
+        }
+
+    }
+
+
+    //Helper function
+    const switchToArticleChats = async () => {
+        const chatBoxMessageListElement = document.getElementById('chatboxMessageList');
+        const chatboxInputElement = document.getElementById('chatboxInput');
+        const articleChatList = document.getElementById('article-chats-list');
+
+
+        //Make chat bot disappear
+        chatBoxMessageListElement?.classList.remove(chatboxStyles['animateshow']);
+        chatBoxMessageListElement?.classList.remove('flex-col');
+        chatBoxMessageListElement?.classList.add('hidden');
+        chatboxInputElement?.classList.remove(chatboxStyles['animateshow']);
+        //chatboxInputElement?.classList.remove('flex');
+        chatboxInputElement?.classList.add('hidden');
+
+
+
+        //Make article chat list appear
+        articleChatList?.classList.add('flex');
+        articleChatList?.classList.remove('hidden');
+        articleChatList?.classList.add(chatboxStyles['hiddenelement']);
+        
+        
+        setTimeout(function () {
+            articleChatList?.classList.add(chatboxStyles['animateshow']);
+            articleChatList?.classList.remove(chatboxStyles['hiddenelement']);
+      
+        }, 40);
+
+            //Update state and cause page to re-render
+            setCurrentSelectedTab(1);
+    }
+
+    //Helper function
+    const switchToGeneralChats = async () => {
+        const chatBoxMessageListElement = document.getElementById('chatboxMessageList');
+        const chatboxInputElement = document.getElementById('chatboxInput');
+        const articleChatList = document.getElementById('article-chats-list');
+
+        //Make general chats appear
+        chatBoxMessageListElement?.classList.add('flex-col');
+        chatBoxMessageListElement?.classList.remove('hidden');
+        chatBoxMessageListElement?.classList.add(chatboxStyles['hiddenelement']);
+        //chatboxInputElement?.classList.add('flex');
+        chatboxInputElement?.classList.remove('hidden');
+        chatboxInputElement?.classList.add(chatboxStyles['hiddenelement']);
+
+
+        articleChatList?.classList.remove(chatboxStyles['animateshow']);
+       
+
+        setTimeout(function () {
+            chatBoxMessageListElement?.classList.add(chatboxStyles['animateshow']);
+            chatBoxMessageListElement?.classList.remove(chatboxStyles['hiddenelement']);
+            chatboxInputElement?.classList.add(chatboxStyles['animateshow']);
+            chatboxInputElement?.classList.remove(chatboxStyles['hiddenelement']);
+        }, 40);
+
+        //Make the rest of the content disappear
+        articleChatList?.classList.remove('flex');
+        articleChatList?.classList.add('hidden');
+
+    
+        //Update state and cause page to re-render
+        setCurrentSelectedTab(0);
+
+    }
+
+
+
     return (
         <div className='flex-grow'>
             <div>
                 <div className="flex flex-col justify-between h-screen overflow-y-hidden">
                     {/* Toggle tab between general and article chats */}
                     <div className='flex self-center justify-center rounded-lg space-x-8 mt-5 w-4/5 xl:w-2/5'>
-                        <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" >
+                        <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" onClick={ handleToggleTab } >
                                 <BiMessageAltDetail className='text-2xl cursor-pointer' />
                                 <span className="ml-2">General Chat</span>
                         </button>
-                        <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" >
+                        <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick= { handleToggleTab } >
                                 <BiNews className='text-2xl cursor-pointer' />
                                 <span className="ml-2">Article Chat</span>
                         </button>
@@ -199,6 +296,7 @@ export default function GeneralConvo() {
 
                     </div>
 
+                    {/* General Chat */}
                     <div id="chatboxMessageList" className="ml-4 mr-4 mt-4 md:mt-8 overflow-y-auto pr-0 h-70">
                         <p className='font-dmsans text-neutral-headings-black font-bold text-center'>Hey there! Finterest AI helps you learn financial concepts through the news.</p>
 
@@ -216,12 +314,37 @@ export default function GeneralConvo() {
                     </div>
 
                     {/* Input area */}
-                    <ChatMessageTextArea isAwaitingMessageFromOpenAi={isAwaitingMessageFromOpenAi}
-                        textInTextArea={textInTextArea}
-                        handleChangesInTextArea={handleChangesInTextArea}
-                        handleEnterSubmission={handleEnterSubmission}
-                        handleSubmitIconClick={handleSubmitIconClick}
-                    />
+                    <div id='chatboxInput'>
+                        <ChatMessageTextArea isAwaitingMessageFromOpenAi={isAwaitingMessageFromOpenAi}
+                            textInTextArea={textInTextArea}
+                            handleChangesInTextArea={handleChangesInTextArea}
+                            handleEnterSubmission={handleEnterSubmission}
+                            handleSubmitIconClick={handleSubmitIconClick}
+                        />
+                    </div>
+
+
+                    {/* List of history articles */}
+                    <div id='article-chats-list' className="mt-8 ml-16 mr-16 hidden">
+                        <Link href="articles/[id]" as={`articles/123`} className="text-xl font-extra-bold text-blue-600">
+                            <div className="flex">
+                                {/* Left Column (75% width) */}
+                                <div className="w-3/4 max-w-prose space-y-2">
+                                    <h5 className='font-dmsans text-stone-700 text-sm uppercase tracking-widest'>Source</h5>
+                                    <h3 className='font-dmsans font-bold text-stone-900 text-2xl'>Title</h3>
+                                    <p className='font-dmsans text-stone-700 text-base'>Description</p>
+                                    <h5 className='font-dmsans text-stone-700 text-sm tracking-widest'>Date</h5>
+                                </div>
+
+                                {/* Right Column (25% width) */}
+                                <div className="w-1/4 pl-4">
+                                    <img src='' alt='Image title' className='rounded-lg' />
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+
+
                 </div>
             </div>
 

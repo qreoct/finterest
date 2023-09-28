@@ -66,7 +66,7 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
 
                     <div className="hidden md:flex justify-center items-center">
                         <NextLink href='/pricing'>
-                            <button className="bg-gold-500 hover:bg-gold-900 text-white font-semibold xl:py-2 px-8 rounded-full flex items-center mt-5">
+                            <button className="bg-gold-500 hover:bg-gold-900 text-white font-semibold xl:py-2 px-8 rounded-full flex items-center mt-5 duration-300">
                                 <BiStar className='text-3xl cursor-pointer text-white m-2' />
                                 <span className="mr-2">Upgrade</span>
                             </button>
