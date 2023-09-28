@@ -24,18 +24,27 @@ const Dashboard = () => {
     const [personalisedArticleIdList, setPersonalisedArticleIdList] = useState<string[]>([]);
     
     useEffect(() => {
+        // If user is not logged in, wait for user to log in
+        if (!user.uid) {
+            return;
+        }
+
         const fetchPersonalisedArticleIdList = async () => {
             const NUMBER_OF_PERSONALISED_ARTICLES_TO_RECOMMEND = 10
             const idList = await getPersonalisedArticleIdList(user.uid, NUMBER_OF_PERSONALISED_ARTICLES_TO_RECOMMEND);
             setPersonalisedArticleIdList(idList);
         };
-
+        console.warn("LETTER");
         fetchPersonalisedArticleIdList();
     }, [user.uid]);
 
     // For trending articles
     const [trendingArticleIdList, setTrendingArticleIdList] = useState<string[]>([]);
     useEffect(() => {
+        if (!user.uid) {
+            return;
+        }
+
         const fetchTrendingArticleIdList = async () => {
             const NUMBER_OF_TRENDING_ARTICLES_TO_RECOMMEND = 6
             const idList = await getTrendingArticleIdList(user.uid, NUMBER_OF_TRENDING_ARTICLES_TO_RECOMMEND);
