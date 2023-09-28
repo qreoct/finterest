@@ -78,7 +78,7 @@ const Landing = () => {
                             backgroundImage: `url('/assets/red-underline.png')`,
                             backgroundRepeat: 'no-repeat',
                             backgroundSize: 'cover',
-                            height: '10px',
+                            height: '16px',
                             display: 'inline-block',
                             position: 'relative',
                             paddingLeft: '4px', 
@@ -109,8 +109,8 @@ const Landing = () => {
 
                     {/* Element 8 */}
                     <div className="py-10 row-start-8 sm:row-start-5 lg:row-start-4 col-span-1 sm:col-span-6 bg-gold-100 rounded-md flex flex-col justify-center items-center px-4 sm:px-0">
-                       <div>
-                            <h2 className="font-gupter text-finterest-solid font-bold text-3xl lg:text-4xl text-center 2xl:text-6xl">Create your account today and get<br/>started
+                       <div className='flex justify-center'>
+                            <h2 className="font-gupter text-finterest-solid font-bold text-3xl lg:text-4xl max-w-[90%] lg:max-w-[70%] text-center 2xl:text-6xl">Create your account today and get started
                                 <span> </span>
                                 <span className='' style={{
                                 backgroundImage: `url('/assets/gold-underline.png')`,
@@ -133,7 +133,7 @@ const Landing = () => {
                             </NextLink>
                             <div className="relative">
                                 <NextLink href={'/pricing'}>
-                                <button className="bg-finterest-white hover:bg-gold-900 text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-gold-900 font-dmsans py-4 px-6 rounded-full flex items-center duration-300">
+                                <button className="bg-finterest-white hover:bg-gold-500 text-finterest-solid hover:text-finterest-white border-2 border-gray-300 hover:border-gold-500 font-dmsans py-4 px-6 rounded-full flex items-center duration-300">
                                     <span>Pricing <em>(psst, it&apos;s free!)</em></span>
                                 </button>
                                 </NextLink>
