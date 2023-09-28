@@ -8,6 +8,8 @@ import { BiSend } from "react-icons/bi";
 import { generatePrompts } from '../../utils/openai';
 import { convertArticleJSONToArticleType } from '../../lib/NewsController';
 import { getArticle } from '../../config/firestore'
+import test from 'node:test';
+import { convertToArticleType } from '@/types/ArticleTypes';
 
 
 interface OpenAIMessage {
@@ -15,7 +17,6 @@ interface OpenAIMessage {
     content: string;
 }
 
-const testarticle = getArticle("aac637db7f5f4387cce3a32e3d6c4075")
 
 
 //The UI component for a chatbot with general AI
@@ -100,7 +101,10 @@ export default function GeneralConvo() {
         const generalChatIdNew = await checkOtherwiseCreateGeneralChat(userId)
         if (generalChatIdNew != null) {
             setGeneralChatId(generalChatIdNew);
-            const test = await convertArticleJSONToArticleType(testarticle);
+            const testarticleref = await getArticle("aac637db7f5f4387cce3a32e3d6c4075");
+            const testArticle = convertToArticleType(testarticleref);
+            const articleContent = testArticle ? testArticle.content : null;
+            console.log("content:", articleContent);
         }
     };
 
@@ -128,7 +132,8 @@ export default function GeneralConvo() {
 
 
         //Send message to OpenAI to get response
-        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt, previousMessages);
+        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGeneralPrompt, previousMessages, "general");
+        console.log(response);
         //const response = "Sample response 1";
 
         

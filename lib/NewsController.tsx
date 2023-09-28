@@ -3,7 +3,7 @@ import { getArticleIdList, addNewArticle } from "@/config/firestore";
 import { ArticleType } from '@/types/ArticleTypes';
 import { NewsDataIoResponseType } from '@/types/ApiTypes';
 import schedule from 'node-schedule';
-import { refinedarticlefetch } from "../utils/langchain.js";
+import { cleanContent } from "../utils/langchain.js";
 import * as fs from 'fs';
 import { generatePrompts } from "../utils/openai";
 import finterestPrompts from "../utils/prompt.json";
@@ -138,21 +138,8 @@ export default async function runGetNews() {
 
 
 
-
-
-
-
 async function convertArticleJSONToArticleType(article: any): Promise<ArticleType>  {
-    const articleContent = article.content;
-    const filePath = "./lib/articlefile.txt"
-
-    try {
-        fs.writeFileSync(filePath, articleContent, 'utf-8');
-        console.log('Text file saved successfully.');
-    } catch(error){
-        console.error('Error saving text file.');
-    }
-
+    const articleContent = article.content.toString();
 
     const promptString = `
         I am going to give you content for a news article. The content not only contains the news article, but it also contains also some random gibberish that corresponds to web UI elements found on websites. There is also advertisement content in the news article. I need you to give me the output in a specified format as shown:
@@ -178,8 +165,8 @@ async function convertArticleJSONToArticleType(article: any): Promise<ArticleTyp
 
     //Make an API call to OpenAI to process the content, generate 1-line description,
     //generate 1-paragraph summary and 2 different prompts to ask.
-    //const response = await generatePrompts('gpt-3.5-turbo', article.content.toString(), promptString);
-    const response = await refinedarticlefetch(filePath);
+    const response = await generatePrompts('gpt-3.5-turbo', article.content.toString(), promptString);
+    //const response = await refinedarticlefetch(new Blob([articleContent], { type: 'text/plain' }));
     console.log("Obtained response: " + response);
     const responseJSON = JSON.parse(
         response != null ? response

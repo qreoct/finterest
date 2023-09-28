@@ -198,20 +198,16 @@ export default function ArticleConvo({ textFromArticle }: { textFromArticle: str
 
 
         //Send message to OpenAI to get response
-        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages);
-        //const response = "Sample response 1";
-
-        
-     
-        console.log("Response" + response);
+        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages, "article");
+        console.log("article content:", currArticle.content);
 
         //Show new response on the UI
         if (response != null) {
                 //Add the response to the MESSAGES database
-                await storeArticleChatMessage(userId + currArticle.article_id, response, 'system'); 
+                await storeArticleChatMessage(userId + currArticle.article_id, response, 'assistant'); 
 
                 //Show new response on the UI
-                addMessagesToInterface('system', response != null ? response : '');
+                addMessagesToInterface('assistant', response != null ? response : '');
         }
 
         setNewMessageSubmitted(true);
