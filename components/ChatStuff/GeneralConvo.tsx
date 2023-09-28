@@ -195,24 +195,23 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
     }
 
     //Function that toggles tab
-    const handleToggleTab = async () => {
-        if (currentSelectedTab == 0) {
+    const handleToggleTab = async (selectedTab: number) => {
+        if (selectedTab == 0) {
             //Need to change to article chats tab
-            switchToArticleChats();
-
-        } else {
-            //Need to change to general chat tab
             switchToGeneralChats();
+        } else {
+            //Need to change to general chats tab
+            switchToArticleChats();
         }
-
     }
-
+    
 
     //Helper function
     const switchToArticleChats = async () => {
         const chatBoxMessageListElement = document.getElementById('chatboxMessageList');
         const chatboxInputElement = document.getElementById('chatboxInput');
         const articleChatList = document.getElementById('article-chats-list');
+        const generalConvoContainer = document.getElementById('generalConvoContainer');
 
 
         //Make chat bot disappear
@@ -229,6 +228,10 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
         articleChatList?.classList.add('flex');
         articleChatList?.classList.remove('hidden');
         articleChatList?.classList.add(chatboxStyles['hiddenelement']);
+
+        //Update flex alignment for container
+        generalConvoContainer?.classList.remove('justify-between');
+        generalConvoContainer?.classList.add('justify-start');
         
         
         setTimeout(function () {
@@ -246,6 +249,8 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
         const chatBoxMessageListElement = document.getElementById('chatboxMessageList');
         const chatboxInputElement = document.getElementById('chatboxInput');
         const articleChatList = document.getElementById('article-chats-list');
+        const generalConvoContainer = document.getElementById('generalConvoContainer');
+        
 
         //Make general chats appear
         chatBoxMessageListElement?.classList.add('flex-col');
@@ -257,6 +262,10 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
 
 
         articleChatList?.classList.remove(chatboxStyles['animateshow']);
+
+        //Update flex alignment for container
+        generalConvoContainer?.classList.add('justify-between');
+        generalConvoContainer?.classList.remove('justify-start');
        
 
         setTimeout(function () {
@@ -281,17 +290,33 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
     return (
         <div className='flex-grow'>
             <div>
-                <div className="flex flex-col justify-between h-screen overflow-y-hidden">
+                <div id='generalConvoContainer' className="flex flex-col justify-between h-screen overflow-y-hidden">
                     {/* Toggle tab between general and article chats */}
                     <div className='flex self-center justify-center rounded-lg space-x-8 mt-5 w-4/5 xl:w-2/5'>
-                        <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" onClick={ handleToggleTab } >
+                        { (currentSelectedTab == 0)
+                          ? <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" onClick={ () => handleToggleTab(0) } >
                                 <BiMessageAltDetail className='text-2xl cursor-pointer' />
                                 <span className="ml-2">General Chat</span>
-                        </button>
-                        <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick= { handleToggleTab } >
+                             </button>
+                          : <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" onClick={ () => handleToggleTab(0) } >
+                                <BiMessageAltDetail className='text-2xl cursor-pointer' />
+                                <span className="ml-2">General Chat</span>
+                            </button>
+                        }
+
+                        { (currentSelectedTab == 0)
+                          ?  <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick= { () => handleToggleTab(1) } >
                                 <BiNews className='text-2xl cursor-pointer' />
                                 <span className="ml-2">Article Chat</span>
-                        </button>
+                             </button>
+                 
+                          : <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick= { () => handleToggleTab(1) } >
+                                <BiNews className='text-2xl cursor-pointer' />
+                                <span className="ml-2">Article Chat</span>
+                            </button>
+                        }
+
+
                        
 
                     </div>
