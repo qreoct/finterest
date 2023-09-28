@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { checkOtherwiseCreateGeneralChat, fetchGeneralChatHistory, storeGeneralChatMessage } from '@/config/firestore';
 import finterestGenerateArticlePrompt from '../../utils/prompt.json';
+import { BiSend } from "react-icons/bi";
 import { generatePrompts } from '../../utils/openai';
 import ChatMessageTextArea from './ChatMessageTextArea';
 import { BiMessageAltDetail, BiNews } from 'react-icons/bi';
@@ -13,14 +14,17 @@ import { convertToChatHistoryArticleType } from '@/types/ChatHistoryArticleType'
 import { ChatHistoryArticleType } from '@/types/ChatHistoryArticleType';
 import { GeneralArticleList } from './GeneralArticleList';
 
+
 interface OpenAIMessage {
     role: string;
     content: string;
 }
 
+
 type GeneralConvoProps = {
     tabIndex: number;
 };
+
 
 
 
@@ -160,6 +164,10 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
         const generalChatIdNew = await checkOtherwiseCreateGeneralChat(userId)
         if (generalChatIdNew != null) {
             setGeneralChatId(generalChatIdNew);
+            const testarticleref = await getArticle("aac637db7f5f4387cce3a32e3d6c4075");
+            const testArticle = convertToArticleType(testarticleref);
+            const articleContent = testArticle ? testArticle.content : null;
+            console.log("content:", articleContent);
         }
     };
 
@@ -187,7 +195,8 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
 
 
         //Send message to OpenAI to get response
-        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt, previousMessages);
+        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGeneralPrompt, previousMessages, "general");
+        console.log(response);
         //const response = "Sample response 1";
 
 

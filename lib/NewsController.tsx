@@ -7,9 +7,9 @@ import { NewsDataIoArticleType } from "@/types/ApiTypes";
 
 // This runs everyday at midnight - DISABLED NOW
 // The scheduling can be done on Vercel instead, calling our getNews API
-// schedule.scheduleJob('0 0 * * *', () => {
-//     runGetNews();
-// });
+schedule.scheduleJob('0 0 * * *', () => {
+    runGetNews();
+});
 
 
 export default async function runGetNewsAndStoreInDb() {
@@ -35,6 +35,7 @@ export default async function runGetNewsAndStoreInDb() {
         const articleId = article.article_id;
         if (!articleIdList.includes(articleId)) {
             // Article not inside database yet so we store it
+
 
             // If article is too long or short, ignore it to protect our openai tokens :)
             if (article.content.split(' ').length > 750 || article.content.split(' ').length < 50 ) {
@@ -68,6 +69,7 @@ export default async function runGetNewsAndStoreInDb() {
 
 async function processArticleWithAi(initialArticle: NewsDataIoArticleType): Promise<string|null> {
 
+
     const promptString = `I will give you some text. Please process it and return the output in this JSON format:
         {
         "content": {content},
@@ -96,6 +98,7 @@ function convertProcessedArticleToJSON(processedArticle: string, initialArticle:
         articleCreator = initialArticle.source_id || "Author not found";
     }
 
+
     const articleData: ArticleType = {
         article_id: initialArticle.article_id,
         category: initialArticle.category || "No Category",
@@ -113,4 +116,4 @@ function convertProcessedArticleToJSON(processedArticle: string, initialArticle:
     };
 
     return articleData;
-}
+
