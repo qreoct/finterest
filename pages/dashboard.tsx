@@ -6,7 +6,6 @@ import { TopArticleList } from '@/components/Article/TopArticleList';
 import { getPersonalisedArticleIdList, getTrendingArticleIdList } from '@/config/firestore';
 import { useEffect, useState } from 'react';
 import LeftNavigationBar  from '@/components/common/LeftNavigationBar'
-import Script from 'next/script';
 
 /*
     The page where the user first enters after he logs in

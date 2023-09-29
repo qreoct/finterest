@@ -228,6 +228,12 @@ export async function updateUserHistory(userId, articleId) {
     const user_read_count = (await getDoc(userRef)).data()["read_count"];
     const today = getCurrentDate();
 
+    // If article is already in user's article history, do nothing
+    const user_article_history = (await getDoc(userRef)).data()["article_history"];
+    if (user_article_history.includes(articleId)) {
+        return;
+    }    
+
     let new_read_count = 0;
     let new_category_count = 0;
 
