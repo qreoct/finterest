@@ -347,7 +347,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
     return (
         <div className='flex-grow'>
             <div>
-                <div id='generalConvoContainer' className="flex flex-col justify-start h-screen overflow-y-hidden">
+                <div id='generalConvoContainer' className="flex flex-col justify-start h-80vh md:h-screen overflow-y-hidden">
                     {/* Toggle tab between general and article chats */}
                     <div className='flex self-center justify-center rounded-lg space-x-8 mt-5 w-4/5 xl:w-2/5'>
                         { (currentSelectedTab == 1)
