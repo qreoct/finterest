@@ -15,7 +15,7 @@ import { error } from "console";
 
 export default async function runGetNewsAndStoreInDb() {
     // List of existing article IDs in db
-    const articleIdList = await getArticleIdList();
+    const articleIdList = new Set(await getArticleIdList());
     // const articleIdList = [''];
     console.log("runGetNews -- articlesIDs in Firestore: " + Array.from(articleIdList.values()));
 

@@ -58,9 +58,9 @@ export async function getArticleIdList() {
     const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
     const results = await getDocs(q);
 
-    return new Set(results.docs.map(currDoc => {
+    return results.docs.map(currDoc => {
         return currDoc.id;
-    }));
+    });
 }
 
 
