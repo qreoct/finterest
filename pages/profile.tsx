@@ -132,6 +132,7 @@ const Profile = () => {
 
                     {/* 7 horizontally stacked cards that show your read counts for the past week */}
                     <h2 className="text-center md:text-start font-gupter text-neutral-headings-black font-bold text-4xl mx-16 mt-16">This week</h2>
+                    <h5 className='text-finterest-solid mx-16 text-sm xl:text-base'>Read 5 articles in a day to grow your daily streak!</h5>
                     <div>
                         <div className="flex justify-top space-x-5 mx-16 mt-4 overflow-x-auto overflow-y-hidden py-4">
                             {readCounts.map((count, index) => (

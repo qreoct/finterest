@@ -55,7 +55,7 @@ const Landing = () => {
 
                     {/* Element 4 */}
                     <div className="row-start-4 sm:row-start-3 lg:row-start-2 col-span-1 sm:col-span-3 lg:col-span-2 bg-pine-100 rounded-md flex flex-col justify-center items-center px-4 py-4">
-                        <img src="/assets/scroll-for-gold-svg.svg" alt="Scroll through insightful financial news articles" className="w-2/3 h-3/5 sm:h-1/2 lg:w-2/3 lg:h-2/3 xl:w-3/4 xl:h-1/2"/>
+                        <img src="/assets/scroll-for-gold.png" alt="Scroll through insightful financial news articles" className="w-2/3 h-3/5 sm:h-1/2 lg:w-2/3 lg:h-2/3 xl:w-3/4 xl:h-1/2"/>
                         <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5 2xl:mt-10'>Scroll for gold</h2>
                         <h5 className='text-finterest-solid text-center mt-5 text-sm xl:text-base'>Say goodbye to mindless scrolling on social media. Finterest delivers instant summaries of key insights.</h5>
                         
@@ -64,7 +64,7 @@ const Landing = () => {
 
                     {/* Element 5 */}
                     <div className="row-start-5 sm:row-start-3 lg:row-start-2 col-span-1 sm:col-span-3 lg:col-span-2 bg-rose-100 rounded-md flex flex-col justify-center items-center px-4 py-4">
-                        <img src="/assets/chat-svg.svg" alt="Chat about articles with Finterest AI" className="w-2/3 h-3/5 sm:h-1/2 lg:w-2/3 lg:h-1/3 xl:w-3/4 xl:h-1/2"/>
+                        <img src="/assets/chat.png" alt="Chat about articles with Finterest AI" className="w-2/3 h-3/5 sm:h-1/2 lg:w-2/3 lg:h-1/3 xl:w-3/4 xl:h-1/2"/>
                         <h2 className='font-gupter font-bold text-2xl xl:text-3xl text-finterest-solid text-center mt-5 2xl:mt-10'>Chat about articles</h2>
                         <h5 className='text-finterest-solid text-center mt-5 text-sm xl:text-base'>Go into deeper details for each article with AI-powered insights at your fingertips.</h5>
                         
