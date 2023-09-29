@@ -50,10 +50,8 @@ export const AuthContextProvider = (
                     onboarding_stage: 'complete',
                     article_preferences: [],
                 });
-                console.log("AUTHCONTEXT USEEFFECT user is set to " + JSON.stringify(dbUser) + JSON.stringify(user))
             } else {
                 //No user is signed in
-                console.log("AUTHCONTEXT USEEFFECT no user signed up")
                 setUser({ email: null, uid: null, onboarding_stage: null, article_preferences: null });
             }
             setLoading(true);
@@ -68,8 +66,6 @@ export const AuthContextProvider = (
     const signUpViaEmail = async (email: string, password: string) => {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-
-        console.log("signed up! user is " + JSON.stringify(user));
         
         setUser({ email: user.email, uid: user.uid, onboarding_stage: 'new account', article_preferences: null })
         await addUserIfNotExist(user.uid);
@@ -80,14 +76,13 @@ export const AuthContextProvider = (
         const userCredential = await signInWithEmailAndPassword(auth, email, password)
         const user = userCredential.user;
         
-        console.log("logged in! user is " + JSON.stringify(user));
         await addUserIfNotExist(user.uid);
         const currUser = await getUser(user.uid);
 
         if (currUser) {
             setUser({
-                email: currUser.email,
-                uid: currUser.uid,
+                email: user.email,
+                uid: user.uid,
                 onboarding_stage: currUser.onboarding_stage || 'new account',
                 article_preferences: currUser.article_preferences || [],
             });
@@ -98,7 +93,6 @@ export const AuthContextProvider = (
     const googleSignIn = async () => {
         const result = await signInWithPopup(auth, googleProvider);
         const uid = result.user.uid;
-        console.log("google logged in! user is " + JSON.stringify(result.user));
         await addUserIfNotExist(uid);
         const currUser = await getUser(uid);
 
