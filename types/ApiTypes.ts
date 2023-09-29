@@ -3,7 +3,7 @@ export interface NewsDataIoResponseType {
     status: string;
     totalResults: number;
     results: NewsDataIoArticleType[];
-    pageNumber?: string;
+    nextPage?: string;
 }
 
 export interface NewsDataIoArticleType {
