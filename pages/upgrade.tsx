@@ -16,7 +16,7 @@ const Upgrade = () => {
     return (
         <ProtectedRoute>
             <Head>
-                <title>Chat with Finterest AI</title>
+                <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Upgrade Your Plan</h2>
                 <meta
                     name="description"
                     content="Finterest AI"
