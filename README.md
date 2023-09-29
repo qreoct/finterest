@@ -7,8 +7,7 @@ If you are someone seeking to delve deep into the world of financial news, look 
 
 
  <p align="center">
-    <img src="public/assets/finterest-logo-with-words.png" width="250
-    " />
+    <img src="public/assets/readme-logo.png" width="250" />
    </p>
 
 
