@@ -29,7 +29,7 @@ type GeneralConvoProps = {
 
 
 //The UI component for a chatbot with general AI
-export default function GeneralConvo(tabIndex : GeneralConvoProps) {
+export default function GeneralConvo(tabIndex: GeneralConvoProps) {
     /* Preparation Variables */
 
     //User id
@@ -47,13 +47,13 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
             let mappedArticles = output.map((rawArticle) => {
                 return convertToChatHistoryArticleType(rawArticle);
             }) as ChatHistoryArticleType[];
-            if (mappedArticles != null){
+            if (mappedArticles != null) {
                 setListOfChatHistory(mappedArticles);
             }
         }
-        
+
         getHistory();
-     
+
     }, []);
 
 
@@ -133,7 +133,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
             (openAiMessage.role == 'user')
                 ? <p key={index} className="text-white font-dmsans mt-4 self-end w-3/4 md:w-1/2 bg-gold-900 rounded-2xl p-5 mr-4">{openAiMessage.content}</p>
                 : <p key={index} className="text-neutral-headings-black font-dmsans mt-4 self-start w-3/4 md:w-1/2 bg-stone-100 rounded-2xl p-5 ml-4">{openAiMessage.content}</p>
-            
+
         ));
         setMessageJsxElements(messageJsxElements);
     }, [messages]);
@@ -262,7 +262,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
             switchToGeneralChats();
         }
     }
-    
+
 
     //Helper function
     const switchToArticleChats = async () => {
@@ -280,8 +280,6 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
         //chatboxInputElement?.classList.remove('flex');
         chatboxInputElement?.classList.add('hidden');
 
-
-
         //Make article chat list appear
         articleChatList?.classList.add('flex-col');
         articleChatList?.classList.remove('hidden');
@@ -290,16 +288,15 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
         //Update flex alignment for container
         generalConvoContainer?.classList.remove('justify-between');
         generalConvoContainer?.classList.add('justify-start');
-        
-        
+
         setTimeout(function () {
             articleChatList?.classList.add(chatboxStyles['animateshow']);
             articleChatList?.classList.remove(chatboxStyles['hiddenelement']);
-      
+
         }, 40);
 
-            //Update state and cause page to re-render
-            setCurrentSelectedTab(0);
+        //Update state and cause page to re-render
+        setCurrentSelectedTab(0);
     }
 
     //Helper function
@@ -308,7 +305,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
         const chatboxInputElement = document.getElementById('chatboxInput');
         const articleChatList = document.getElementById('article-chats-list');
         const generalConvoContainer = document.getElementById('generalConvoContainer');
-        
+
 
         //Make general chats appear
         chatBoxMessageListElement?.classList.add('flex-col');
@@ -324,7 +321,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
         //Update flex alignment for container
         generalConvoContainer?.classList.add('justify-between');
         generalConvoContainer?.classList.remove('justify-start');
-       
+
 
         setTimeout(function () {
             chatBoxMessageListElement?.classList.add(chatboxStyles['animateshow']);
@@ -350,34 +347,28 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
                 <div id='generalConvoContainer' className="flex flex-col justify-start h-80vh md:h-screen overflow-y-hidden">
                     {/* Toggle tab between general and article chats */}
                     <div className='flex self-center justify-center rounded-lg space-x-8 mt-5 w-4/5 xl:w-2/5'>
-                        { (currentSelectedTab == 1)
-                          ?  <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick= { () => handleToggleTab(0) } >
+                        {(currentSelectedTab == 1)
+                            ? <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick={() => handleToggleTab(0)} >
                                 <BiNews className='text-2xl cursor-pointer' />
                                 <span className="ml-2">Article Chats</span>
-                             </button>
-                 
-                          : <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick= { () => handleToggleTab(0) } >
+                            </button>
+
+                            : <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick={() => handleToggleTab(0)} >
                                 <BiNews className='text-2xl cursor-pointer' />
                                 <span className="ml-2">Article Chats</span>
                             </button>
                         }
 
-                        { (currentSelectedTab == 1)
-                          ? <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" onClick={ () => handleToggleTab(1) } >
+                        {(currentSelectedTab == 1)
+                            ? <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" onClick={() => handleToggleTab(1)} >
                                 <BiMessageAltDetail className='text-2xl cursor-pointer' />
                                 <span className="ml-2">General Chat</span>
-                             </button>
-                          : <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" onClick={ () => handleToggleTab(1) } >
+                            </button>
+                            : <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" onClick={() => handleToggleTab(1)} >
                                 <BiMessageAltDetail className='text-2xl cursor-pointer' />
                                 <span className="ml-2">General Chat</span>
                             </button>
                         }
-
-                       
-
-
-                       
-
                     </div>
 
                     {/* General Chat */}
@@ -404,10 +395,16 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
 
                     {/* List of history articles */}
                     <div id='article-chats-list' className='flex-col overflow-y-auto'>
-                        <GeneralArticleList listOfChatHistory={ listOfChatHistory } />
-                        <div className='h-28'></div>
-                        
-                        
+                        {listOfChatHistory.length > 0
+                            ?
+                            <GeneralArticleList listOfChatHistory={listOfChatHistory} />
+                            :
+                            <div className='mt-64 px-4'>
+                                <p className='font-dmsans text-neutral-headings-black font-bold text-center'>No articles yet! Use the &apos;AI Chat&apos; feature with any article to start.</p>
+                            </div>
+                        }
+                        <div className='h-28'>
+                        </div>
                     </div>
 
 
