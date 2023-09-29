@@ -19,7 +19,7 @@ export const ArticleListItem = ({ article }: { article: DocumentData }) => {
     console.log(currArticle.title);
 
     return (
-        <div className="mt-8 ml-16 mr-16">
+        <div className="mt-8 ml-8 xs:ml-16 mr-16">
             <Link href="articles/[id]" as={`articles/${currArticle.article_id}`}
                 className="text-xl font-extra-bold text-blue-600">
                 <div className="flex">

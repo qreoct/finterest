@@ -211,7 +211,7 @@ export default function ArticleConvo({ textFromArticle, chatError }: IArticleCon
 
 
         //Send message to OpenAI to get response
-        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages);
+        const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGenerateArticlePrompt + currArticle.content, previousMessages, 'article');
         // console.log("Reponse" + reponse);
 
         //Show new response on the UI
