@@ -40,6 +40,7 @@ const LoginForm = () => {
     useEffect(() => {
         if (user.uid) {
             //User is authenticated. Redirect to dashboard.
+            console.log("hello")
             addUserIfNotExist(user.uid);
             router.push('/dashboard');
         }
@@ -59,8 +60,6 @@ const LoginForm = () => {
             } else {
                 setErrorMessage("Something went wrong. Please try again later.");
             }
-
-
         }
     };
 
@@ -72,6 +71,11 @@ const LoginForm = () => {
             await googleSignIn();
             router.push('/dashboard');
         } catch (error: any) {
+            if (error.code === 'auth/invalid-login-credentials') {
+                setErrorMessage("Invalid credentials");
+            } else {
+                setErrorMessage("Something went wrong. Please try again later.");
+            }
         }
        
     }
