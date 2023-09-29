@@ -192,7 +192,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
 
         //Send message to OpenAI to get response
         const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGeneralPrompt, previousMessages, "general");
-        console.log(response);
+        // console.log(response);
         //const response = "Sample response 1";
 
 

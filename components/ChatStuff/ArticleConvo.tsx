@@ -99,7 +99,7 @@ export default function ArticleConvo({ textFromArticle, chatError }: IArticleCon
             const resolvedArticle = await getArticle(id);
             let convertedArticle = convertToArticleType(resolvedArticle);
             if (convertedArticle == null) {
-                console.log("Article not found");
+                // console.log("Article not found");
                 return;
             }
 

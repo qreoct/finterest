@@ -16,7 +16,7 @@ export default async function runGetNewsAndStoreInDb() {
     // List of existing article IDs in db
     const articleIdList = await getArticleIdList();
     // const articleIdList = [''];
-    console.log("runGetNews -- articlesIDs in Firestore: " + articleIdList);
+    // console.log("runGetNews -- articlesIDs in Firestore: " + articleIdList);
 
     const {status, results } = await getNewsFromNewsData();
 

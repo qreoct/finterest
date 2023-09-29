@@ -7,8 +7,8 @@ export const ChatListItem = ({ article }: { article: ArticleType }) => {
     const userId = useAuth().user.uid;
     const chatIdForThisChat = userId + article.article_id;
 
-    console.log(article.article_id);
-    console.log(article.title);
+    // console.log(article.article_id);
+    // console.log(article.title);
 
     return (
         <div className="border border-black p-5 rounded-lg text-gray-600">

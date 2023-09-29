@@ -11,12 +11,12 @@ export const ArticleListItem = ({ article }: { article: DocumentData }) => {
     try {
         currArticle = article as ArticleType;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return;
     }
 
-    console.log(currArticle.article_id);
-    console.log(currArticle.title);
+    // console.log(currArticle.article_id);
+    // console.log(currArticle.title);
 
     return (
         <div className="mt-8 ml-8 xs:ml-16 mr-16">

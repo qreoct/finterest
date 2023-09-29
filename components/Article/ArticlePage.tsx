@@ -112,7 +112,7 @@ export const ArticlePage = ({ articleId }: { articleId: string }) => {
 
             aiChatButton?.classList.add('left-10');
             aiChatButton?.classList.remove('right-10');
-            console.log(aiChatButtonText);
+           
             if (aiChatButtonText != null) {
                 aiChatButtonText.textContent = 'Back';
             }
@@ -134,10 +134,10 @@ export const ArticlePage = ({ articleId }: { articleId: string }) => {
     const handleChatOpenOnClick = async () => {
         if (isChatOpen) {
             closeChat();
-            console.log(isChatOpen);
+            
         } else {
             openChat();
-            console.log(isChatOpen);
+          
         }
     }
 

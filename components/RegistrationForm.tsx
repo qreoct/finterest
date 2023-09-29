@@ -53,7 +53,7 @@ const RegistrationForm = () => {
             await signUpViaEmail(data.email, data.password);
             router.push('/dashboard');
         } catch (error: any) {
-            console.log(error.code);
+            // console.log(error.code);
             if (error.code == "auth/email-already-in-use") {
                 setErrorMessage("Email has already been taken");
             } else {

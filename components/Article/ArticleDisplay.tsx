@@ -54,13 +54,13 @@ export const ArticleDisplay = ({ articleId, openChat, setHighlightedText, setHig
                 );
             }
             if (currArticle.content_summary && currArticle.content_summary != "") {
-                console.log("text is already summarized: " + currArticle.content_summary);
+                // console.log("text is already summarized: " + currArticle.content_summary);
                 setIsTextSummarised(true);
                 setArticleSummary(currArticle.content_summary);
             }
             setCurrArticle(currArticle);
             setIsArticleFetching(false);
-            console.log("fetched article " + JSON.stringify(currArticle));
+            // console.log("fetched article " + JSON.stringify(currArticle));
         };
 
         fetchArticle();

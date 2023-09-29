@@ -46,7 +46,7 @@ export async function getNewsFromNewsData(): Promise<NewsDataIoResponseType> {
         }
 
         const { status, results, pageNumber } = json as NewsDataIoResponseType;
-        console.log(results)
+        // console.log(results)
         for (const res of results) {
             count = fetchedArticles.push(res);
         }
