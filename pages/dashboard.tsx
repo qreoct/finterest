@@ -71,7 +71,7 @@ const Dashboard = () => {
                 <LeftNavigationBar tabIndex={0} />
                                     
                 {/* Right Content */}
-                <div className="w-[100%] bg-white overflow-y-auto h-80vh md:h-screen">
+                <div className="w-[100%] bg-white overflow-y-auto h-screen md:h-screen">
                     {/* Top articles */}
                     <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-8 xs:ml-16 mt-16">Trending Stories</h2>
                     <TopArticleList articleIdList={articleIdListTrending} />

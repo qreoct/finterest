@@ -17,7 +17,8 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
 
 
     return (
-        <div id='left-navigation-element' className="flex-grow items-start xs:items-center self-center w-3/4 md:max-w-sm min-w-fit w-100 md:h-screen flex justify-center md:flex-col md:justify-between bg-neutral-color-300 p-4 md:p-16 md:py-8 top-0 left-0 bottom-0">
+        <div id='left-navigation-element' className="h-24 items-center self-center w-3/4 md:max-w-sm min-w-fit w-100
+            md:h-screen flex justify-between md:justify-between md:flex-col bg-neutral-color-300 p-4 md:p-16 md:py-8 top-0 left-0 bottom-0">
             {/* Logo Bar */}
             <div className="flex-none flex flex-col justify-center items-center text-center">
                 {/* First Row */}
@@ -36,7 +37,7 @@ const LeftNavigationBar = (tabIndex: LeftNavigationBarProps) => {
             </div>
 
             {/* Options */}
-            <div className="md:ml-0 flex-grow flex justify-center items-center">
+            <div className="md:ml-0 flex-grow flex justify-end lg:justify-center">
                 <div className="md:flex-col flex justify-center items-start space-x-8 xs:space-x-16 md:space-x-8 md:space-y-4">
 
                     <NextLink href={'/dashboard'} className="flex items-center md:ml-8 hover:text-gold-500">
