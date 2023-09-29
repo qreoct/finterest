@@ -19,7 +19,7 @@ export const TopArticleListItem = ({ article }: { article: ArticleType }) => {
     }, [article]);
 
     return (
-        <div className={`flex-shrink-0 pb-4`}>
+        <div className={`flex-shrink-0`}>
             <Link href="/articles/[id]" as={`/articles/${article.article_id}`}
                 className={`text-xl font-extra-bold text-stone-900 flex flex-col max-h-500p max-w-xs
                 rounded-lg items-start justify-start py-5 space-y-2 bg-${bgColor} h-500p`}>
