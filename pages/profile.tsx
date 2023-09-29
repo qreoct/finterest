@@ -9,6 +9,7 @@ import { BiLogOut } from "react-icons/bi";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { getAuth, updatePassword } from 'firebase/auth';
 import Script from 'next/script';
+import { StatCard } from '@/components/Profile/StatCard';
 
 
 /*
@@ -63,7 +64,7 @@ const Profile = () => {
         setPasswordVisibility(!isPasswordVisible);
     }
 
-    const canSubmit = password !== '';
+    const canSubmit = password !== '' && password.length >= 8;
 
     //Handler that runs when user wants to change password
     const handleChangePassword = async (e: any) => {
@@ -128,28 +129,17 @@ const Profile = () => {
 
                     {/* Yellow cards with rounded corners that show your read counts this week / month / year */}
                     <div className="flex flex-row justify-center md:justify-start items-center xs:space-x-8 mx-4 lg:mx-16">
-                        <div className="flex flex-col justify-center items-center rounded-lg px-8 py-4 space-y-2">
-                            <h3 className="font-gupter text-gold-500 font-bold text-6xl">{readWeeklyTotal}</h3>
-                            <h5 className="font-dmsans text-center text-neutral-headings-black text-xl">This Week</h5>
-                        </div>
-                        <div className="flex flex-col justify-center items-center rounded-lg px-8 py-4 space-y-2">
-                            <h3 className="font-gupter text-gold-500 font-bold text-6xl">{readMonthlyTotal}</h3>
-                            <h5 className="font-dmsans text-center text-neutral-headings-black text-xl">This Month</h5>
-                        </div>
-                        <div className="flex flex-col justify-center items-center rounded-lg px-8 py-4 space-y-2">
-                            <h3 className="font-gupter text-gold-500 font-bold text-6xl">{readYearlyTotal}</h3>
-                            <h5 className="font-dmsans text-center text-neutral-headings-black text-xl">This Year</h5>
-                        </div>
+                        <StatCard stat={readWeeklyTotal} description='This Week' size='large'/>
+                        <StatCard stat={readMonthlyTotal} description='This Month' size='large'/>
+                        <StatCard stat={readYearlyTotal} description='This Year' size='large'/>
                     </div>
 
                     {/* 7 horizontally stacked cards that show your read counts for the past week */}
-                    <div className='h-64'>
-                        <div className="flex justify-start items-center space-x-5 mx-16 mt-4 md:mt-8 lg:mt-16 overflow-x-auto overflow-y-hidden py-4">
+                    <h2 className="text-center md:text-start font-gupter text-neutral-headings-black font-bold text-4xl mx-16 mt-16">This week</h2>
+                    <div>
+                        <div className="flex justify-top space-x-5 mx-16 mt-4 overflow-x-auto overflow-y-hidden py-4">
                             {readCounts.map((count, index) => (
-                                <div key={index} className={`flex-col justify-center items-center ${count[1] >= 5 ? 'bg-gold-500' : 'bg-bg-slate-200'} ${count[1] >= 5 ? 'border-0' : 'border-2' } rounded-lg h-28 lg:h-36 w-28 px-2 py-2 lg:py-8`}>
-                                    <h3 className={`font-gupter text-center self-center text-neutral-headings-black font-bold text-3xl xl:text-4xl ${count[1] >= 5 ? 'text-white' : 'text-finterest-solid' }`}>{count[1]}</h3>
-                                    <h5 className={`font-dmsans text-neutral-headings-black text-lg xl:text-xl text-center ${count[1] >= 5 ? 'text-white' : 'text-finterest-solid'} `}>{count[0]}</h5>
-                                </div>
+                                <StatCard key={index} selected={count[1] >= 5} size='small' stat={count[1]} description={count[0]} subtitle={index == 6 ? 'TODAY' : undefined} />
                             ))}
                         </div>
                     </div>
