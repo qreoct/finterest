@@ -3,7 +3,6 @@ import Head from 'next/head';
 import Header from '@/components/Landing/header';
 import Footer from '@/components/Landing/footer';
 import Link from 'next/link';
-import Script from 'next/script';
 
 
 /*
