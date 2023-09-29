@@ -51,7 +51,7 @@ const RegistrationForm = () => {
         e.preventDefault();
         try {
             await signUpViaEmail(data.email, data.password);
-            router.push('/dashboard');
+            router.push('/onboarding');
         } catch (error: any) {
             // console.log(error.code);
             if (error.code == "auth/email-already-in-use") {

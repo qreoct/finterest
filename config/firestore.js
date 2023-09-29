@@ -222,6 +222,21 @@ export async function addArticleIdToUser(userId, articleId) {
     // chatId = userId + articleId << In this way all chats still have unique Ids
 }
 
+// Get a single user
+export async function getUser(userId) {
+    const userRef = doc(db, "users", userId);
+    return (await getDoc(userRef)).data();
+}
+
+// Update user's preferences
+export async function updateUserPreferences(userId, preferences) {
+    const userRef = doc(db, "users", userId);
+    await updateDoc(userRef, {
+        onboarding_stage: "complete",
+        preferences: preferences
+    });
+}
+
 // Update user's article history and category history and article read count on article click
 export async function updateUserHistory(userId, articleId) {
     const userRef = doc(db, "users", userId);
@@ -344,7 +359,9 @@ export async function addUserIfNotExist(userId) {
 
     if (!docSnap.exists()) {
         await setDoc(userRef, {
-            articleHistory: []
+            articleHistory: [],
+            user_preferences: [],
+            onboarding_stage: 'new account',
         });
     }
 }

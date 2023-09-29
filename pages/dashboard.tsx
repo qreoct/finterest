@@ -5,19 +5,23 @@ import { ArticleList } from '@/components/Article/ArticleList';
 import { TopArticleList } from '@/components/Article/TopArticleList';
 import { getPersonalisedArticleIdList, getTrendingArticleIdList } from '@/config/firestore';
 import { useEffect, useState } from 'react';
-import LeftNavigationBar  from '@/components/common/LeftNavigationBar'
+import LeftNavigationBar from '@/components/common/LeftNavigationBar'
+import { useRouter } from 'next/router';
 
 /*
     The page where the user first enters after he logs in
 */
 const Dashboard = () => {
     const { user } = useAuth();
-    
+    const router = useRouter();
+
     // Instead of const articleIdList = getArticleIdList()
     // For react need to use this state management thing so that the the Promise will be awaited
     // For personalised articles
     const [personalisedArticleIdList, setPersonalisedArticleIdList] = useState<string[]>([]);
-    
+    // For trending articles
+    const [trendingArticleIdList, setTrendingArticleIdList] = useState<string[]>([]);
+
     useEffect(() => {
         // If user is not logged in, wait for user to log in
         if (!user.uid) {
@@ -29,27 +33,17 @@ const Dashboard = () => {
             const idList = await getPersonalisedArticleIdList(user.uid, NUMBER_OF_PERSONALISED_ARTICLES_TO_RECOMMEND);
             setPersonalisedArticleIdList(idList);
         };
-        
-        fetchPersonalisedArticleIdList();
-    }, [user.uid]);
-
-    // For trending articles
-    const [trendingArticleIdList, setTrendingArticleIdList] = useState<string[]>([]);
-    useEffect(() => {
-        if (!user.uid) {
-            return;
-        }
-
         const fetchTrendingArticleIdList = async () => {
             const NUMBER_OF_TRENDING_ARTICLES_TO_RECOMMEND = 6
             const idList = await getTrendingArticleIdList(user.uid, NUMBER_OF_TRENDING_ARTICLES_TO_RECOMMEND);
             setTrendingArticleIdList(idList);
         };
 
+        fetchPersonalisedArticleIdList();
         fetchTrendingArticleIdList();
     }, [user.uid]);
 
-    const articleIdListPersonalised = personalisedArticleIdList; 
+    const articleIdListPersonalised = personalisedArticleIdList;
     const articleIdListTrending = trendingArticleIdList;
 
     return (
@@ -69,7 +63,7 @@ const Dashboard = () => {
             <div className="flex flex-col-reverse md:flex-row md:items-start h-screen overflow-y-hidden overflow-x-hidden">
                 {/* Navigation Bar */}
                 <LeftNavigationBar tabIndex={0} />
-                                    
+
                 {/* Right Content */}
                 <div className="w-[100%] bg-white overflow-y-auto h-screen md:h-screen">
                     {/* Top articles */}

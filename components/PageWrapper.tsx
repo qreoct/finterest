@@ -1,6 +1,5 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
-import Footer from './common/Footer';
 
 /*
 Animated transition when a page appears. Also includes a footer component.
@@ -26,7 +25,6 @@ export const PageWrapper = ({ children }: { children: any }) => {
 				>
 					<div className='w-full h-full'>
 						{children}
-						{/* <Footer children={false} showBackButton={false} /> */}
 					</div>
 				</motion.div>
 			</AnimatePresence>
