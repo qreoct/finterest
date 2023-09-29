@@ -10,6 +10,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     //Run this effect whenever we move from one route to another, or if there is a change
     //in the authenticated user
     useEffect(() => {
+        console.log("user is " + JSON.stringify(user));
         if (!user.uid && !loading) {
             //User is not authenticated
             //Return to index page

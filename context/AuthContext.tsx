@@ -34,31 +34,49 @@ export const AuthContextProvider = (
 
     // Whenever auth state from Firebase changes, it will set the new user accordingly
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
 
-            let dbUser = null;
             if (user) {
-                dbUser = getUser(user.uid);
-            }
-
-            if (dbUser && user) {
                 //There is a currently signed-in user
-                // get ref from firestore
+                let dbUser = await getUser(user.uid);
                 setUser({
                     email: user.email,
                     uid: user.uid,
-                    onboarding_stage: 'complete',
+                    onboarding_stage: dbUser.onboarding_stage,
                     article_preferences: [],
                 });
             } else {
                 //No user is signed in
-                setUser({ email: null, uid: null, onboarding_stage: null, article_preferences: null });
+                setUser({
+                    email: null, uid: null,
+                    onboarding_stage: 'new account',
+                    article_preferences: []
+                });
             }
-            setLoading(true);
+
+            // let dbUser = null;
+            // if (user) {
+            //     dbUser = getUser(user.uid);
+            // }
+
+            // if (dbUser && user) {
+            //     //There is a currently signed-in user
+            //     // get ref from firestore
+            //     setUser({
+            //         email: user.email,
+            //         uid: user.uid,
+            //         onboarding_stage: 'complete',
+            //         article_preferences: [],
+            //     });
+            // } else {
+            //     //No user is signed in
+            //     setUser({ email: null, uid: null, onboarding_stage: null, article_preferences: null });
+            // }
+            setLoading(false);
         });
 
-        setLoading(false);
-        unsubscribe();
+        // setLoading(false);
+        return () => unsubscribe();
     }, []);
 
 
@@ -66,8 +84,9 @@ export const AuthContextProvider = (
     const signUpViaEmail = async (email: string, password: string) => {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        
+
         setUser({ email: user.email, uid: user.uid, onboarding_stage: 'new account', article_preferences: null })
+        console.log("user is set to" + user.uid)
         await addUserIfNotExist(user.uid);
     };
 
@@ -75,7 +94,7 @@ export const AuthContextProvider = (
     const loginViaEmail = async (email: string, password: string) => {
         const userCredential = await signInWithEmailAndPassword(auth, email, password)
         const user = userCredential.user;
-        
+
         await addUserIfNotExist(user.uid);
         const currUser = await getUser(user.uid);
 

@@ -101,13 +101,9 @@ const Profile = () => {
         });
     }
 
-
-
-
     return (
         <ProtectedRoute>
             <Head>
-                <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Your Stats</h2>
                 <meta
                     name="description"
                     content="Finterest AI"
