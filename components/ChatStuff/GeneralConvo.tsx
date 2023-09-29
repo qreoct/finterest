@@ -26,8 +26,6 @@ type GeneralConvoProps = {
 };
 
 
-
-
 //The UI component for a chatbot with general AI
 export default function GeneralConvo(tabIndex: GeneralConvoProps) {
     /* Preparation Variables */
@@ -57,35 +55,6 @@ export default function GeneralConvo(tabIndex: GeneralConvoProps) {
     }, []);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /* States */
 
     //State to track message history
@@ -97,7 +66,6 @@ export default function GeneralConvo(tabIndex: GeneralConvoProps) {
 
     //State to track user input in text area
     const [textInTextArea, setTextInTextArea] = useState('');
-
 
     //State to track general chat id
     const [generalChatId, setGeneralChatId] = useState('');
@@ -263,14 +231,12 @@ export default function GeneralConvo(tabIndex: GeneralConvoProps) {
         }
     }
 
-
     //Helper function
     const switchToArticleChats = async () => {
         const chatBoxMessageListElement = document.getElementById('chatboxMessageList');
         const chatboxInputElement = document.getElementById('chatboxInput');
         const articleChatList = document.getElementById('article-chats-list');
         const generalConvoContainer = document.getElementById('generalConvoContainer');
-
 
         //Make chat bot disappear
         chatBoxMessageListElement?.classList.remove(chatboxStyles['animateshow']);
@@ -306,7 +272,6 @@ export default function GeneralConvo(tabIndex: GeneralConvoProps) {
         const articleChatList = document.getElementById('article-chats-list');
         const generalConvoContainer = document.getElementById('generalConvoContainer');
 
-
         //Make general chats appear
         chatBoxMessageListElement?.classList.add('flex-col');
         chatBoxMessageListElement?.classList.remove('hidden');
@@ -336,7 +301,6 @@ export default function GeneralConvo(tabIndex: GeneralConvoProps) {
 
         //Update state and cause page to re-render
         setCurrentSelectedTab(1);
-
     }
 
 
@@ -347,17 +311,6 @@ export default function GeneralConvo(tabIndex: GeneralConvoProps) {
                 <div id='generalConvoContainer' className="flex flex-col justify-start h-80vh md:h-screen overflow-y-hidden">
                     {/* Toggle tab between general and article chats */}
                     <div className='flex self-center justify-center rounded-lg space-x-8 mt-5 w-4/5 xl:w-2/5'>
-                        {(currentSelectedTab == 1)
-                            ? <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick={() => handleToggleTab(0)} >
-                                <BiNews className='text-2xl cursor-pointer' />
-                                <span className="ml-2">Article Chats</span>
-                            </button>
-
-                            : <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick={() => handleToggleTab(0)} >
-                                <BiNews className='text-2xl cursor-pointer' />
-                                <span className="ml-2">Article Chats</span>
-                            </button>
-                        }
 
                         {(currentSelectedTab == 1)
                             ? <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2 rounded-xl flex justify-center items-center  self-center duration-200 w-3/4 text-xs md:text-base" onClick={() => handleToggleTab(1)} >
@@ -369,10 +322,21 @@ export default function GeneralConvo(tabIndex: GeneralConvoProps) {
                                 <span className="ml-2">General Chat</span>
                             </button>
                         }
+                        {(currentSelectedTab == 1)
+                            ? <button className="hover:bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick={() => handleToggleTab(0)} >
+                                <BiNews className='text-2xl cursor-pointer' />
+                                <span className="ml-2">Article Chats</span>
+                            </button>
+
+                            : <button className="bg-stone-100 text-finterest-solid font-bold font-dmsans p-2  rounded-xl flex justify-center items-center self-center duration-200 w-3/4 text-xs md:text-base" onClick={() => handleToggleTab(0)} >
+                                <BiNews className='text-2xl cursor-pointer' />
+                                <span className="ml-2">Article Chats</span>
+                            </button>
+                        }
                     </div>
 
                     {/* General Chat */}
-                    <div id="chatboxMessageList" className="ml-4 mr-4 mt-4 md:mt-8 overflow-y-auto pr-0 h-70 hidden">
+                    <div id="chatboxMessageList" className="ml-4 mr-4 mt-4 md:mt-8 overflow-y-auto pr-0 h-70">
                         <p className='font-dmsans text-neutral-headings-black font-bold text-center'>Hey there! Finterest AI helps you learn financial concepts through the news.</p>
 
                         {/* Messages from the user and the system */}
@@ -383,7 +347,7 @@ export default function GeneralConvo(tabIndex: GeneralConvoProps) {
                     </div>
 
                     {/* Input area */}
-                    <div id='chatboxInput' className='hidden'>
+                    <div id='chatboxInput'>
                         <ChatMessageTextArea isAwaitingMessageFromOpenAi={isAwaitingMessageFromOpenAi}
                             textInTextArea={textInTextArea}
                             handleChangesInTextArea={handleChangesInTextArea}
@@ -394,7 +358,7 @@ export default function GeneralConvo(tabIndex: GeneralConvoProps) {
 
 
                     {/* List of history articles */}
-                    <div id='article-chats-list' className='flex-col overflow-y-auto'>
+                    <div id='article-chats-list' className='flex-col overflow-y-auto hidden'>
                         {listOfChatHistory.length > 0
                             ?
                             <GeneralArticleList listOfChatHistory={listOfChatHistory} />
