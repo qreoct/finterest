@@ -17,6 +17,13 @@ export const ArticleListItem = ({ article }: { article: DocumentData }) => {
 
     // console.log(currArticle.article_id);
     // console.log(currArticle.title);
+    const ARTICLE_DESCRIPTION_MAX_LENGTH = 250;
+    const articleDescription = currArticle.description ? currArticle.description : "";
+    const shortenedDescription = articleDescription.slice(0, ARTICLE_DESCRIPTION_MAX_LENGTH);
+    const lastSpaceIndex = shortenedDescription.lastIndexOf(" ");
+    const shortenedCompleteDescription = articleDescription.length > ARTICLE_DESCRIPTION_MAX_LENGTH 
+        ? shortenedDescription.slice(0, lastSpaceIndex) + "..."
+        : shortenedDescription;
 
     return (
         <div className="mt-8 ml-8 xs:ml-16 mr-16">
@@ -27,7 +34,7 @@ export const ArticleListItem = ({ article }: { article: DocumentData }) => {
                     <div className="md:w-3/5 lg:w-3/4 max-w-prose space-y-2">
                         <h5 className='font-dmsans text-stone-700 text-sm uppercase tracking-widest'>{currArticle.source_id}</h5>
                         <h3 className='font-dmsans font-bold text-stone-900 text-2xl'>{currArticle.title}</h3>
-                        <p className='font-dmsans text-stone-700 text-base'>{currArticle.description}</p>
+                        <p className='font-dmsans text-stone-700 text-base'>{shortenedCompleteDescription}</p>
                         <h5 className='font-dmsans text-stone-700 text-sm tracking-widest'>{convertTimestampToString(currArticle.pubDate)}</h5>
                     </div>
 

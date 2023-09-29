@@ -18,6 +18,14 @@ export const TopArticleListItem = ({ article }: { article: ArticleType }) => {
         setBgColor(generateColorFromTitle(article.title));
     }, [article]);
 
+    const TOP_ARTICLE_DESCRIPTION_MAX_LENGTH = 100;
+    const articleDescription = article.description ? article.description : "";
+    const shortenedDescription = articleDescription.slice(0, TOP_ARTICLE_DESCRIPTION_MAX_LENGTH);
+    const lastSpaceIndex = shortenedDescription.lastIndexOf(" ");
+    const shortenedCompleteDescription = articleDescription.length > TOP_ARTICLE_DESCRIPTION_MAX_LENGTH 
+        ? shortenedDescription.slice(0, lastSpaceIndex) + "..."
+        : shortenedDescription;
+
     return (
         <div className={`flex-shrink-0`}>
             <Link href="/articles/[id]" as={`/articles/${article.article_id}`}
@@ -28,7 +36,7 @@ export const TopArticleListItem = ({ article }: { article: ArticleType }) => {
                     <div className="text">
                         <h5 className='font-dmsans text-stone-700 text-sm uppercase tracking-widest'>{article.source_id}</h5>
                         <h3 className='font-dmsans font-bold text-neutral-headings-black text-xl lg:line-clamp-5'>{article.title}</h3>
-                        <p className={`font-dmsans text-stone-700 text-base line-clamp-5`}>{article.description}</p>
+                        <p className={`font-dmsans text-stone-700 text-base line-clamp-5`}>{shortenedCompleteDescription}</p>
                     </div>
                     <div className="date">
                         <h5 className='font-dmsans text-stone-600 text-sm tracking-widest'>{convertTimestampToString(article.pubDate)}</h5>
