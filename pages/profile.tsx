@@ -8,7 +8,6 @@ import LeftNavigationBar from '@/components/common/LeftNavigationBar'
 import { BiLogOut } from "react-icons/bi";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { getAuth, updatePassword } from 'firebase/auth';
-import Script from 'next/script';
 import { StatCard } from '@/components/Profile/StatCard';
 
 
