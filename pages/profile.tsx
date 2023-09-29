@@ -123,7 +123,7 @@ const Profile = () => {
                 <LeftNavigationBar tabIndex={2} />
 
                 {/* Right Content */}
-                <div className="flex flex-col bg-white w-full h-screen overflow-y-auto space-y-8 md:space-y-5">
+                <div className="flex flex-col bg-white w-full h-80vh md:h-screen overflow-y-auto space-y-8 md:space-y-5">
                     <h2 className="text-center md:text-start font-gupter text-neutral-headings-black font-bold text-4xl mx-16 mt-16">Your Article Stats</h2>
 
                     {/* Yellow cards with rounded corners that show your read counts this week / month / year */}

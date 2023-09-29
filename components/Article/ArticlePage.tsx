@@ -230,7 +230,7 @@ export const ArticlePage = ({ articleId }: { articleId: string }) => {
                 </div>
 
                 {/* Right Content */}
-                <div id="chat-element" className="hidden flex-1 w-4/5 xl:flex xl:flex-auto xl:w-1/2 xl:max-w-lg bg-neutral-color-300 overflow-y-hidden py-8">
+                <div id="chat-element" className="hidden flex-1 w-4/5 xl:flex xl:flex-auto xl:w-1/2 xl:max-w-lg bg-neutral-color-300 overflow-y-hidden py-8 h-80vh md:h-screen">
                     <ArticleConvo textFromArticle={highlightedText} chatError={highlighterError} />
                 </div>
 
