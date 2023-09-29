@@ -22,14 +22,17 @@ export const TopArticleListItem = ({ article }: { article: ArticleType }) => {
         <div className={`flex-shrink-0`}>
             <Link href="/articles/[id]" as={`/articles/${article.article_id}`}
                 className={`text-xl font-extra-bold text-stone-900 flex flex-col max-h-500p max-w-xs
-                rounded-lg items-start justify-start py-5 space-y-2 bg-${bgColor} h-500p`}>
-                <img src={article.image_url} alt={article.title} className='rounded-lg w-200p h-150p self-center' />
-                <div className="content px-4 py-2">
-                    <h5 className='font-dmsans text-stone-700 text-sm uppercase tracking-widest'>{article.source_id}</h5>
-                    <h3 className='font-dmsans font-bold text-neutral-headings-black text-xl lg:line-clamp-5'>{article.title}</h3>
-                    <p className={`font-dmsans text-stone-700 text-base line-clamp-5`}>{article.description}</p>
-                    <div className='h-5'></div>
-                    <h5 className='font-dmsans text-stone-600 text-sm tracking-widest'>{convertTimestampToString(article.pubDate)}</h5>
+                rounded-lg items-start justify-start pb-5 space-y-2 bg-${bgColor} h-500p`}>
+                <img src={article.image_url} alt={article.title} className='rounded-lg object-cover w-[100%] h-150p self-center' />
+                <div className="content flex flex-col px-4 py-2 justify-between" style={{ height: 'inherit' }}>
+                    <div className="text">
+                        <h5 className='font-dmsans text-stone-700 text-sm uppercase tracking-widest'>{article.source_id}</h5>
+                        <h3 className='font-dmsans font-bold text-neutral-headings-black text-xl lg:line-clamp-5'>{article.title}</h3>
+                        <p className={`font-dmsans text-stone-700 text-base line-clamp-5`}>{article.description}</p>
+                    </div>
+                    <div className="date">
+                        <h5 className='font-dmsans text-stone-600 text-sm tracking-widest'>{convertTimestampToString(article.pubDate)}</h5>
+                    </div>
                 </div>
             </Link>
         </div>
