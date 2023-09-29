@@ -5,7 +5,6 @@ import { useState } from 'react';
 import React, { useEffect } from 'react';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 import Link from 'next/link';
-import { addUserIfNotExist } from '@/config/firestore';
 
 
 /*
@@ -38,20 +37,21 @@ const RegistrationForm = () => {
     const router = useRouter();
 
     //Checks if the user is currently signed in
-    useEffect(() => {
-        if (user.uid) {
-            //User is authenticated. Redirect to dashboard.
-            router.push('/dashboard');
-        }
-    }, [user]);
+    // useEffect(() => {
+    //     if (user.uid) {
+    //         //User is authenticated. Redirect to dashboard.
+    //         router.push('/dashboard');
+    //     }
+    // }, [user]);
 
 
     //Handler that runs when user clicks on register
     const handleRegistration = async (e: any) => {
         e.preventDefault();
         try {
-            await signUpViaEmail(data.email, data.password);
-            router.push('/onboarding');
+            await signUpViaEmail(data.email, data.password).then(() => {
+                router.push('/onboarding');
+            });
         } catch (error: any) {
             // console.log(error.code);
             if (error.code == "auth/email-already-in-use") {

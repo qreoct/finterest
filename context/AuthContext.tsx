@@ -34,11 +34,11 @@ export const AuthContextProvider = (
 
     // Whenever auth state from Firebase changes, it will set the new user accordingly
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
 
             let dbUser = null;
             if (user) {
-                dbUser = await getUser(user.uid);
+                dbUser = getUser(user.uid);
             }
 
             if (dbUser && user) {
@@ -47,21 +47,20 @@ export const AuthContextProvider = (
                 setUser({
                     email: user.email,
                     uid: user.uid,
-                    onboarding_stage: dbUser.onboarding_stage || null,
-                    article_preferences: dbUser.article_preferences || null,
+                    onboarding_stage: 'complete',
+                    article_preferences: [],
                 });
+                console.log("AUTHCONTEXT USEEFFECT user is set to " + JSON.stringify(dbUser) + JSON.stringify(user))
             } else {
                 //No user is signed in
+                console.log("AUTHCONTEXT USEEFFECT no user signed up")
                 setUser({ email: null, uid: null, onboarding_stage: null, article_preferences: null });
             }
-            setLoading(false);
-
-
+            setLoading(true);
         });
 
-        // setLoading(false);
-
-        return () => unsubscribe();
+        setLoading(false);
+        unsubscribe();
     }, []);
 
 
@@ -69,23 +68,49 @@ export const AuthContextProvider = (
     const signUpViaEmail = async (email: string, password: string) => {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        const uid = user.uid;
-        await addUserIfNotExist(uid);
+
+        console.log("signed up! user is " + JSON.stringify(user));
+        
+        setUser({ email: user.email, uid: user.uid, onboarding_stage: 'new account', article_preferences: null })
+        await addUserIfNotExist(user.uid);
     };
 
     //Logins via email and password
     const loginViaEmail = async (email: string, password: string) => {
         const userCredential = await signInWithEmailAndPassword(auth, email, password)
         const user = userCredential.user;
-        const uid = user.uid;
-        await addUserIfNotExist(uid);
+        
+        console.log("logged in! user is " + JSON.stringify(user));
+        await addUserIfNotExist(user.uid);
+        const currUser = await getUser(user.uid);
+
+        if (currUser) {
+            setUser({
+                email: currUser.email,
+                uid: currUser.uid,
+                onboarding_stage: currUser.onboarding_stage || 'new account',
+                article_preferences: currUser.article_preferences || [],
+            });
+        }
     };
 
     //Sign in via Google
     const googleSignIn = async () => {
         const result = await signInWithPopup(auth, googleProvider);
         const uid = result.user.uid;
+        console.log("google logged in! user is " + JSON.stringify(result.user));
         await addUserIfNotExist(uid);
+        const currUser = await getUser(uid);
+
+        if (currUser) {
+            setUser({
+                email: result.user.email,
+                uid: result.user.uid,
+                onboarding_stage: currUser.onboarding_stage || 'new account',
+                article_preferences: currUser.article_preferences || [],
+            });
+        }
+
     }
 
     //Log out from the app

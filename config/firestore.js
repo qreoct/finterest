@@ -359,11 +359,12 @@ export async function addUserIfNotExist(userId) {
 
     if (!docSnap.exists()) {
         await setDoc(userRef, {
-            articleHistory: [],
-            user_preferences: [],
+            article_history: [],
             onboarding_stage: 'new account',
         });
     }
+
+    return docSnap.data;
 }
 
 // Add messageID to the messages array in the chats document

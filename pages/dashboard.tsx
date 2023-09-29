@@ -13,7 +13,6 @@ import { useRouter } from 'next/router';
 */
 const Dashboard = () => {
     const { user } = useAuth();
-    const router = useRouter();
 
     // Instead of const articleIdList = getArticleIdList()
     // For react need to use this state management thing so that the the Promise will be awaited
