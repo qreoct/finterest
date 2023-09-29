@@ -40,7 +40,7 @@ export const ArticleListItem = ({ article }: { article: DocumentData }) => {
 
                     {/* Right Column (25% width) */}
                     <div className="md:w-2/5 lg:w-1/4 md:ml-8 lg:ml-16 xl:ml-32 2xl:ml-48 self-start md:self-center">
-                        <img src={currArticle.image_url} alt={currArticle.title} className='rounded-lg w-48 mt-5 md:mt-0 md:h-28 md:w-80 lg:h-28 lg:w-64 xl:h-36 xl:w-64 2xl:h-40 2xl:w-64' />
+                        <img src={currArticle.image_url} alt={currArticle.title} className='rounded-lg object-cover w-48 mt-5 md:mt-0 md:h-28 md:w-80 lg:h-28 lg:w-64 xl:h-36 xl:w-64 2xl:h-40 2xl:w-64' />
                     </div>
                 </div>
             </Link>
