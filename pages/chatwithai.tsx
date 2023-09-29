@@ -30,7 +30,7 @@ const ChatWithAi = () => {
 
                 {/* Right Content */}
                 <div className="bg-white w-full overflow-y-hidden h-screen md:h-screen">
-                    <GeneralConvo tabIndex={0} />
+                    <GeneralConvo tabIndex={1} />
                 </div>
 
             </div>
