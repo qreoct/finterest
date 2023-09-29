@@ -53,25 +53,25 @@ const Pricing = () => {
                                             <div className="absolute left-0 w-6 h-6">
                                                 <img src="/assets/check-circle-gold.png" alt="Bullet Point" className="w-full h-full" />
                                             </div>
-                                            <span className='ml-2'>Feature 1</span>
+                                            <span className='ml-2'>Access to the latest financial news</span>
                                         </li>
                                         <li className="mb-2 pl-6 relative">
                                             <div className="absolute left-0 w-6 h-6">
                                                 <img src="/assets/check-circle-gold.png" alt="Bullet Point" className="w-full h-full" />
                                             </div>
-                                            <span className='ml-2'>Feature 2</span>
+                                            <span className='ml-2'>Personalised article recommendations</span>
                                         </li>
                                         <li className="mb-2 pl-6 relative">
                                             <div className="absolute left-0 w-6 h-6">
                                                 <img src="/assets/check-circle-gold.png" alt="Bullet Point" className="w-full h-full" />
                                             </div>
-                                            <span className='ml-2'>Feature 3</span>
+                                            <span className='ml-2'>5 outgoing messages per day with Finterest AI</span>
                                         </li>
                                         <li className="mb-2 pl-6 relative">
                                             <div className="absolute left-0 w-6 h-6">
                                                 <img src="/assets/check-circle-gold.png" alt="Bullet Point" className="w-full h-full" />
                                             </div>
-                                            <span className='ml-2'>Feature 4</span>
+                                            <span className='ml-2'>Highlight and explain terms (desktop only)</span>
                                         </li>
 
 
@@ -89,13 +89,13 @@ const Pricing = () => {
                                 <div className='bg-gradient-to-br from-custom-gold-top to-custom-gold-bottom flex flex-col rounded-lg w-full sm:w-auto md:w-3/5 p-4 sm:p-8 md:p-12 xl:p-16'>
                                     <div className='flex justify-between items-center mx-5 my-3'>
                                             <img src="/assets/finterest-plus-svg.svg" alt="Logo for Finterest PLUS Plan" className="w-20 h-20 m-4" />
-                                            <div className='bg-white rounded-full w-1/2 lg:w-2/3 xl:w-1/4 text-dmsans text-center py-4 px-5 text-black font-bold'>$399/mo</div>
+                                            <div className='bg-white rounded-full w-1/2 lg:w-2/3 xl:w-1/4 text-dmsans text-center py-4 px-5 text-black font-bold'>$1.99/mo</div>
                                     </div>
 
                                     <h4 className='font-dmsans text-4xl font-bold mx-5 my-3 text-white'>Finterest PLUS</h4>
-                                    <p className='font-dmsans text-white mx-5'>Want more AI insights into the world? This plan would be the right for you.</p>
+                                    <p className='font-dmsans text-white mx-5'>Want more AI insights into the financial world? This plan would be the right one for you.</p>
                                     <div className='flex flex-col md:flex-row justify-start items-start md:items-center mx-5 my-3 mt-5 space-y-4 md:space-y-0 md:space-x-16'>
-                                        <ul className='font-dmsans text-white font-bold space-y-3 md:w-1/2'>
+                                        <ul className='font-dmsans text-white font-bold space-y-3'>
                                             <li className="mb-2 pl-6 relative ">
                                                 <div className="absolute left-0 w-6 h-6">
                                                     <img src="/assets/check-circle-white.png" alt="Bullet Point" className="w-full h-full" />
@@ -106,9 +106,9 @@ const Pricing = () => {
                                                 <div className="absolute left-0 w-6 h-6">
                                                     <img src="/assets/check-circle-white.png" alt="Bullet Point" className="w-full h-full" />
                                                 </div>
-                                                <span className='ml-2'>Feature 2</span>
+                                                <span className='ml-2'>Unlimited outgoing messages with Finterest AI</span>
                                             </li>
-                                            <li className="mb-2 pl-6 relative">
+                                            {/* <li className="mb-2 pl-6 relative">
                                                 <div className="absolute left-0 w-6 h-6">
                                                     <img src="/assets/check-circle-white.png" alt="Bullet Point" className="w-full h-full" />
                                                 </div>
@@ -119,35 +119,9 @@ const Pricing = () => {
                                                     <img src="/assets/check-circle-white.png" alt="Bullet Point" className="w-full h-full" />
                                                 </div>
                                                 <span className='ml-2'>Feature 4</span>
-                                            </li>
+                                            </li> */}
                                         </ul>
 
-                                        <ul className='font-dmsans text-white font-bold space-y-3 md:w-1/2'>
-                                            <li className="mb-2 pl-6 relative ">
-                                                <div className="absolute left-0 w-6 h-6">
-                                                    <img src="/assets/check-circle-white.png" alt="Bullet Point" className="w-full h-full" />
-                                                </div>
-                                                <span className='ml-2'>Everything on Basic Plan</span>
-                                            </li>
-                                            <li className="mb-2 pl-6 relative">
-                                                <div className="absolute left-0 w-6 h-6">
-                                                    <img src="/assets/check-circle-white.png" alt="Bullet Point" className="w-full h-full" />
-                                                </div>
-                                                <span className='ml-2'>Feature 2</span>
-                                            </li>
-                                            <li className="mb-2 pl-6 relative">
-                                                <div className="absolute left-0 w-6 h-6">
-                                                    <img src="/assets/check-circle-white.png" alt="Bullet Point" className="w-full h-full" />
-                                                </div>
-                                                <span className='ml-2'>Feature 3</span>
-                                            </li>
-                                            <li className="mb-2 pl-6 relative">
-                                                <div className="absolute left-0 w-6 h-6">
-                                                    <img src="/assets/check-circle-white.png" alt="Bullet Point" className="w-full h-full" />
-                                                </div>
-                                                <span className='ml-2'>Feature 4</span>
-                                            </li>
-                                        </ul>
 
 
 

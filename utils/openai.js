@@ -1,12 +1,11 @@
 import { OpenAI } from 'openai';
-import finterestGenerateArticlePrompt from '../utils/prompt.json';
 
 // Documentation for OpenAI API: https://github.com/openai/openai-node
 // https://platform.openai.com/docs/api-reference/chat/create
-// https://github.com/openai/openai-cookbook/blob/main/examples/How_to_format_inputs_to_ChatGPT_models.ipynb
 
-// I am not sure what is the best way to set the API key in environment file up, didnt find the answer for this online yet
+    
 const openai = new OpenAI({ apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY, dangerouslyAllowBrowser: true });
+
 
 // Parameters Meaning:
 // engine: The engine to use for completion. The default is davinci.
@@ -46,14 +45,38 @@ async function generatePrompts(engine, prompt, recipe, previousMessages = [], st
   // We want to reduce the size of the context so that the message list set to chatGPT dont just keep getting larger
   context = context.concat(previousMessages.slice(-9));
 
-  // const newMessage = {
-  //   role: "user",
-  //   content: prompt
-  // };
 
-  // context.push(newMessage);
+  console.log(context);
 
-  console.log("context:", context);
+  const response = await openai.chat.completions.create({
+    model: engine,
+    messages: context,
+    max_tokens: 1024,
+    temperature: 0.5
+  });
+
+  return response.choices[0].message.content;
+
+
+}
+
+
+async function generateAISummary(engine, prompt, recipe) {
+  const recipeMsg = {
+    role: "system",
+    content: recipe,
+  };
+
+  let context = [recipeMsg];
+
+  const newMessage = {
+    role: "user",
+    content: prompt
+  };
+
+  context.push(newMessage);
+
+  console.log(context);
 
   const response = await openai.chat.completions.create({
     model: engine,
@@ -65,5 +88,4 @@ async function generatePrompts(engine, prompt, recipe, previousMessages = [], st
   return response.choices[0].message.content;
 }
 
-
-export { generatePrompts };
+export { generatePrompts, generateAISummary };

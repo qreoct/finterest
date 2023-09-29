@@ -67,18 +67,18 @@ const Dashboard = () => {
                 />
             </Head>
 
-            <div className="flex flex-col-reverse md:flex-row md:items-start h-screen overflow-y-hidden">
+            <div className="flex flex-col-reverse md:flex-row md:items-start h-screen overflow-y-hidden overflow-x-hidden">
                 {/* Navigation Bar */}
                 <LeftNavigationBar tabIndex={0} />
                                     
                 {/* Right Content */}
-                <div className="width-3/4 bg-white overflow-y-auto" style={{ height: '100vh' }}>
+                <div className="width-3/4 bg-white overflow-y-auto h-80 md:h-screen">
                     {/* Top articles */}
-                    <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Today&apos;s Top Stories</h2>
+                    <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-8 xs:ml-16 mt-16">Trending Stories</h2>
                     <TopArticleList articleIdList={articleIdListTrending} />
 
                     {/* Other articles, as recommended by the algorithm */}
-                    <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-16 mt-16">Stories For You</h2>
+                    <h2 className="font-gupter text-neutral-headings-black font-bold text-4xl ml-8 xs:ml-16 mt-16">Stories For You</h2>
                     <ArticleList articleIdList={articleIdListPersonalised} />
                 </div>
             </div>

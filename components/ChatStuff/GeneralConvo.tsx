@@ -132,7 +132,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
         const messageJsxElements = messages.map((openAiMessage, index) => (
             (openAiMessage.role == 'user')
                 ? <p key={index} className="text-white font-dmsans mt-4 self-end w-3/4 md:w-1/2 bg-gold-900 rounded-2xl p-5 mr-4">{openAiMessage.content}</p>
-                : <p key={index} className="text-neutral-headings-black font-dmsans mt-4 self-start w-1/2 bg-stone-100 rounded-2xl p-5 ml-4">{openAiMessage.content}</p>
+                : <p key={index} className="text-neutral-headings-black font-dmsans mt-4 self-start w-3/4 md:w-1/2 bg-stone-100 rounded-2xl p-5 ml-4">{openAiMessage.content}</p>
             
         ));
         setMessageJsxElements(messageJsxElements);
@@ -192,7 +192,7 @@ export default function GeneralConvo(tabIndex : GeneralConvoProps) {
 
         //Send message to OpenAI to get response
         const response = await generatePrompts('gpt-3.5-turbo', userMessage, finterestGenerateArticlePrompt.finterestGeneralPrompt, previousMessages, "general");
-        console.log(response);
+        // console.log(response);
         //const response = "Sample response 1";
 
 

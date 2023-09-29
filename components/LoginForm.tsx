@@ -53,7 +53,7 @@ const LoginForm = () => {
             await loginViaEmail(data.email, data.password);
             router.push('/dashboard');
         } catch (error: any) {
-            console.log(error.code);
+            // console.log(error.code);
             if (error.code === 'auth/invalid-login-credentials') {
                 setErrorMessage("Invalid credentials");
             } else {

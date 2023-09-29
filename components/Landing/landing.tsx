@@ -33,7 +33,7 @@ const Landing = () => {
                         </div>
                         <div className="flex justify-start sm:justify-center sm:w-2/5 sm:h-full">
                             <div className="relative w-1/2 sm:w-4/5 h-full overflow-hidden flex sm:items-end">
-                                <img src="/assets/news-iphone-svg.svg" alt="Finterest App" className="h-1/2 sm:h-full mb-minus-80 w-full sm:mb-minus-30 lg:mb-minus-15 xl:mb-minus-20" />
+                                <img src="/assets/news-iphone-svg.svg" alt="Finterest App" className="h-3/5 sm:h-full mb-minus-80 w-full sm:mb-minus-30 lg:mb-minus-15 xl:mb-minus-20" />
                             </div>
                         </div>
                         

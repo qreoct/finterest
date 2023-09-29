@@ -25,7 +25,7 @@ export const TopArticleList = ({ articleIdList }: { articleIdList: string[] }) =
     }, [articleIdList]);
 
     return (
-        <div className='mt-8 ml-16 mr-4 flex justify-start space-x-6 overflow-x-scroll'>
+        <div className='mt-8 ml-8 xs:ml-16 mr-4 flex justify-start space-x-6 overflow-x-scroll'>
             {articles.map((article: ArticleType) => {
                 return <TopArticleListItem key={article.article_id} article={article} />;
             })}

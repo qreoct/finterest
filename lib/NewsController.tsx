@@ -1,7 +1,7 @@
 
 import { getArticleIdList, addNewArticleToDB } from "@/config/firestore";
 import { ArticleType } from '@/types/ArticleTypes';
-import { generatePrompts } from "../utils/openai";
+import { generateAISummary, generatePrompts } from "../utils/openai";
 import { getNewsFromNewsData } from "./NewsService";
 import { NewsDataIoArticleType } from "@/types/ApiTypes";
 
@@ -16,7 +16,7 @@ export default async function runGetNewsAndStoreInDb() {
     // List of existing article IDs in db
     const articleIdList = await getArticleIdList();
     // const articleIdList = [''];
-    console.log("runGetNews -- articlesIDs in Firestore: " + articleIdList);
+    // console.log("runGetNews -- articlesIDs in Firestore: " + articleIdList);
 
     const {status, results } = await getNewsFromNewsData();
 
@@ -84,7 +84,7 @@ async function processArticleWithAi(initialArticle: NewsDataIoArticleType): Prom
     //Make an API call to OpenAI to process the content, generate 1-line description,
     //generate 1-paragraph summary and 2 different prompts to ask.
 
-    const response = await generatePrompts('gpt-3.5-turbo', initialArticle.content.toString(), promptString);
+    const response = await generateAISummary('gpt-3.5-turbo', initialArticle.content.toString(), promptString);
     return response;
 }
 
@@ -97,6 +97,7 @@ function convertProcessedArticleToJSON(processedArticle: string, initialArticle:
     if (articleCreator === undefined) {
         articleCreator = initialArticle.source_id || "Author not found";
     }
+    let imageUrl = initialArticle.image_url != null ? initialArticle.image_url : "/assets/image-placeholder-svg.svg";
 
 
     const articleData: ArticleType = {
@@ -105,7 +106,7 @@ function convertProcessedArticleToJSON(processedArticle: string, initialArticle:
         content: responseJSON.content, //To use openai
         creator: articleCreator,
         description: responseJSON.description, //To use openai
-        image_url: initialArticle.image_url || "",
+        image_url: imageUrl,
         link: initialArticle.link,
         pubDate: initialArticle.pubDate || "Date not found",
         source_id: initialArticle.source_id || "Source not found",

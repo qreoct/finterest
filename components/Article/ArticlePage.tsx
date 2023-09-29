@@ -38,6 +38,7 @@ export const ArticlePage = ({ articleId }: { articleId: string }) => {
         const leftNavigationItem = document.getElementById('left-navigation-element');
         const summaryItem = document.getElementById('article-summary');
         const aiChatButton = document.getElementById('ai-chat-button');
+        const aiChatButtonText = document.getElementById('ai-chat-button-text');
 
         //Make menu disappear
         chatItem?.classList.remove(chatboxStyles['animateshow']);
@@ -62,6 +63,9 @@ export const ArticlePage = ({ articleId }: { articleId: string }) => {
             leftNavigationItem?.classList.remove(chatboxStyles['hiddenelement']);
             aiChatButton?.classList.add('right-10');
             aiChatButton?.classList.remove('left-10');
+            if (aiChatButtonText != null) {
+                aiChatButtonText.textContent = 'AI Chat';
+            }
 
         }, 40);
 
@@ -77,6 +81,7 @@ export const ArticlePage = ({ articleId }: { articleId: string }) => {
         const leftNavigationItem = document.getElementById('left-navigation-element');
         const summaryItem = document.getElementById('article-summary');
         const aiChatButton = document.getElementById('ai-chat-button');
+        const aiChatButtonText = document.getElementById('ai-chat-button-text');
 
 
         //Make menu appear
@@ -107,6 +112,10 @@ export const ArticlePage = ({ articleId }: { articleId: string }) => {
 
             aiChatButton?.classList.add('left-10');
             aiChatButton?.classList.remove('right-10');
+           
+            if (aiChatButtonText != null) {
+                aiChatButtonText.textContent = 'Back';
+            }
 
         }, 40);
 
@@ -125,10 +134,10 @@ export const ArticlePage = ({ articleId }: { articleId: string }) => {
     const handleChatOpenOnClick = async () => {
         if (isChatOpen) {
             closeChat();
-            console.log(isChatOpen);
+            
         } else {
             openChat();
-            console.log(isChatOpen);
+          
         }
     }
 
@@ -229,9 +238,9 @@ export const ArticlePage = ({ articleId }: { articleId: string }) => {
 
                 {/* AI Chat Button */}
                 <div id='ai-chat-button' className="flex xl:hidden fixed bottom-28 md:bottom-16 right-10">
-                    <button id='ai-chat-button-element' className="bg-gold-500 hover:bg-gold-900 text-white font-bold px-4 py-3 rounded-full flex justify-center items-center mt-5 self-center duration-200" onClick={handleChatOpenOnClick}>
+                    <button id='ai-chat-button-element' className="bg-gold-500 hover:bg-gold-900 text-white font-bold px-5 py-3 rounded-full flex justify-center items-center mt-5 self-center duration-200" onClick={handleChatOpenOnClick}>
                         <BiMessage className='text-4xl cursor-pointer' />
-                        <span className="ml-2">AI Chat</span>
+                        <span id='ai-chat-button-text' className="ml-3">AI Chat</span>
                     </button>
                 </div>
 
