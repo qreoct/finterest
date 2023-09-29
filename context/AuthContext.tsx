@@ -39,12 +39,14 @@ export const AuthContextProvider = (
             if (user) {
                 //There is a currently signed-in user
                 let dbUser = await getUser(user.uid);
-                setUser({
-                    email: user.email,
-                    uid: user.uid,
-                    onboarding_stage: dbUser.onboarding_stage,
-                    article_preferences: [],
-                });
+                if (dbUser) {
+                    setUser({
+                        email: user.email,
+                        uid: user.uid,
+                        onboarding_stage: dbUser.onboarding_stage,
+                        article_preferences: [],
+                    });
+                }
             } else {
                 //No user is signed in
                 setUser({
