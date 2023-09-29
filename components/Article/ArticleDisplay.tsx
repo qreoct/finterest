@@ -147,15 +147,7 @@ export const ArticleDisplay = ({ articleId, openChat, setHighlightedText, setHig
                     <h3>Loading article...</h3>
                 </div> :
                 <>
-                    <div id="article-summary" className="hidden w-1/4 flex-col justify-start mt-8 ml-8 mr-16 space-y-2">
-                        <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase tracking-widest'>{currArticle.source_id}</h5>
-                        <h1 className='font-dmsans font-bold text-neutral-headings-black text-2xl'>{currArticle.title}</h1>
-                        <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>{currArticle.creator}</h5>
-                        <p className='font-dmsans text-neutral-text-gray text-base' style={{ marginBottom: '30px' }}>{convertTimestampToString(currArticle.pubDate)}</p>
-                        <p className='font-dmsans text-neutral-text-gray text-base' style={{ marginBottom: '30px' }}>{currArticle.description}</p>
-                    </div>
-
-                    <div className="flex flex-col justify-start mt-8 ml-2 mr-12 md:ml-8 md:mr-16 space-y-2">
+                    <div className="flex flex-col justify-start mt-8 ml-2 mr-12 md:ml-8 md:mr-16 space-y-2 mb-24">
                         <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase tracking-widest'>{currArticle.source_id}</h5>
                         <h1 className='font-dmsans font-bold text-neutral-headings-black text-2xl'>{currArticle.title}</h1>
                         <h5 className='font-dmsans text-neutral-text-gray text-sm uppercase'>{currArticle.creator}</h5>

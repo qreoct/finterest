@@ -2,7 +2,7 @@ import { ArticleType } from "@/types/ArticleTypes"
 import { useState } from "react";
 import { updateUserHistory } from "@/config/firestore";
 import Head from 'next/head';
-import { BiArrowBack, BiSolidMagicWand, BiMessage } from "react-icons/bi";
+import { BiArrowBack, BiSolidMagicWand, BiMessage, BiLeftArrow, BiLeftArrowAlt } from "react-icons/bi";
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/context/AuthContext';
@@ -220,7 +220,7 @@ export const ArticlePage = ({ articleId }: { articleId: string }) => {
                 <LeftNavigationBar tabIndex={0} />
 
                 {/* Middle Content */}
-                <div id="article-element" className="w-full bg-white overflow-y-auto flex items-start h-80vh md:h-screen">
+                <div id="article-element" className="w-full bg-white overflow-y-auto flex items-start h-screen md:h-screen">
                     {/* Back navigation button */}
                     <button onClick={() => { router.back(); }} className="bg-transparent text-neutral-headings-black hover:text-gold-500 ml-4 lg:ml-6 xl:ml-8 2xl:ml-12 mr-2 mt-12">
                         <BiArrowBack className='text-3xl cursor-pointer m-2' />
@@ -234,12 +234,10 @@ export const ArticlePage = ({ articleId }: { articleId: string }) => {
                     <ArticleConvo textFromArticle={highlightedText} chatError={highlighterError} />
                 </div>
 
-
-
                 {/* AI Chat Button */}
                 <div id='ai-chat-button' className="flex xl:hidden fixed bottom-28 md:bottom-16 right-10">
                     <button id='ai-chat-button-element' className="bg-gold-500 hover:bg-gold-900 text-white font-bold px-5 py-3 rounded-full flex justify-center items-center mt-5 self-center duration-200" onClick={handleChatOpenOnClick}>
-                        <BiMessage className='text-4xl cursor-pointer' />
+                        {isChatOpen ? <BiArrowBack className='text-4xl cursor-pointer' /> : <BiMessage className='text-4xl cursor-pointer' />}
                         <span id='ai-chat-button-text' className="ml-3">AI Chat</span>
                     </button>
                 </div>
