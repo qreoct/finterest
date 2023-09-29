@@ -29,7 +29,7 @@ const ChatWithAi = () => {
                 <LeftNavigationBar tabIndex={1} />
 
                 {/* Right Content */}
-                <div className="bg-white w-full overflow-y-hidden h-80vh md:h-screen">
+                <div className="bg-white w-full overflow-y-hidden h-screen md:h-screen">
                     <GeneralConvo tabIndex={1} />
                 </div>
 
