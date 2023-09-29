@@ -53,7 +53,7 @@ export async function updateArticleSummary(articleId, summaryContent) {
 
 // Returns a list of article id strings
 export async function getArticleIdList() {
-    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
+    const q = query(collection(db, "articles"), orderBy("pubDate", "desc"));
     const results = await getDocs(q);
 
     return results.docs.map(currDoc => {
@@ -69,7 +69,7 @@ export async function getPersonalisedArticleIdList(userId, numArticles) {
 
     // Filter out all articles that the user has read
     const user_article_history = (await getDoc(userRef)).data()["article_history"];
-    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
+    const q = query(collection(db, "articles"), orderBy("pubDate", "desc"));
     const results = await getDocs(q);
     const user_article_history_set = new Set(user_article_history);
     let filtered_articles = results.docs.filter(currDoc => {
@@ -163,7 +163,7 @@ export async function getTrendingArticleIdList(userId, numArticles) {
 
     // Filter out all articles that the user has read
     const user_article_history = (await getDoc(userRef)).data()["article_history"];
-    const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
+    const q = query(collection(db, "articles"), orderBy("pubDate", "desc"));
     const results = await getDocs(q);
     const user_article_history_set = new Set(user_article_history);
     let filtered_articles = results.docs.filter(currDoc => {
@@ -171,7 +171,7 @@ export async function getTrendingArticleIdList(userId, numArticles) {
     });
 
     // Sort the articles by their view_count (descending)
-    // If two articles have the same number of reads, sort by dateStored
+    // If two articles have the same number of reads, sort by pubDate
     filtered_articles.sort((a, b) => {
         let a_view_count = a.data()["view_count"];
         let b_view_count = b.data()["view_count"];
@@ -183,8 +183,8 @@ export async function getTrendingArticleIdList(userId, numArticles) {
             b_view_count = 0;
         }
 
-        const a_date_stored = a.data()["dateStored"];
-        const b_date_stored = b.data()["dateStored"];
+        const a_date_stored = a.data()["pubDate"];
+        const b_date_stored = b.data()["pubDate"];
         if (a_view_count === b_view_count) {
             return b_date_stored - a_date_stored;
         } else {
