@@ -38,8 +38,10 @@ export async function addNewArticleToDB(
     }
 
     // Add article to database
-    await db.collection('articles').add(articleToStore);
-    // await setDoc(doc(db, "articles", articleId), articleToStore);
+    // await db.collection('articles').add(articleToStore);
+    await setDoc(doc(db, "articles", articleId), articleToStore).then((article) => {
+        console.log(`succesfully wrote article ${articleId} to db`);
+    });
 }
 
 // Update summary content of an article
@@ -56,9 +58,9 @@ export async function getArticleIdList() {
     const q = query(collection(db, "articles"), orderBy("dateStored", "desc"));
     const results = await getDocs(q);
 
-    return results.docs.map(currDoc => {
+    return new Set(results.docs.map(currDoc => {
         return currDoc.id;
-    });
+    }));
 }
 
 
@@ -177,7 +179,7 @@ export async function getTrendingArticleIdList(userId, numArticles) {
         let b_view_count = b.data()["view_count"];
 
         if (!a_view_count) {
-            a_view_count = 0; 
+            a_view_count = 0;
         }
         if (!b_view_count) {
             b_view_count = 0;
@@ -232,7 +234,7 @@ export async function updateUserHistory(userId, articleId) {
     const user_article_history = (await getDoc(userRef)).data()["article_history"];
     if (user_article_history.includes(articleId)) {
         return;
-    }    
+    }
 
     let new_read_count = 0;
     let new_category_count = 0;
@@ -486,8 +488,8 @@ export async function storeArticleChatMessage(articleChatId, message, givenRole)
     await updateDoc(articleChatRef, {
         datetime: serverTimestamp(),
     });
-    
-    
+
+
     return fetchArticleChatHistory(articleChatId);
 
 }
@@ -605,10 +607,10 @@ export async function getListOfArticleChatHistory(userId) {
     //Arrange them from latest to oldest chat
     const querySnapshot = await getDocs(query(articleChatsCollection, where("uid", "==", userId), where("hasMessage", "==", true), orderBy("datetime", "desc")));
     const matchingDocuments = querySnapshot.docs.map((doc) => doc.data());
-  
 
 
-    
+
+
     //Get corresponding article IDs
     const articleIds = [...new Set(matchingDocuments.map((doc) => doc.article_id))];
 
@@ -620,7 +622,7 @@ export async function getListOfArticleChatHistory(userId) {
         const articleDocSnapshot = await getDoc(articleDocRef);
         if (articleDocSnapshot.exists()) {
             const articleData = articleDocSnapshot.data();
-       
+
             //Get date time of chat associated with this article
             const articleChatsForArticle = matchingDocuments.filter(
                 (doc) => doc.article_id === articleId
@@ -629,8 +631,8 @@ export async function getListOfArticleChatHistory(userId) {
             //Add to output
             articleChatsForArticle.forEach((articleChat) => {
                 output.push({
-                  ...articleData,
-                  datetimeOfChat: articleChat.datetime.toDate(), // Combine datetime field
+                    ...articleData,
+                    datetimeOfChat: articleChat.datetime.toDate(), // Combine datetime field
                 });
             });
         }

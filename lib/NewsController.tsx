@@ -4,6 +4,7 @@ import { ArticleType } from '@/types/ArticleTypes';
 import { generateAISummary, generatePrompts } from "../utils/openai";
 import { getNewsFromNewsData } from "./NewsService";
 import { NewsDataIoArticleType } from "@/types/ApiTypes";
+import { error } from "console";
 
 // This runs everyday at midnight - DISABLED NOW
 // The scheduling can be done on Vercel instead, calling our getNews API
@@ -16,15 +17,15 @@ export default async function runGetNewsAndStoreInDb() {
     // List of existing article IDs in db
     const articleIdList = await getArticleIdList();
     // const articleIdList = [''];
-    // console.log("runGetNews -- articlesIDs in Firestore: " + articleIdList);
+    console.log("runGetNews -- articlesIDs in Firestore: " + Array.from(articleIdList.values()));
 
-    const {status, results } = await getNewsFromNewsData();
+    const { status, results } = await getNewsFromNewsData();
 
     let processed = [];
 
     if (status !== "success") {
         console.log("API Request Failed");
-        return;
+        throw new Error(status);
     }
 
     // Extract article data and store in database
@@ -33,12 +34,11 @@ export default async function runGetNewsAndStoreInDb() {
         console.log("NewsController processing article " + article.article_id)
 
         const articleId = article.article_id;
-        if (!articleIdList.includes(articleId)) {
+        if (articleIdList.has(articleId)) {
             // Article not inside database yet so we store it
 
-
             // If article is too long or short, ignore it to protect our openai tokens :)
-            if (article.content.split(' ').length > 750 || article.content.split(' ').length < 50 ) {
+            if (article.content.split(' ').length > 698 || article.content.split(' ').length < 50 ) {
                 console.log("ignore article for length. id: " + article.article_id + " length: " + article.content.split(' ').length);
                 continue;
             }
@@ -49,7 +49,7 @@ export default async function runGetNewsAndStoreInDb() {
             if (processedArticleData == null) {
                 continue;
             }
-            console.log("Processed article to parse: " + processedArticleData);
+            console.log("Processed article to parse: " + JSON.stringify(article));
             const JSONArticleData = convertProcessedArticleToJSON(processedArticleData, article);
 
             // The article content isn't long enough. We reject it.
@@ -68,7 +68,6 @@ export default async function runGetNewsAndStoreInDb() {
 }
 
 async function processArticleWithAi(initialArticle: NewsDataIoArticleType): Promise<string|null> {
-
 
     const promptString = `I will give you some text. Please process it and return the output in this JSON format:
         {
